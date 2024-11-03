@@ -10,5 +10,5 @@ import { FileUploadComponent } from './file-upload/file-upload.component';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'importer';
+  title = 'ibsys2';
 }
