@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { FileUploadComponent } from './file-upload/file-upload.component';
+import { ClarityModule } from "@clr/angular";
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [FileUploadComponent, RouterOutlet],
+  imports: [RouterOutlet, ClarityModule, FormsModule],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
   title = 'ibsys2';

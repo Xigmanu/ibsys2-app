@@ -1,8 +1,5 @@
-
-<main class="main">
-  <div class="content">
-    <app-file-upload></app-file-upload>
-  </div>
-</main>
-
-<router-outlet />
+<h1>Welcome to {{ title }}!</h1>
+<button clrButton class="btn btn-primary">Clarity Test Button</button>
+<label for="name">Enter Name:</label>
+<input id="name" type="text" [(ngModel)]="title" placeholder="Your Name" />
+<p>Hello, {{ title }}!</p>
