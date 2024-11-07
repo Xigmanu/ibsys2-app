@@ -1,5 +1,21 @@
 <h1>Welcome to {{ title }}!</h1>
 <button clrButton class="btn btn-primary">Clarity Test Button</button>
 <label for="name">Enter Name:</label>
-<input id="name" type="text" [(ngModel)]="title" placeholder="Your Name" />
+<input clrInput id="name" type="text" [(ngModel)]="title" placeholder="Your Name" />
 <p>Hello, {{ title }}!</p>
+<clr-accordion>
+    <clr-accordion-panel>
+      <clr-accordion-title>Item 1</clr-accordion-title>
+      <clr-accordion-content *clrIfExpanded>Content 1</clr-accordion-content>
+    </clr-accordion-panel>
+  
+    <clr-accordion-panel>
+      <clr-accordion-title>Item 2</clr-accordion-title>
+      <clr-accordion-content *clrIfExpanded>Content 2</clr-accordion-content>
+    </clr-accordion-panel>
+  
+    <clr-accordion-panel>
+      <clr-accordion-title>Item 3</clr-accordion-title>
+      <clr-accordion-content *clrIfExpanded>Content 3</clr-accordion-content>
+    </clr-accordion-panel>
+</clr-accordion>
