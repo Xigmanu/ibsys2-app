@@ -1,10 +1,50 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-</head>
-<body>
+<form [formGroup]="tableForm">
+  <table>
+    <thead>
+    <tr>
+      <th>Nr. Kaufteil</th>
+      <th>Lieferfrist</th>
+      <th>Abweichung</th>
+      <th>Diskontm.</th>
+      <th *ngFor="let i of [7, 8, 9, 10, 'P0', 'P1', 'P2', 'P3']">{{ i }}</th>
+      <th>Gesamtverbrauch</th>
+      <th>Aktueller Bestand</th>
+      <th>Lieferung</th>
+      <th>Zeitpunkt</th>
+      <th>benötigte Menge</th>
+      <th>Bestellung</th>
+      <th>Typ</th>
+    </tr>
+    </thead>
+    <tbody formArrayName="rows">
+    <tr *ngFor="let row of rows.controls; let i = index" [formGroupName]="i">
+      <!-- Feststehende Felder -->
+      <td><input formControlName="kaufteilnummer" [disabled]="true" /></td>
+      <td><input formControlName="lieferfrist" [disabled]="true" /></td>
+      <td><input formControlName="abweichung" [disabled]="true" /></td>
+      <td><input formControlName="diskontm" [disabled]="true" /></td>
 
-</body>
-</html>
+      <!-- Dynamische Periodenfelder -->
+      <!--<td *ngFor="let periodControl of (row.get('perioden') as FormArray).controls; let j = index">
+        <input [formControl]="periodControl" (change)="onPeriodChange(i)" />
+      </td>
+-->
+      <!-- Berechnete Felder -->
+      <td><input formControlName="gesamtverbrauch" [disabled]="true" /></td>
+      <td><input formControlName="aktuellerBestand" [disabled]="true" /></td>
+      <td><input formControlName="lieferung" [disabled]="true" /></td>
+      <td><input formControlName="zeitpunkt" [disabled]="true" /></td>
+      <td><input formControlName="benötigteMenge" [disabled]="true" /></td>
+
+      <!-- Editierbare Felder -->
+      <td><input formControlName="bestellung" /></td>
+      <td>
+        <select formControlName="typ">
+          <option value="N">N</option>
+          <option value="V">V</option>
+        </select>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</form>
