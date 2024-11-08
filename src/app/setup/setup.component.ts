@@ -1,15 +1,32 @@
 import { Component } from '@angular/core';
 import { parseString } from 'xml2js';
+import { FormControl, FormGroup } from '@angular/forms';
 import { JsonPipe, CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ClarityModule } from '@clr/angular';
+import { RouterOutlet, RouterModule } from '@angular/router';
+
 
 @Component({
   selector: 'app-setup',
   standalone: true,
-  imports: [JsonPipe, CommonModule],
+  imports: [
+    JsonPipe, 
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    ClarityModule,
+    RouterModule,
+    RouterOutlet,
+  ],
   templateUrl: './setup.component.html',
   styleUrl: './setup.component.css'
 })
 export class SetupComponent {
+  protected readonly form = new FormGroup({
+    files: new FormControl<FileList | null>(null),
+  });
+
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
@@ -21,6 +38,7 @@ export class SetupComponent {
       };
       reader.readAsText(file);
     }
+    
   }
 
   public jsonData: any; 
