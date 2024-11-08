@@ -1,0 +1,5 @@
+<h1>Hello world!</h1>
+<input type="file" (change)="onFileSelected($event)" accept=".xml" />
+<div *ngIf="jsonData">
+    <pre>{{ jsonData | json }}</pre>
+  </div>

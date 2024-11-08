@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { ClarityModule } from '@clr/angular';
+import { RouterOutlet, RouterModule } from '@angular/router';
+import { ClarityModule, ClrVerticalNavModule } from '@clr/angular';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import '@cds/core/icon/register.js';
-import { ClarityIcons, factoryIcon, languageIcon } from '@cds/core/icon';
+import { ClarityIcons, factoryIcon, languageIcon, installIcon } from '@cds/core/icon';
 
 @Component({
   selector: 'app-root',
@@ -15,6 +15,8 @@ import { ClarityIcons, factoryIcon, languageIcon } from '@cds/core/icon';
     FormsModule,
     CommonModule,
     ReactiveFormsModule,
+    ClrVerticalNavModule,
+    RouterModule
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
@@ -27,4 +29,4 @@ export class AppComponent {
   });
 }
 
-ClarityIcons.addIcons(factoryIcon, languageIcon);
+ClarityIcons.addIcons(factoryIcon, languageIcon, installIcon);

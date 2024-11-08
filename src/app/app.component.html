@@ -1,7 +1,7 @@
 <div class="main-container">
   <header class="header-6">
     <div class="branding">
-      <a href="..." class="nav-link">
+      <a routerLink="/" class="nav-link">
         <cds-icon shape="factory"></cds-icon>
         <span class="title">IBSYS 2 Planspiel</span>
       </a>
@@ -23,9 +23,9 @@
   
   <div class="content-container">
     <clr-vertical-nav>
-      <a clrVerticalNavLink routerLink="./normal" routerLinkActive="active">
-        <cds-icon clrVerticalNavIcon shape="user"></cds-icon>
-        Option A
+      <a clrVerticalNavLink routerLink="./setup" routerLinkActive="active">
+        <cds-icon clrVerticalNavIcon shape="install"></cds-icon>
+        Setup
       </a>
       <a clrVerticalNavLink routerLink="./electric" routerLinkActive="active">
         <cds-icon clrVerticalNavIcon shape="bolt"></cds-icon>
@@ -34,6 +34,9 @@
     </clr-vertical-nav>
     <div class="content-area">
       <h1>Welcome to {{ title }}!</h1>
+      <router-outlet></router-outlet>
+      <!--
+
       <button clrButton class="btn btn-primary">Clarity Test Button</button>
       <label for="name">Enter Name:</label>
       <input clrInput id="name" type="text" [(ngModel)]="title" placeholder="Your Name" />
@@ -67,6 +70,7 @@
       
     
       <router-outlet></router-outlet>
+      -->
     </div>
   </div>
 </div>
