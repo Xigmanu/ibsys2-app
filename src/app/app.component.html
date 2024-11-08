@@ -1,31 +1,72 @@
-<h1>Welcome to {{ title }}!</h1>
-<button clrButton class="btn btn-primary">Clarity Test Button</button>
-<label for="name">Enter Name:</label>
-<input clrInput id="name" type="text" [(ngModel)]="title" placeholder="Your Name" />
-<p>Hello, {{ title }}!</p>
-<clr-accordion>
-    <clr-accordion-panel>
-      <clr-accordion-title>Item 1</clr-accordion-title>
-      <clr-accordion-content *clrIfExpanded>Content 1</clr-accordion-content>
-    </clr-accordion-panel>
+<div class="main-container">
+  <header class="header-6">
+    <div class="branding">
+      <a href="..." class="nav-link">
+        <cds-icon shape="factory"></cds-icon>
+        <span class="title">IBSYS 2 Planspiel</span>
+      </a>
+    </div>
+    <div class="header-actions">
+      <clr-dropdown>
+        <button class="nav-icon" clrDropdownTrigger aria-label="toggle settings menu">
+          <cds-icon shape="language"></cds-icon>
+          <cds-icon shape="angle" direction="down"></cds-icon>
+        </button>
+        <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
+          <a href="..." clrDropdownItem>English</a>
+          <a href="..." clrDropdownItem>Deutsch</a>
+          <a href="..." clrDropdownItem>Et cetera</a>
+        </clr-dropdown-menu>
+      </clr-dropdown>
+    </div>
+  </header>
   
-    <clr-accordion-panel>
-      <clr-accordion-title>Item 2</clr-accordion-title>
-      <clr-accordion-content *clrIfExpanded>Content 2</clr-accordion-content>
-    </clr-accordion-panel>
-  
-    <clr-accordion-panel>
-      <clr-accordion-title>Item 3</clr-accordion-title>
-      <clr-accordion-content *clrIfExpanded>Content 3</clr-accordion-content>
-    </clr-accordion-panel>
-</clr-accordion>
-
-<form clrForm clrLayout="vertical" [formGroup]="form">
-  <clr-file-input-container>
-    <label>Label</label>
-    <input type="file" formControlName="files" multiple required clrFileInput />
-    <clr-control-helper>Helper message</clr-control-helper>
-    <clr-control-success>Success message</clr-control-success>
-    <clr-control-error>Error message</clr-control-error>
-  </clr-file-input-container>
-</form>
+  <div class="content-container">
+    <clr-vertical-nav>
+      <a clrVerticalNavLink routerLink="./normal" routerLinkActive="active">
+        <cds-icon clrVerticalNavIcon shape="user"></cds-icon>
+        Option A
+      </a>
+      <a clrVerticalNavLink routerLink="./electric" routerLinkActive="active">
+        <cds-icon clrVerticalNavIcon shape="bolt"></cds-icon>
+        Option B
+      </a>
+    </clr-vertical-nav>
+    <div class="content-area">
+      <h1>Welcome to {{ title }}!</h1>
+      <button clrButton class="btn btn-primary">Clarity Test Button</button>
+      <label for="name">Enter Name:</label>
+      <input clrInput id="name" type="text" [(ngModel)]="title" placeholder="Your Name" />
+      <p>Hello, {{ title }}!</p>
+      <clr-accordion>
+          <clr-accordion-panel>
+            <clr-accordion-title>Item 1</clr-accordion-title>
+            <clr-accordion-content *clrIfExpanded>Content 1</clr-accordion-content>
+          </clr-accordion-panel>
+        
+          <clr-accordion-panel>
+            <clr-accordion-title>Item 2</clr-accordion-title>
+            <clr-accordion-content *clrIfExpanded>Content 2</clr-accordion-content>
+          </clr-accordion-panel>
+        
+          <clr-accordion-panel>
+            <clr-accordion-title>Item 3</clr-accordion-title>
+            <clr-accordion-content *clrIfExpanded>Content 3</clr-accordion-content>
+          </clr-accordion-panel>
+      </clr-accordion>
+      
+      <form clrForm clrLayout="vertical" [formGroup]="form">
+        <clr-file-input-container>
+          <label>Label</label>
+          <input type="file" formControlName="files" multiple required clrFileInput />
+          <clr-control-helper>Helper message</clr-control-helper>
+          <clr-control-success>Success message</clr-control-success>
+          <clr-control-error>Error message</clr-control-error>
+        </clr-file-input-container>
+      </form>
+      
+    
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

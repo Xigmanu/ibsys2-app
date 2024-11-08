@@ -3,6 +3,8 @@ import { RouterOutlet } from '@angular/router';
 import { ClarityModule } from '@clr/angular';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import '@cds/core/icon/register.js';
+import { ClarityIcons, factoryIcon, languageIcon } from '@cds/core/icon';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +14,7 @@ import { CommonModule } from '@angular/common';
     ClarityModule, 
     FormsModule,
     CommonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
@@ -24,3 +26,5 @@ export class AppComponent {
     files: new FormControl<FileList | null>(null),
   });
 }
+
+ClarityIcons.addIcons(factoryIcon, languageIcon);
