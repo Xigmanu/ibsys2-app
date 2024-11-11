@@ -3,17 +3,15 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
-import { KaufteildispoComponent } from './kaufteildispo/kaufteildispo.component';
+import {KaufteildispoModule} from './kaufteildispo/kaufteildispo.module';
 
 @NgModule({
-  declarations: [
-
-  ],
+  declarations: [],
   imports: [
     BrowserModule,
     ReactiveFormsModule,
     AppComponent,
-    // Muss importiert sein, um formGroup zu verwenden
+    KaufteildispoModule
   ],
   providers: [],
 })
