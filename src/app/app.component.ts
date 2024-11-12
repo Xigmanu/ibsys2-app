@@ -5,16 +5,18 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
 import { CommonModule } from '@angular/common';
 import '@cds/core/icon/register.js';
 import { ClarityIcons, factoryIcon, languageIcon } from '@cds/core/icon';
+import {RouterModule} from '@angular/router';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
-    RouterOutlet, 
-    ClarityModule, 
+    RouterOutlet,
+    ClarityModule,
     FormsModule,
     CommonModule,
     ReactiveFormsModule,
+    RouterModule
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']

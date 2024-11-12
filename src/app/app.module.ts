@@ -1,18 +1,25 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import {NgModule} from '@angular/core';
+import {ReactiveFormsModule} from '@angular/forms';
 
-import { AppComponent } from './app.component';
-import {KaufteildispoModule} from './kaufteildispo/kaufteildispo.module';
+import {AppComponent} from './app.component';
+import {RouterModule} from '@angular/router';
+import routes from './app.routes';
+import {CommonModule} from '@angular/common';
+import {KaufteildispoComponent} from './kaufteildispo/kaufteildispo.component';
+import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [],
   imports: [
-    BrowserModule,
+    CommonModule,
     ReactiveFormsModule,
+    RouterModule.forRoot(routes, {useHash: true}),
+    BrowserAnimationsModule,
     AppComponent,
-    KaufteildispoModule
+    KaufteildispoComponent,
   ],
   providers: [],
+  bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

@@ -1,4 +1,7 @@
 <div class="main-container">
+  <div class="top-nav">
+    <a href="dispo">dispo</a>
+  </div>
   <header class="header-6">
     <div class="branding">
       <a href="..." class="nav-link">
@@ -20,7 +23,7 @@
       </clr-dropdown>
     </div>
   </header>
-  
+
   <div class="content-container">
     <clr-vertical-nav>
       <a clrVerticalNavLink routerLink="./normal" routerLinkActive="active">
@@ -43,18 +46,18 @@
             <clr-accordion-title>Item 1</clr-accordion-title>
             <clr-accordion-content *clrIfExpanded>Content 1</clr-accordion-content>
           </clr-accordion-panel>
-        
+
           <clr-accordion-panel>
             <clr-accordion-title>Item 2</clr-accordion-title>
             <clr-accordion-content *clrIfExpanded>Content 2</clr-accordion-content>
           </clr-accordion-panel>
-        
+
           <clr-accordion-panel>
             <clr-accordion-title>Item 3</clr-accordion-title>
             <clr-accordion-content *clrIfExpanded>Content 3</clr-accordion-content>
           </clr-accordion-panel>
       </clr-accordion>
-      
+
       <form clrForm clrLayout="vertical" [formGroup]="form">
         <clr-file-input-container>
           <label>Label</label>
@@ -64,9 +67,11 @@
           <clr-control-error>Error message</clr-control-error>
         </clr-file-input-container>
       </form>
-      
-    
-      <router-outlet></router-outlet>
+
+    <div>
+      container (app routing):
+      <router-outlet>test</router-outlet>
+    </div>
     </div>
   </div>
 </div>
