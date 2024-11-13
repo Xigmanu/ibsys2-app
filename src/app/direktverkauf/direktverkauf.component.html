@@ -1,0 +1,41 @@
+<div class="component">
+<div class="vertriebswunsch">
+  <p class="title">Vertriebswunsch:</p>
+  <form [formGroup]="tableForm">
+  <div class="eingabeVetriebswunsch">
+   <label>
+     P1: <input clrInput formControlName="vertriebswunschP1" />
+   </label>
+   <label>
+     P2: <input clrInput formControlName="vertriebswunschP2" />
+   </label>
+   <label>
+     P3: <input clrInput formControlName="vertriebswunschP3" />
+   </label>
+  </div>
+</form>
+</div>
+<div class="direktverkauf">
+  <p class="title">Direktverkauf:</p>
+  <form [formGroup]="tableForm">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Produkt</th>
+          <th>Menge</th>
+          <th>Preis pro Einheit</th>
+          <th>Konventionalstrafe</th>
+        </tr>
+      </thead>
+      <tbody formArrayName="rows">
+        <tr *ngFor="let row of rows.controls; let i = index" [formGroupName]="i">
+          <td>{{ row.get('product')?.value }}</td>
+          <td><input clrInput formControlName="menge" /></td>
+          <td><input clrInput formControlName="preisProEinheit" /></td>
+          <td><input clrInput formControlName="konventionalStrafe" /></td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
+</div>
+</div>

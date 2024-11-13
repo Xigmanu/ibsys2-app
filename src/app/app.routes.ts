@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { SetupComponent } from './setup/setup.component';
 import { HomepageComponent } from './homepage/homepage.component';
+import { DirektverkaufComponent } from './direktverkauf/direktverkauf.component';
 
 export const routes: Routes = [
     {
@@ -10,5 +11,9 @@ export const routes: Routes = [
     {
         path: '',
         component: HomepageComponent
+    },
+    {
+        path: 'vertriebswunsch',
+        component: DirektverkaufComponent
     }
 ];

@@ -4,7 +4,7 @@ import { ClarityModule, ClrVerticalNavModule } from '@clr/angular';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import '@cds/core/icon/register.js';
-import { ClarityIcons, factoryIcon, languageIcon, installIcon } from '@cds/core/icon';
+import { ClarityIcons, factoryIcon, languageIcon, installIcon, dollarBillIcon } from '@cds/core/icon';
 import { DataService } from './data.service';
 import { DataStructure } from './data.service';
 import { sample } from 'rxjs';
@@ -46,4 +46,4 @@ export class AppComponent {
   }
 }
 
-ClarityIcons.addIcons(factoryIcon, languageIcon, installIcon);
+ClarityIcons.addIcons(factoryIcon, languageIcon, installIcon, dollarBillIcon);

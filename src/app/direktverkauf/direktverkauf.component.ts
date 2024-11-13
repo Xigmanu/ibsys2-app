@@ -1,21 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule } from "@angular/forms";
 import { ClarityModule } from '@clr/angular';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-prognose-direktverkauf',
+  selector: 'app-direktverkauf',
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule, ClarityModule],
-  templateUrl: './prognose-direktverkauf.component.html',
-  styleUrl: './prognose-direktverkauf.component.css'
+  templateUrl: './direktverkauf.component.html',
+  styleUrl: './direktverkauf.component.css'
 })
-export class PrognoseDirektverkaufComponent implements OnInit{
+export class DirektverkaufComponent implements OnInit{
   tableForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private cdr: ChangeDetectorRef) {
     this.tableForm = this.fb.group({
       rows: this.fb.array([]),
+      vertriebswunschP1: [''],
+      vertriebswunschP2: [''],
+      vertriebswunschP3: ['']
     });
   }
 
@@ -28,21 +31,20 @@ export class PrognoseDirektverkaufComponent implements OnInit{
     products.forEach((product) => {
       this.addRow(product);
     });
+    this.cdr.detectChanges();
   }
 
   addRow(product: string) {
     const row = this.fb.group({
       product: [product],
-      periods: this.fb.array([this.fb.control(''), this.fb.control(''), this.fb.control(''), this.fb.control('')]),
+      menge: [''],
+      preisProEinheit: [''],
+      konventionalStrafe: ['']
     });
     this.rows.push(row);
   }
 
   get rows(): FormArray {
     return this.tableForm.get('rows') as FormArray;
-  }
-
-  getPeriods(rowIndex: number): FormArray {
-    return this.rows.at(rowIndex).get('periods') as FormArray;
   }
 }
