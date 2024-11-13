@@ -1,0 +1,29 @@
+<div>
+  <h2>Setup</h2>
+  <p>Upload an XML file containing the data of your previous business period.</p>
+
+  <form clrForm clrLayout="vertical" [formGroup]="form">
+    <clr-file-input-container>
+      <label>Upload XML</label>
+      <input type="file" (change)="onFileSelected($event)" formControlName="files" accept=".xml" required clrFileInput />
+      <clr-control-helper>Upload a valid XML file.</clr-control-helper>
+      <clr-control-success>XML File loaded!</clr-control-success>
+      <clr-control-error>File must be a valid .xml!</clr-control-error>
+    </clr-file-input-container>
+  </form>
+</div>
+
+<div *ngIf="jsonData">
+  <h2>Inspect Data</h2>
+
+  <clr-accordion>
+    <clr-accordion-panel>
+      <clr-accordion-title>XML Data</clr-accordion-title>
+      <clr-accordion-content *clrIfExpanded>
+        <pre>{{ jsonData | json }}</pre>
+      </clr-accordion-content>
+    </clr-accordion-panel>
+  </clr-accordion>
+
+  <h2>Prognose Eintragen</h2>
+</div>

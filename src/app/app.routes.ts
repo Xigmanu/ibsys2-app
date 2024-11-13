@@ -1,7 +1,14 @@
 import { Routes } from '@angular/router';
-import { PrognoseDirektverkaufComponent } from './prognose-direktverkauf/prognose-direktverkauf.component';
-import { AppComponent } from './app.component';
+import { SetupComponent } from './setup/setup.component';
+import { HomepageComponent } from './homepage/homepage.component';
 
 export const routes: Routes = [
-    { path: 'prognose', component: PrognoseDirektverkaufComponent },
-  ];
+    {
+        path: 'setup',
+        component: SetupComponent
+    },
+    {
+        path: '',
+        component: HomepageComponent
+    }
+];
