@@ -6,42 +6,42 @@ import { Injectable } from '@angular/core';
 //
 /////////////////////////////////////////////////////////////////////////
 
-interface QualityControl {
+export interface QualityControl {
   type: string;
   loseQuantity: number;
   delay: number;
 }
 
-interface SellWishItem {
+export interface SellWishItem {
   article: number;
   quantity: number;
 }
 
-interface SellDirectItem {
+export interface SellDirectItem {
   article: number;
   quantity: number;
   price: number;
   penalty: number;
 }
 
-interface Order {
+export interface Order {
   article: number;
   quantity: number;
   modus: number;
 }
 
-interface Production {
+export interface Production {
   article: number;
   quantity: number;
 }
 
-interface WorkingTime {
+export interface WorkingTime {
   station: number;
   shift: number;
   overtime: number;
 }
 
-interface Output {
+export interface Output {
   qualityControl: QualityControl;
   sellWish: {
     items: SellWishItem[];
@@ -60,7 +60,7 @@ interface Output {
   };
 }
 
-interface WarehouseStock {
+export interface WarehouseStock {
   id: number;
   amount: number;
   startAmount: number;
@@ -69,7 +69,7 @@ interface WarehouseStock {
   stockValue: number;
 }
 
-interface InwardStockMovementOrder {
+export interface InwardStockMovementOrder {
   orderPeriod: number;
   id: number;
   mode: number;
@@ -82,7 +82,7 @@ interface InwardStockMovementOrder {
   pieceCosts: number;
 }
 
-interface FutureInwardStockMovementOrder {
+export interface FutureInwardStockMovementOrder {
   orderPeriod: number;
   id: number;
   mode: number;
@@ -90,7 +90,7 @@ interface FutureInwardStockMovementOrder {
   amount: number;
 }
 
-interface IdleTimeCost {
+export interface IdleTimeCost {
   id: number;
   setupEvents: number;
   idleTime: number;
@@ -99,7 +99,7 @@ interface IdleTimeCost {
   machineIdleTimeCosts: number;
 }
 
-interface WaitingListWorkstation {
+export interface WaitingListWorkstation {
   id: number;
   timeNeed: number;
   waitingList?: {
@@ -113,7 +113,7 @@ interface WaitingListWorkstation {
   }[];
 }
 
-interface MissingPart {
+export interface MissingPart {
   id: number;
   waitingList: {
     period: number;
@@ -125,7 +125,7 @@ interface MissingPart {
   }[];
 }
 
-interface OrderInWork {
+export interface OrderInWork {
   id: number;
   period: number;
   order: number;
@@ -135,14 +135,14 @@ interface OrderInWork {
   timeNeed: number;
 }
 
-interface CompletedOrderBatch {
+export interface CompletedOrderBatch {
   id: number;
   amount: number;
   cycleTime: number;
   cost: number;
 }
 
-interface CompletedOrder {
+export interface CompletedOrder {
   period: number;
   id: number;
   item: number;
@@ -152,7 +152,7 @@ interface CompletedOrder {
   batches: CompletedOrderBatch[];
 }
 
-interface CycleTimeOrder {
+export interface CycleTimeOrder {
   id: number;
   period: number;
   startTime: string;
@@ -161,13 +161,13 @@ interface CycleTimeOrder {
   cycleTimeFactor: number;
 }
 
-interface MetaData {
+export interface MetaData {
   game: string;
   group: string;
   period: string;
 }
 
-interface Result {
+export interface Result {
   general: ResultGeneral;
   defectiveGoods: ResultDefectiveGoods;
   normalSale: ResultNormalSale;
@@ -176,7 +176,7 @@ interface Result {
   summary: ResultSummary;
 }
 
-interface ResultGeneral {
+export interface ResultGeneral {
   capacity: {
       current: number;
       average: number;
@@ -239,7 +239,7 @@ interface ResultGeneral {
   },
 }
 
-interface ResultDefectiveGoods {
+export interface ResultDefectiveGoods {
   quantity: {
       current: number;
       average: number;
@@ -252,7 +252,7 @@ interface ResultDefectiveGoods {
   },
 }
 
-interface ResultNormalSale {
+export interface ResultNormalSale {
   salesPrice: {
       current: number;
       average: number;
@@ -270,7 +270,7 @@ interface ResultNormalSale {
   },
 }
 
-interface ResultDirectSale {
+export interface ResultDirectSale {
   profit: {
       current: number;
       average: number;
@@ -283,7 +283,7 @@ interface ResultDirectSale {
   },
 }
 
-interface ResultMarketplaceSale {
+export interface ResultMarketplaceSale {
   profit: {
       current: number;
       average: number;
@@ -291,7 +291,7 @@ interface ResultMarketplaceSale {
   },
 }
 
-interface ResultSummary {
+export interface ResultSummary {
   profit: {
       current: number;
       average: number;
@@ -299,7 +299,7 @@ interface ResultSummary {
   },
 }
 
-interface Input {
+export interface Input {
   metaData: MetaData;
   warehouseStock: WarehouseStock[];
   inwardStockMovement: InwardStockMovementOrder[];
@@ -332,13 +332,69 @@ export interface DataStructure {
   providedIn: 'root'
 })
 export class DataService {
-  private data: DataStructure | null = null;
+  private data: DataStructure = {
+    input: {
+        metaData: { game: '', group: '', period: '' },
+        warehouseStock: [],
+        inwardStockMovement: [],
+        futureInwardStockMovement: [],
+        idleTimeCosts: [],
+        waitingListWorkstations: [],
+        waitingListStock: [],
+        ordersInWork: [],
+        completedOrders: [],
+        cycleTimes: { startedOrders: 0, waitingOrders: 0, orders: [] },
+        result: {
+          general: {
+              capacity: { current: 0, average: 0, all: 0 },
+              possibleCapacity: { current: 0, average: 0, all: 0 },
+              relPossibleNormalCapacity: { current: 0, average: 0, all: 0 },
+              productiveTime: { current: 0, average: 0, all: 0 },
+              efficiency: { current: 0, average: 0, all: 0 },
+              sellwish: { current: 0, average: 0, all: 0 },
+              salesQuantity: { current: 0, average: 0, all: 0 },
+              deliveryReliability: { current: 0, average: 0, all: 0 },
+              idleTime: { current: 0, average: 0, all: 0 },
+              idleTimeCosts: { current: 0, average: 0, all: 0 },
+              storeValue: { current: 0, average: 0, all: 0 },
+              storageCosts: { current: 0, average: 0, all: 0 }
+          },
+          defectiveGoods: {
+              quantity: { current: 0, average: 0, all: 0 },
+              costs: { current: 0, average: 0, all: 0 }
+          },
+          normalSale: {
+              salesPrice: { current: 0, average: 0, all: 0 },
+              profit: { current: 0, average: 0, all: 0 },
+              profitPerUnit: { current: 0, average: 0, all: 0 }
+          },
+          directSale: {
+              profit: { current: 0, average: 0, all: 0 },
+              contractPenalty: { current: 0, average: 0, all: 0 }
+          },
+          marketplaceSale: {
+              profit: { current: 0, average: 0, all: 0 }
+          },
+          summary: {
+              profit: { current: 0, average: 0, all: 0 }
+          }
+      }
+    },
+    output: {
+        qualityControl: { type: '', loseQuantity: 0, delay: 0 },
+        sellWish: { items: [] },
+        sellDirect: { items: [] },
+        orderList: { orders: [] },
+        productionList: { productions: [] },
+        workingTimeList: { workingTimes: [] }
+    }
+};
 
   setData(data: DataStructure): void {
     this.data = data;
   }
 
-  getData(): DataStructure | null {
+  getData(): DataStructure {
     return this.data;
   }
 
@@ -346,9 +402,9 @@ export class DataService {
     this.data = {
       "input": {
         "metaData": {
-          "game": "179",
-          "group": "7",
-          "period": "6"
+          "game": "222",
+          "group": "90",
+          "period": "47"
         },
         "warehouseStock": [
           {
