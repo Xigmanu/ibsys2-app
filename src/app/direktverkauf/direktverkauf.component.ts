@@ -10,10 +10,10 @@ import { CommonModule } from '@angular/common';
   templateUrl: './direktverkauf.component.html',
   styleUrl: './direktverkauf.component.css'
 })
-export class DirektverkaufComponent implements OnInit{
+export class DirektverkaufComponent implements OnInit {
   tableForm: FormGroup;
-
-  constructor(private fb: FormBuilder, private cdr: ChangeDetectorRef) {
+  
+  constructor(private fb: FormBuilder, private cdr: ChangeDetectorRef,) {
     this.tableForm = this.fb.group({
       rows: this.fb.array([]),
       vertriebswunschP1: [''],
@@ -46,5 +46,22 @@ export class DirektverkaufComponent implements OnInit{
 
   get rows(): FormArray {
     return this.tableForm.get('rows') as FormArray;
+  }
+
+  saveData() {
+    const sellWishItems = [
+      { article: 1, quantity: +this.tableForm.value.vertriebswunschP1 },
+      { article: 2, quantity: +this.tableForm.value.vertriebswunschP2 },
+      { article: 3, quantity: +this.tableForm.value.vertriebswunschP3 }
+    ];
+
+    const sellDirectItems = this.rows.controls.map(row => ({
+      article: row.get('product')?.value,
+      quantity: +row.get('menge')?.value,
+      price: +row.get('preisProEinheit')?.value,
+      penalty: +row.get('konventionalStrafe')?.value
+    }));
+
+    console.log('Daten gespeichert:', sellWishItems, sellDirectItems);
   }
 }

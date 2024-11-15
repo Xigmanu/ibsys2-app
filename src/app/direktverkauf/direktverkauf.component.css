@@ -42,3 +42,8 @@
     display: flex;
     justify-content: center;
 }
+
+button.btn {
+  margin-top: 250px;
+  display: block;
+}
