@@ -1,11 +1,9 @@
-import {Component, OnInit, Input} from '@angular/core';
-import {
-  FormGroup,
-  ReactiveFormsModule,
-} from '@angular/forms';
-import {CommonModule, NgIf} from '@angular/common';
-import {dispoControlForms, KaufteilDispoControlFormDefinition, KauftelidispoArt} from './kaufteildispo.util';
-import {ClarityModule} from '@clr/angular';
+import { Component, OnInit, Input } from '@angular/core';
+import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule, NgIf } from '@angular/common';
+import { dispoControlForms, KaufteilDispoControlFormDefinition, KauftelidispoArt, mapJsonToFormControls } from './kaufteildispo.util';
+import { ClarityModule } from '@clr/angular';
+import * as data from '../../assets/SortedData.json';
 
 @Component({
   selector: 'app-kaufteildispo',
@@ -18,64 +16,50 @@ export class KaufteildispoComponent implements OnInit {
   @Input() dispoDaten: { formGroup: FormGroup } = { formGroup: new FormGroup({}) };
   protected controlForms: KaufteilDispoControlFormDefinition[] | undefined;
   protected initialerZustand: any;
-
-  constructor() {
-  }
+  private jsonData = data;
 
   ngOnInit(): void {
-    if (this.dispoDaten?.formGroup) {
-      this.controlForms = dispoControlForms(this.dispoDaten.formGroup);
+    const mappedData = mapJsonToFormControls(this.jsonData);
+      if (this.dispoDaten?.formGroup) {
+      this.controlForms = dispoControlForms(this.dispoDaten.formGroup,mappedData);
       this.initialerZustand = this.dispoDaten.formGroup.value;
     }
+
   }
+    /*   const mappedData = mapJsonToFormControls(this.jsonData);
 
+    // Initialize form controls
+    const formGroupConfig: any = {};
+    for (const key in mappedData) {
+      if (mappedData.hasOwnProperty(key)) {
+        Object.keys(KauftelidispoArt).forEach((art) => {
+          const formControlName = `${key}_${KauftelidispoArt[art as keyof typeof KauftelidispoArt]}`;
+          formGroupConfig[formControlName] = new FormControl();
+        });
+      }
+    }
 
+    this.dispoDaten.formGroup = new FormGroup(formGroupConfig);
+
+    // Set values for form controls
+    for (const key in mappedData) {
+      if (mappedData.hasOwnProperty(key)) {
+        Object.keys(KauftelidispoArt).forEach((art) => {
+          const formControlName = `${key}_${KauftelidispoArt[art as keyof typeof KauftelidispoArt]}`;
+          this.dispoDaten.formGroup.get(formControlName)?.setValue(mappedData[key][KauftelidispoArt[art as keyof typeof KauftelidispoArt]]);
+        });
+      }
+    }
+
+    this.controlForms = dispoControlForms(this.dispoDaten.formGroup);
+    this.initialerZustand = this.dispoDaten.formGroup.value;
+  }
   wiederherstellen() {
     if (this.initialerZustand) {
       this.dispoDaten?.formGroup.reset(this.initialerZustand);
     } else {
       console.error('Initial state is not defined');
     }
-  }
-
-  protected readonly KaufteildispoFormControl = KauftelidispoArt;
-  /*
-    myForm!: FormGroup;
-    control: FormArray;
-    mode: boolean;
-    touchedRows: any;
-
-    constructor(private fb: FormBuilder) {
-    }
-
-    ngOnInit() {
-      this.touchedRows = [];
-      this.myForm = this.fb.group({
-        tableRows: this.fb.array([])
-      });
-      this.fb.group({
-        kaufteil: [''],
-        frist: [''],
-        abweichung: [''],
-        diskontmenge: [''],
-        verbrauch: [''],
-        bestandAktuell: [''],
-        lieferung: [''],
-        lieferzeit: [''],
-        benötigteMenge: [''],
-        bestellMenge: [''],
-        bestellTyp: ['']
-      })
-    }
-
-    onSubmit(form: FormGroup) {
-      console.log('Valid?', form.valid); // true or false
-      console.log('Name', form.value.name);
-      console.log('Email', form.value.email);
-      console.log('Message', form.value.message);
-    }
-  */
-
-  protected readonly FormGroup = FormGroup;
+  }*/
   protected readonly KauftelidispoArt = KauftelidispoArt;
 }

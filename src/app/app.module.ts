@@ -7,6 +7,7 @@ import routes from './app.routes';
 import {CommonModule} from '@angular/common';
 import {KaufteildispoComponent} from './kaufteildispo/kaufteildispo.component';
 import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-browser/animations';
+import {provideHttpClient} from '@angular/common/http';
 
 @NgModule({
   declarations: [],
@@ -15,10 +16,10 @@ import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-b
     ReactiveFormsModule,
     RouterModule.forRoot(routes, {useHash: true}),
     BrowserAnimationsModule,
-    AppComponent,
     KaufteildispoComponent,
+    AppComponent,
   ],
-  providers: [],
+  providers: [provideHttpClient()],
   bootstrap: [AppComponent]
 })
 export class AppModule {

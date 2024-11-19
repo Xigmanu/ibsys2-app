@@ -1,9 +1,5 @@
-<!-- kaufteildispo.component.html -->
 <div>TEST</div>
-Der Fehler tritt auf, weil `dispoDaten?.formGroup` möglicherweise `undefined` sein kann, aber das `formGroup`-Attribut ein `FormGroup`-Objekt erwartet. Um diesen Fehler zu beheben, können Sie eine Bedingung hinzufügen, um sicherzustellen, dass `dispoDaten?.formGroup` definiert ist, bevor es an das `formGroup`-Attribut gebunden wird.
-
-```html
-<form clrForm [formGroup]="dispoDaten.formGroup">
+<form *ngIf="dispoDaten?.formGroup" clrForm [formGroup]="dispoDaten.formGroup">
   <table class="table table-border">
     <thead class="text-nowrap">
     <tr>
@@ -20,6 +16,7 @@ Der Fehler tritt auf, weil `dispoDaten?.formGroup` möglicherweise `undefined` s
       <th>Bestelltyp</th>
     </tr>
     </thead>
+    <tbody>
     <tr *ngFor="let control of controlForms">
       <td *ngFor="let control of controlForms" class="center-align">
         <clr-input-container *ngIf="control.formControlName !== KauftelidispoArt.BESTELLTYP">
@@ -37,5 +34,6 @@ Der Fehler tritt auf, weil `dispoDaten?.formGroup` möglicherweise `undefined` s
         </clr-select-container>
       </td>
     </tr>
+    </tbody>
   </table>
 </form>

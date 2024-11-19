@@ -1,4 +1,5 @@
 import {AbstractControl, FormControl, FormGroup} from '@angular/forms';
+import {Component, OnInit, Input} from '@angular/core';
 
 export interface KaufteilDispoControlFormDefinition {
   label: string;
@@ -36,11 +37,11 @@ export interface KaufteilDispoFormControl {
   [KauftelidispoArt.BESTELLTYP]: FormControl;
 }
 
-export function dispoControlForms(formFroup: FormGroup): KaufteilDispoControlFormDefinition[] {
+export function dispoControlForms(formFroup: FormGroup, mappedData: any): KaufteilDispoControlFormDefinition[] {
   return [{
     label: 'Kaufteil',
     formControlName: KauftelidispoArt.KAUFTEIL,
-    formControl: formFroup.get(KauftelidispoArt.KAUFTEIL)!,
+    formControl: new FormControl(mappedData[KauftelidispoArt.KAUFTEIL])!,
     type: 'text',
     tooltip: '',
   }, {
@@ -104,4 +105,27 @@ export function dispoControlForms(formFroup: FormGroup): KaufteilDispoControlFor
     type: 'dropdown',
     tooltip: '',
   }]
+}
+
+export function mapJsonToFormControls(jsonData: any): any {
+  const mappedData: any = {};
+  for (const key in jsonData) {
+    if (jsonData.hasOwnProperty(key)) {
+      const item = jsonData[key];
+      mappedData[key] = {
+        [KauftelidispoArt.KAUFTEIL]: item.Nr,
+        [KauftelidispoArt.FRIST]: item.Lieferzeit,
+        [KauftelidispoArt.ABWEICHUNG]: item.Lieferzeitabweichung,
+        [KauftelidispoArt.DISKONTMENGE]: null,
+        [KauftelidispoArt.VERBRAUCH]: null,
+        [KauftelidispoArt.BESTAND_AKTUELL]: null,
+        [KauftelidispoArt.LIEFERUNG]: null,
+        [KauftelidispoArt.LIEFERZEIT]: item.Lieferzeit,
+        [KauftelidispoArt.BENOETIGTE_MENGE]: null,
+        [KauftelidispoArt.BESTELLMENGE]: null,
+        [KauftelidispoArt.BESTELLTYP]: null
+      };
+    }
+  }
+  return mappedData;
 }
