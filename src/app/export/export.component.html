@@ -1,12 +1,122 @@
 <h2>Export</h2>
 <p>You can export your data here.</p>
 <br>
-<div>
-    Export Preview here
-</div>
-<div>
-    <button class="btn btn-primary">
-        <cds-icon shape="download"></cds-icon>
-        Export Data
-    </button>
-</div>
+<h3>
+    Entscheidungsdaten Einsehen/Überprüfen
+    <clr-tooltip>
+        <cds-icon clrTooltipTrigger shape="info-circle" size="24"></cds-icon>
+        <clr-tooltip-content [clrPosition]="'top-right'" [clrSize]="'sm'">
+            Vor dem Export sollte überprüft werden, ob die korrekten Daten vorzufinden sind.
+        </clr-tooltip-content>
+        </clr-tooltip>    
+</h3>
+<clr-tabs>
+    <clr-tab>
+      <button clrTabLink>Vertriebswunsch</button>
+      <clr-tab-content *clrIfActive>
+        <table class="table">
+            <thead>
+              <tr>
+                <th>Article</th>
+                <th>Quantity</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of sellWishItems">
+                <td>{{ item.article }}</td>
+                <td>{{ item.quantity }}</td>
+            </tbody>
+          </table>
+      </clr-tab-content>
+    </clr-tab>
+    <clr-tab>
+      <button clrTabLink>Direktvertrieb</button>
+      <clr-tab-content *clrIfActive>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Article</th>
+              <th>Quantity</th>
+              <th>Price</th>
+              <th>Penalty</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of sellDirectItems">
+              <td>{{ item.article }}</td>
+              <td>{{ item.quantity }}</td>
+              <td>{{ item.price }}</td>
+              <td>{{ item.penalty }}</td>
+          </tbody>
+        </table>
+      </clr-tab-content>
+    </clr-tab>
+    <clr-tab>
+      <button clrTabLink>Bestellübersicht</button>
+      <clr-tab-content *clrIfActive>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Article</th>
+              <th>Quantity</th>
+              <th>Mode</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of orderListItems">
+              <td>{{ item.article }}</td>
+              <td>{{ item.quantity }}</td>
+              <td>{{ item.modus }}</td>
+          </tbody>
+        </table>
+      </clr-tab-content>
+    </clr-tab>
+    <clr-tab>
+        <button clrTabLink>Produktionsliste</button>
+        <clr-tab-content *clrIfActive>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Article</th>
+                <th>Quantity</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of productionListItems">
+                <td>{{ item.article }}</td>
+                <td>{{ item.quantity }}</td>
+            </tbody>
+          </table>
+        </clr-tab-content>
+    </clr-tab>
+    <clr-tab>
+        <button clrTabLink>Arbeitszeitliste</button>
+        <clr-tab-content *clrIfActive>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Station</th>
+                <th>Shift</th>
+                <th>Overtime</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of workingTimeListItems">
+                <td>{{ item.station }}</td>
+                <td>{{ item.shift }}</td>
+                <td>{{ item.overtime }}</td>
+            </tbody>
+          </table>
+        </clr-tab-content>
+    </clr-tab>
+</clr-tabs>
+<br>
+<hr>
+<h3>KPI Einsehen</h3>
+<p>Lorem ipsum sed doloret.</p>
+<h3>Entscheidungsdaten herunterladen</h3>
+<p>Lade die generierte .xml Datei herunter, und anschließend im SCS hoch.</p>
+<button class="btn btn-primary">
+    <cds-icon shape="download"></cds-icon>
+    Export Data
+</button>
