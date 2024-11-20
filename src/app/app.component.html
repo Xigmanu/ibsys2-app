@@ -4,12 +4,14 @@
   </div>
   <header class="header-6">
     <div class="branding">
-      <a href="..." class="nav-link">
+      <a routerLink="/" class="nav-link">
         <cds-icon shape="factory"></cds-icon>
         <span class="title">IBSYS 2 Planspiel</span>
       </a>
     </div>
     <div class="header-actions">
+      <button class="btn btn-warning-outline" (click)="onGetDebugData()">Output Data in Console</button>
+      <button class="btn btn-warning-outline" (click)="onSetSampleData()">Generate Sample</button>
       <clr-dropdown>
         <button class="nav-icon" clrDropdownTrigger aria-label="toggle settings menu">
           <cds-icon shape="language"></cds-icon>
@@ -26,9 +28,9 @@
 
   <div class="content-container">
     <clr-vertical-nav>
-      <a clrVerticalNavLink routerLink="./normal" routerLinkActive="active">
-        <cds-icon clrVerticalNavIcon shape="user"></cds-icon>
-        Option A
+      <a clrVerticalNavLink routerLink="./setup" routerLinkActive="active">
+        <cds-icon clrVerticalNavIcon shape="install"></cds-icon>
+        Setup
       </a>
       <a clrVerticalNavLink routerLink="./electric" routerLinkActive="active">
         <cds-icon clrVerticalNavIcon shape="bolt"></cds-icon>
@@ -36,7 +38,9 @@
       </a>
     </clr-vertical-nav>
     <div class="content-area">
-      <h1>Welcome to {{ title }}!</h1>
+      <router-outlet></router-outlet>
+      <!--
+
       <button clrButton class="btn btn-primary">Clarity Test Button</button>
       <label for="name">Enter Name:</label>
       <input clrInput id="name" type="text" [(ngModel)]="title" placeholder="Your Name" />
@@ -57,21 +61,8 @@
             <clr-accordion-content *clrIfExpanded>Content 3</clr-accordion-content>
           </clr-accordion-panel>
       </clr-accordion>
-
-      <form clrForm clrLayout="vertical" [formGroup]="form">
-        <clr-file-input-container>
-          <label>Label</label>
-          <input type="file" formControlName="files" multiple required clrFileInput />
-          <clr-control-helper>Helper message</clr-control-helper>
-          <clr-control-success>Success message</clr-control-success>
-          <clr-control-error>Error message</clr-control-error>
-        </clr-file-input-container>
-      </form>
-
-    <div>
-      container (app routing):
-      <router-outlet>test</router-outlet>
-    </div>
+      <router-outlet></router-outlet>
+      -->
     </div>
   </div>
 </div>

@@ -23,6 +23,7 @@ export class KaufteildispoComponent implements OnInit {
       if (this.dispoDaten?.formGroup) {
       this.controlForms = dispoControlForms(this.dispoDaten.formGroup,mappedData);
       this.initialerZustand = this.dispoDaten.formGroup.value;
+      console.log();
     }
 
   }

@@ -23,7 +23,7 @@
           <input clrInput
                  [type]="control.type"
                  [formControlName]="control.formControlName"
-                 [placeholder]="control.label"
+                 [placeholder]="control.formControl.value"
           />
         </clr-input-container>
         <clr-select-container *ngIf="control.formControlName === KauftelidispoArt.BESTELLTYP">
