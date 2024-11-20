@@ -1,0 +1,45 @@
+<div>
+  <h2>Setup</h2>
+  <p>Select an XML file containing the data of your previous business period. It will be suffixed with result. E.g.: "179_7_result.xml"</p>
+
+  <form clrForm clrLayout="vertical" [formGroup]="form">
+    <clr-file-input-container>
+      <label>Select XML</label>
+      <input type="file" (change)="onFileSelected($event)" formControlName="files" accept=".xml" required clrFileInput />
+      <clr-control-helper>Load an XML file.</clr-control-helper>
+      <clr-control-success>XML File loaded!</clr-control-success>
+      <clr-control-error>File must be of type .xml!</clr-control-error>
+    </clr-file-input-container>
+  </form>
+  <div *ngIf="jsonData;else disabledUpload">
+    <button  class="btn btn-primary" (click)="mapXmlData(jsonData)">Load Data</button>
+  </div>
+  <ng-template #disabledUpload>
+    <button class="btn btn-primary" disabled>Load Data</button>
+  </ng-template>
+  <clr-alert *ngIf="mappingError" [clrAlertType]="'danger'">
+    <clr-alert-item>
+      <span class="alert-text">XML could not be loaded. Please ensure that it's name is "...result.xml" and has the required data within.</span>
+    </clr-alert-item>
+  </clr-alert>
+  <clr-alert *ngIf="mappingSuccess" [clrAlertType]="'success'">
+    <clr-alert-item>
+      <span class="alert-text">XML has been loaded into the system succesfully.</span>
+    </clr-alert-item>
+  </clr-alert>
+</div>
+
+<div *ngIf="mappingSuccess">
+  <h2>Inspect Data</h2>
+
+  <clr-accordion>
+    <clr-accordion-panel>
+      <clr-accordion-title>XML Data</clr-accordion-title>
+      <clr-accordion-content *clrIfExpanded>
+        <pre>{{ loadedData | json }}</pre>
+      </clr-accordion-content>
+    </clr-accordion-panel>
+  </clr-accordion>
+
+  <h2>Prognose Eintragen</h2>
+</div>

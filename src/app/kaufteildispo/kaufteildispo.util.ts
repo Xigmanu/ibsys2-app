@@ -37,94 +37,113 @@ export interface KaufteilDispoFormControl {
   [KauftelidispoArt.BESTELLTYP]: FormControl;
 }
 
-export function dispoControlForms(formFroup: FormGroup, mappedData: any): KaufteilDispoControlFormDefinition[] {
-  return [{
-    label: 'Kaufteil',
-    formControlName: KauftelidispoArt.KAUFTEIL,
-    formControl: new FormControl(mappedData[KauftelidispoArt.KAUFTEIL])!,
-    type: 'text',
-    tooltip: '',
-  }, {
-    label: 'Frist',
-    formControlName: KauftelidispoArt.FRIST,
-    formControl: formFroup.get(KauftelidispoArt.FRIST)!,
-    type: 'text',
-    tooltip: '',
-  }, {
-    label: 'Abweichung',
-    formControlName: KauftelidispoArt.ABWEICHUNG,
-    formControl: formFroup.get(KauftelidispoArt.ABWEICHUNG)!,
-    type: 'text',
-    tooltip: '',
-  }, {
-    label: 'Diskontmenge',
-    formControlName: KauftelidispoArt.DISKONTMENGE,
-    formControl: formFroup.get(KauftelidispoArt.DISKONTMENGE)!,
-    type: 'text',
-    tooltip: '',
-  }, {
-    label: 'Verbrauch',
-    formControlName: KauftelidispoArt.VERBRAUCH,
-    formControl: formFroup.get(KauftelidispoArt.VERBRAUCH)!,
-    type: 'text',
-    tooltip: '',
-  }, {
-    label: 'Bestand Aktuell',
-    formControlName: KauftelidispoArt.BESTAND_AKTUELL,
-    formControl: formFroup.get(KauftelidispoArt.BESTAND_AKTUELL)!,
-    type: 'text',
-    tooltip: '',
-  }, {
-    label: 'Lieferung',
-    formControlName: KauftelidispoArt.LIEFERUNG,
-    formControl: formFroup.get(KauftelidispoArt.LIEFERUNG)!,
-    type: 'text',
-    tooltip: '',
-  }, {
-    label: 'Lieferzeit',
-    formControlName: KauftelidispoArt.LIEFERZEIT,
-    formControl: formFroup.get(KauftelidispoArt.LIEFERZEIT)!,
-    type: 'text',
-    tooltip: '',
-  }, {
-    label: 'Benoetigte Menge',
-    formControlName: KauftelidispoArt.BENOETIGTE_MENGE,
-    formControl: formFroup.get(KauftelidispoArt.BENOETIGTE_MENGE)!,
-    type: 'text',
-    tooltip: '',
-  }, {
-    label: 'Bestellmenge',
-    formControlName: KauftelidispoArt.BESTELLMENGE,
-    formControl: formFroup.get(KauftelidispoArt.BESTELLMENGE)!,
-    type: 'text',
-    tooltip: '',
-  }, {
-    label: 'Bestelltyp',
-    formControlName: KauftelidispoArt.BESTELLTYP,
-    formControl: formFroup.get(KauftelidispoArt.BESTELLTYP)!,
-    type: 'dropdown',
-    tooltip: '',
-  }]
+export function Uebernehmen(formGroup: FormGroup): void {
 }
+export type kaufteilDispoFormDef={[key in KauftelidispoArt]: KaufteilDispoControlFormDefinition }
 
+export function dispoControlFormDefinition(
+  formGroup: FormGroup)
+  : kaufteilDispoFormDef {
+  return {
+    [KauftelidispoArt.KAUFTEIL]: {
+      label: 'Kaufteil',
+      formControlName: KauftelidispoArt.KAUFTEIL,
+      formControl: formGroup.get(KauftelidispoArt.KAUFTEIL)!,
+      type: 'text',
+      tooltip: '',
+    },
+    [KauftelidispoArt.FRIST]: {
+      label: 'Frist',
+      formControlName: KauftelidispoArt.FRIST,
+      formControl: formGroup.get(KauftelidispoArt.FRIST)!,
+      type: 'text',
+      tooltip: '',
+    },
+    [KauftelidispoArt.ABWEICHUNG]: {
+      label: 'Abweichung',
+      formControlName: KauftelidispoArt.ABWEICHUNG,
+      formControl: formGroup.get(KauftelidispoArt.ABWEICHUNG)!,
+      type: 'text',
+      tooltip: '',
+    },
+    [KauftelidispoArt.DISKONTMENGE]: {
+      label: 'Diskontmenge',
+      formControlName: KauftelidispoArt.DISKONTMENGE,
+      formControl: formGroup.get(KauftelidispoArt.DISKONTMENGE)!,
+      type: 'text',
+      tooltip: '',
+    },
+    [KauftelidispoArt.VERBRAUCH]: {
+      label: 'Verbrauch',
+      formControlName: KauftelidispoArt.VERBRAUCH,
+      formControl: formGroup.get(KauftelidispoArt.VERBRAUCH)!,
+      type: 'text',
+      tooltip: '',
+    },
+    [KauftelidispoArt.BESTAND_AKTUELL]: {
+      label: 'Bestand Aktuell',
+      formControlName: KauftelidispoArt.BESTAND_AKTUELL,
+      formControl: formGroup.get(KauftelidispoArt.BESTAND_AKTUELL)!,
+      type: 'text',
+      tooltip: '',
+    },
+    [KauftelidispoArt.LIEFERUNG]: {
+      label: 'Lieferung',
+      formControlName: KauftelidispoArt.LIEFERUNG,
+      formControl: formGroup.get(KauftelidispoArt.LIEFERUNG)!,
+      type: 'text',
+      tooltip: '',
+    },
+    [KauftelidispoArt.LIEFERZEIT]: {
+      label: 'Lieferzeit',
+      formControlName: KauftelidispoArt.LIEFERZEIT,
+      formControl: formGroup.get(KauftelidispoArt.LIEFERZEIT)!,
+      type: 'text',
+      tooltip: '',
+    },
+    [KauftelidispoArt.BENOETIGTE_MENGE]: {
+      label: 'Benoetigte Menge',
+      formControlName: KauftelidispoArt.BENOETIGTE_MENGE,
+      formControl: formGroup.get(KauftelidispoArt.BENOETIGTE_MENGE)!,
+      type: 'text',
+      tooltip: '',
+    },
+    [KauftelidispoArt.BESTELLMENGE]: {
+      label: 'Bestellmenge',
+      formControlName: KauftelidispoArt.BESTELLMENGE,
+      formControl: formGroup.get(KauftelidispoArt.BESTELLMENGE)!,
+      type: 'text',
+      tooltip: '',
+    },
+    [KauftelidispoArt.BESTELLTYP]: {
+      label: 'Bestelltyp',
+      formControlName: KauftelidispoArt.BESTELLTYP,
+      formControl: formGroup.get(KauftelidispoArt.BESTELLTYP)!,
+      type: 'dropdown',
+      tooltip: '',
+    }
+  }
+}
 export function mapJsonToFormControls(jsonData: any): any {
   const mappedData: any = {};
   for (const key in jsonData) {
     if (jsonData.hasOwnProperty(key)) {
       const item = jsonData[key];
-      mappedData[key] = {
-        [KauftelidispoArt.KAUFTEIL]: item.Nr,
-        [KauftelidispoArt.FRIST]: item.Lieferzeit,
-        [KauftelidispoArt.ABWEICHUNG]: item.Lieferzeitabweichung,
-        [KauftelidispoArt.DISKONTMENGE]: null,
-        [KauftelidispoArt.VERBRAUCH]: null,
-        [KauftelidispoArt.BESTAND_AKTUELL]: null,
-        [KauftelidispoArt.LIEFERUNG]: null,
-        [KauftelidispoArt.LIEFERZEIT]: item.Lieferzeit,
-        [KauftelidispoArt.BENOETIGTE_MENGE]: null,
-        [KauftelidispoArt.BESTELLMENGE]: null,
-        [KauftelidispoArt.BESTELLTYP]: null
-      };
+      if (item.Typ === 'K') {
+        mappedData[key] = {
+          [KauftelidispoArt.KAUFTEIL]: item.Nr,
+          [KauftelidispoArt.FRIST]: item.Lieferzeit,
+          [KauftelidispoArt.ABWEICHUNG]: item.Lieferzeitabweichung,
+          [KauftelidispoArt.DISKONTMENGE]: null,
+          [KauftelidispoArt.VERBRAUCH]: null,
+          [KauftelidispoArt.BESTAND_AKTUELL]: null,
+          [KauftelidispoArt.LIEFERUNG]: null,
+          [KauftelidispoArt.LIEFERZEIT]: item.Lieferzeit,
+          [KauftelidispoArt.BENOETIGTE_MENGE]: null,
+          [KauftelidispoArt.BESTELLMENGE]: null,
+          [KauftelidispoArt.BESTELLTYP]: null
+        };
+      }
     }
   }
   return mappedData;

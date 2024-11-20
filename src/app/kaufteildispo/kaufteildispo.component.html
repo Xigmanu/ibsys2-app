@@ -1,5 +1,5 @@
 <div>TEST</div>
-<form *ngIf="dispoDaten?.formGroup" clrForm [formGroup]="dispoDaten.formGroup">
+<form [formGroup]="dispoForm">
   <table class="table table-border">
     <thead class="text-nowrap">
     <tr>
@@ -16,24 +16,44 @@
       <th>Bestelltyp</th>
     </tr>
     </thead>
-    <tbody>
-    <tr *ngFor="let control of controlForms">
-      <td *ngFor="let control of controlForms" class="center-align">
-        <clr-input-container *ngIf="control.formControlName !== KauftelidispoArt.BESTELLTYP">
-          <input clrInput
-                 [type]="control.type"
-                 [formControlName]="control.formControlName"
-                 [placeholder]="control.formControl.value"
-          />
-        </clr-input-container>
-        <clr-select-container *ngIf="control.formControlName === KauftelidispoArt.BESTELLTYP">
-          <select clrSelect [formControlName]="control.formControlName">
-            <option value="N">N</option>
-            <option value="E">E</option>
-          </select>
-        </clr-select-container>
+    <tbody formArrayName="tableRows">
+    <tr *ngFor="let group of getFormControls.controls; let i = index" [formGroupName]="i">
+      <td>{{ group.get('kaufteil')?.value }}</td>
+      <td>{{ group.get('frist')?.value }}</td>
+      <td>{{ group.get('abweichung')?.value }}</td>
+      <td>{{ group.get('diskontmenge')?.value }}</td>
+      <td>{{ group.get('verbrauch')?.value }}</td>
+      <td>{{ group.get('bestandAktuell')?.value }}</td>
+      <td>{{ group.get('lieferung')?.value }}</td>
+      <td>{{ group.get('lieferzeit')?.value }}</td>
+      <td>{{ group.get('benoetigteMenge')?.value }}</td>
+      <td>{{ group.get('bestellmenge')?.value }}</td>
+      <td>
+        <select clrSelect formControlName="bestelltyp">
+          <option value="N">N</option>
+          <option value="E">E</option>
+        </select>
       </td>
     </tr>
+    <!--   <tr *ngFor="let control of controlForms">
+         <td *ngFor="let control of controlForms" class="center-align">
+           {{ formGroup.get(control.formControlName)?.value }}
+           {{ control.formControl.value }}
+           &lt;!&ndash;    <clr-input-container *ngIf="control.formControlName !== KauftelidispoArt.BESTELLTYP">
+                 <input clrInput
+                        [type]="control.type"
+                        [formControlName]="control.formControlName"
+                        [placeholder]="control.formControl.value"
+                 />
+               </clr-input-container>&ndash;&gt;
+           <clr-select-container *ngIf="control.formControlName === KauftelidispoArt.BESTELLTYP">
+             <select clrSelect [formControlName]="control.formControlName">
+               <option value="N">N</option>
+               <option value="E">E</option>
+             </select>
+           </clr-select-container>
+         </td>
+       </tr>-->
     </tbody>
   </table>
 </form>
