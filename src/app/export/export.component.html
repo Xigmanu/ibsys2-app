@@ -116,7 +116,10 @@
 <p>Lorem ipsum sed doloret.</p>
 <h3>Entscheidungsdaten herunterladen</h3>
 <p>Lade die generierte .xml Datei herunter, und anschließend im SCS hoch.</p>
-<button class="btn btn-primary">
+<button 
+  class="btn btn-primary" 
+  (click)="downloadOutputAsXML()"
+  [clrLoading]="downloadBtnState">
     <cds-icon shape="download"></cds-icon>
     Export Data
 </button>

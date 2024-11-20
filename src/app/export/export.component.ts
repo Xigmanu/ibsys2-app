@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ClarityModule } from '@clr/angular';
+import { ClarityModule, ClrLoadingState } from '@clr/angular';
 import { ClarityIcons, downloadIcon } from '@cds/core/icon';
-import { DataService, SellWishItem, SellDirectItem, Production, Order, WorkingTime } from '../data.service';
+import { DataService, Output, SellWishItem, SellDirectItem, Production, Order, WorkingTime } from '../data.service';
 import { CommonModule } from '@angular/common';
+import * as xml2js from 'xml2js';
 
 
 @Component({
@@ -16,6 +17,8 @@ import { CommonModule } from '@angular/common';
   styleUrl: './export.component.scss'
 })
 export class ExportComponent implements OnInit {
+  downloadBtnState: ClrLoadingState = ClrLoadingState.DEFAULT;
+
   sellWishItems: SellWishItem[] = [];
   sellDirectItems: SellDirectItem[] = [];
   orderListItems: Order[] = [];
@@ -35,6 +38,90 @@ export class ExportComponent implements OnInit {
     } else {
       console.error("Data is null or not available.");
     }
+  }
+
+  downloadOutputAsXML(): void {
+    const output = this.dataService.getData()?.output;
+
+    this.downloadBtnState = ClrLoadingState.LOADING;
+
+    if (!output) {
+      console.error('Output data is null or undefined');
+      this.downloadBtnState = ClrLoadingState.ERROR;
+      return;
+    }
+
+    const formattedOutput = {
+      input: {
+        qualitycontrol: {
+          $: {
+            type: output.qualityControl.type,
+            losequantity: output.qualityControl.loseQuantity,
+            delay: output.qualityControl.delay
+          }
+        },
+        sellwish: {
+          item: output.sellWish.items.map((item: any) => ({
+            $: {
+              article: item.article,
+              quantity: item.quantity
+            }
+          }))
+        },
+        selldirect: {
+          item: output.sellDirect.items.map((item: any) => ({
+            $: {
+              article: item.article,
+              quantity: item.quantity,
+              price: item.price,
+              penalty: item.penalty
+            }
+          }))
+        },
+        orderlist: {
+          order: output.orderList.orders.map((order: any) => ({
+            $: {
+              article: order.article,
+              quantity: order.quantity,
+              modus: order.modus
+            }
+          }))
+        },
+        productionlist: {
+          production: output.productionList.productions.map((production: any) => ({
+            $: {
+              article: production.article,
+              quantity: production.quantity
+            }
+          }))
+        },
+        workingtimelist: {
+          workingtime: output.workingTimeList.workingTimes.map((workingTime: any) => ({
+            $: {
+              station: workingTime.station,
+              shift: workingTime.shift,
+              overtime: workingTime.overtime
+            }
+          }))
+        }
+      }
+    };
+  
+
+    const builder = new xml2js.Builder();
+    const xml = builder.buildObject(formattedOutput);
+
+    const blob = new Blob([xml], { type: 'application/xml' });
+
+    const link = document.createElement('a');
+    link.href = window.URL.createObjectURL(blob);
+    link.download = 'output.xml';
+
+    link.click();
+
+    window.URL.revokeObjectURL(link.href);
+
+    this.downloadBtnState = ClrLoadingState.SUCCESS;
   }
 }
 
