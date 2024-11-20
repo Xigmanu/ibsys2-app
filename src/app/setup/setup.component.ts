@@ -3,7 +3,7 @@ import { parseString } from 'xml2js';
 import { FormControl, FormGroup } from '@angular/forms';
 import { JsonPipe, CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ClarityModule } from '@clr/angular';
+import { ClarityModule, ClrLoadingState } from '@clr/angular';
 import { RouterOutlet, RouterModule } from '@angular/router';
 import { DataStructure, Input, WarehouseStock, InwardStockMovementOrder, FutureInwardStockMovementOrder, IdleTimeCost, WaitingListWorkstation, MissingPart, OrderInWork, CompletedOrder, CompletedOrderBatch, CycleTimeOrder } from '../data.service';
 import { DataService } from '../data.service';
@@ -24,6 +24,7 @@ import { DataService } from '../data.service';
   styleUrl: './setup.component.css'
 })
 export class SetupComponent {
+  uploadBtnState: ClrLoadingState = ClrLoadingState.DEFAULT;
   constructor(private dataService: DataService) {}
 
   protected readonly form = new FormGroup({
@@ -64,6 +65,7 @@ export class SetupComponent {
 
   //Mapping work.
   mapXmlData(jsonData: any): void {
+    this.uploadBtnState = ClrLoadingState.LOADING;
     var dataSet: DataStructure = this.dataService.getData();
     this.mappingError = false;
     this.mappingSuccess = false;
@@ -210,9 +212,11 @@ export class SetupComponent {
     }
     catch (error) {
       this.mappingError = true;
+      this.uploadBtnState = ClrLoadingState.ERROR;
       return;
     }
 
     this.mappingSuccess = true;
+    this.uploadBtnState = ClrLoadingState.SUCCESS;
   }
 }

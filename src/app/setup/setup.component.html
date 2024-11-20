@@ -12,10 +12,10 @@
     </clr-file-input-container>
   </form>
   <div *ngIf="jsonData;else disabledUpload">
-    <button  class="btn btn-primary" (click)="mapXmlData(jsonData)">Load Data</button>
+    <button  class="btn btn-info-outline" [clrLoading]="uploadBtnState" (click)="mapXmlData(jsonData)">Load Data</button>
   </div>
   <ng-template #disabledUpload>
-    <button class="btn btn-primary" disabled>Load Data</button>
+    <button class="btn btn-info-outline" disabled>Load Data</button>
   </ng-template>
   <clr-alert *ngIf="mappingError" [clrAlertType]="'danger'">
     <clr-alert-item>
