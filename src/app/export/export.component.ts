@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ClarityModule, ClrLoadingState } from '@clr/angular';
 import { ClarityIcons, downloadIcon } from '@cds/core/icon';
-import { DataService, Output, SellWishItem, SellDirectItem, Production, Order, WorkingTime } from '../data.service';
+import { DataService, SellWishItem, SellDirectItem, Production, Order, WorkingTime } from '../data.service';
 import { CommonModule } from '@angular/common';
 import * as xml2js from 'xml2js';
 
