@@ -1,5 +1,19 @@
 <div>TEST</div>
 <form [formGroup]="dispoForm">
+  <table class = "table table-border">
+    <thead class = "text-nowrap">
+    <tr>
+      <th>Periode n</th>
+      <th>Periode n+1</th>
+      <th>Periode n+2</th>
+      <th>Periode n+3</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td></td>
+    </tbody>
+  </table>
   <table class="table table-border">
     <thead class="text-nowrap">
     <tr>
@@ -35,25 +49,6 @@
         </select>
       </td>
     </tr>
-    <!--   <tr *ngFor="let control of controlForms">
-         <td *ngFor="let control of controlForms" class="center-align">
-           {{ formGroup.get(control.formControlName)?.value }}
-           {{ control.formControl.value }}
-           &lt;!&ndash;    <clr-input-container *ngIf="control.formControlName !== KauftelidispoArt.BESTELLTYP">
-                 <input clrInput
-                        [type]="control.type"
-                        [formControlName]="control.formControlName"
-                        [placeholder]="control.formControl.value"
-                 />
-               </clr-input-container>&ndash;&gt;
-           <clr-select-container *ngIf="control.formControlName === KauftelidispoArt.BESTELLTYP">
-             <select clrSelect [formControlName]="control.formControlName">
-               <option value="N">N</option>
-               <option value="E">E</option>
-             </select>
-           </clr-select-container>
-         </td>
-       </tr>-->
     </tbody>
   </table>
 </form>

@@ -1,5 +1,6 @@
 import {AbstractControl, FormControl, FormGroup} from '@angular/forms';
 import {Component, OnInit, Input} from '@angular/core';
+import {DataService} from '../data.service';
 
 export interface KaufteilDispoControlFormDefinition {
   label: string;
@@ -147,4 +148,31 @@ export function mapJsonToFormControls(jsonData: any): any {
     }
   }
   return mappedData;
+}
+
+export function mapServiceDataToFormControls(dataService: DataService): any {
+  const serviceData = dataService.getData();
+  const mappedServiceData: any = {};
+console.log(serviceData.input.inwardStockMovement.values());
+  if (serviceData && serviceData.output && serviceData.output.orderList && serviceData.output.orderList.orders) {
+    serviceData.output.orderList.orders.forEach((order: any) => {
+      if (order.Typ === 'K') {
+        mappedServiceData[order.id] = {
+          [KauftelidispoArt.KAUFTEIL]: order.Nr,
+          [KauftelidispoArt.FRIST]: order.Lieferzeit,
+          [KauftelidispoArt.ABWEICHUNG]: order.Lieferzeitabweichung,
+          [KauftelidispoArt.DISKONTMENGE]: null,
+          [KauftelidispoArt.VERBRAUCH]: null,
+          [KauftelidispoArt.BESTAND_AKTUELL]: null,
+          [KauftelidispoArt.LIEFERUNG]: null,
+          [KauftelidispoArt.LIEFERZEIT]: order.Lieferzeit,
+          [KauftelidispoArt.BENOETIGTE_MENGE]: null,
+          [KauftelidispoArt.BESTELLMENGE]: null,
+          [KauftelidispoArt.BESTELLTYP]: null
+        };
+      }
+    });
+  }
+
+  return mappedServiceData;
 }

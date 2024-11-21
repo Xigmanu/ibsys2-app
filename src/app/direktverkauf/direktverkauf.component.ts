@@ -12,8 +12,9 @@ import { CommonModule } from '@angular/common';
 })
 export class DirektverkaufComponent implements OnInit {
   tableForm: FormGroup;
-  
-  constructor(private fb: FormBuilder, private cdr: ChangeDetectorRef,) {
+  sellWishItems: any;
+
+  constructor(private fb: FormBuilder, private cdr: ChangeDetectorRef) {
     this.tableForm = this.fb.group({
       rows: this.fb.array([]),
       vertriebswunschP1: [''],
@@ -49,7 +50,7 @@ export class DirektverkaufComponent implements OnInit {
   }
 
   saveData() {
-    const sellWishItems = [
+    this.sellWishItems = [
       { article: 1, quantity: +this.tableForm.value.vertriebswunschP1 },
       { article: 2, quantity: +this.tableForm.value.vertriebswunschP2 },
       { article: 3, quantity: +this.tableForm.value.vertriebswunschP3 }
@@ -62,6 +63,6 @@ export class DirektverkaufComponent implements OnInit {
       penalty: +row.get('konventionalStrafe')?.value
     }));
 
-    console.log('Daten gespeichert:', sellWishItems, sellDirectItems);
+    console.log('Daten gespeichert:', this.sellWishItems, sellDirectItems);
   }
 }
