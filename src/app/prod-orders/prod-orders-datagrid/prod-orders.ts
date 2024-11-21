@@ -9,3 +9,8 @@ export interface ProdOrdersGridRow {
     orders_in_process: number,
     orders_prod: number,
 }
+
+export interface SafetyStock {
+    article_id: string
+    stock: number
+}

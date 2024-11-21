@@ -7,10 +7,10 @@
     <clr-dg-column [clrDgField]="'orders_in_process'">Orders In Process</clr-dg-column>
     <clr-dg-column [clrDgField]="'orders_prod'">Production Orders</clr-dg-column>
     
-    <clr-dg-row *clrDgItems="let row of rows">
+    <clr-dg-row *clrDgItems="let row of rows; let index = index">
         <clr-dg-cell>{{ row.article_ref_id }}</clr-dg-cell>
         <clr-dg-cell>{{ row.sales_req }}</clr-dg-cell>
-        <clr-dg-cell>{{ row.stock_safety }}</clr-dg-cell>
+        <clr-dg-cell><input clrInput [(ngModel)]="rows[index].stock_safety"/></clr-dg-cell>
         <clr-dg-cell>{{ row.stock_prev }}</clr-dg-cell>
         <clr-dg-cell>{{ row.orders_queued }}</clr-dg-cell>
         <clr-dg-cell>{{ row.orders_in_process }}</clr-dg-cell>

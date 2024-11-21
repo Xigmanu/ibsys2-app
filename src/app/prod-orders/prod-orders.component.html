@@ -19,7 +19,7 @@
       <button clrTabLink>P3</button>
       <clr-tab-content *clrIfActive>
         <p cds-text="body" cds-layout="m-t:md">
-          <po-datagrid [rows]="rows_p3"></po-datagrid>
+          <po-datagrid [rows]="rows_p3" (safety_stock)=""></po-datagrid>
         </p>
       </clr-tab-content>
     </clr-tab>
