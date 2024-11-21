@@ -7,6 +7,7 @@ import { ClarityModule, ClrLoadingState } from '@clr/angular';
 import { RouterOutlet, RouterModule } from '@angular/router';
 import { DataStructure, Input, WarehouseStock, InwardStockMovementOrder, FutureInwardStockMovementOrder, IdleTimeCost, WaitingListWorkstation, MissingPart, OrderInWork, CompletedOrder, CompletedOrderBatch, CycleTimeOrder } from '../data.service';
 import { DataService } from '../data.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-setup',
@@ -19,6 +20,7 @@ import { DataService } from '../data.service';
     ClarityModule,
     RouterModule,
     RouterOutlet,
+    TranslateModule
   ],
   templateUrl: './setup.component.html',
   styleUrl: './setup.component.css'

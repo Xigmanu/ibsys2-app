@@ -3,7 +3,17 @@
 
   },
   "setup": {
-
+    "title": "Einrichtung",
+    "description": "Wählen Sie eine XML-Datei aus, die die Daten Ihrer vorherigen Geschäftsperiode enthält. Sie wird mit \"result\" enden. Z. B.: \"179_7_result.xml\"",
+    "selectXmlButton": "XML auswählen",
+    "selectXmlButton_loadtip": "Laden Sie eine XML-Datei.",
+    "selectXmlButton_success": "XML-Datei erfolgreich geladen!",
+    "selectXmlButton_error": "Die Datei muss vom Typ .xml sein!",
+    "loadDataButton": "Daten laden",
+    "xmlAlertDanger": "Die XML-Datei konnte nicht geladen werden. Bitte stellen Sie sicher, dass ihr Name \"...result.xml\" lautet und die erforderlichen Daten enthält.",
+    "xmlAlertSuccess": "Die XML-Datei wurde erfolgreich in das System geladen.",
+    "inspectData": "Daten überprüfen",
+    "xmlData": "XML-Daten"
   },
   "homepage": {
     "title": "Willkommen bei Sisyphus",
