@@ -1,0 +1,13 @@
+{
+  "global": {
+
+  },
+  "setup": {
+
+  },
+  "homepage": {
+    "title": "Willkommen bei Sisyphus",
+    "description": "Professionelle Produktionsmanagement-Software von G8-Softworks.",
+    "getStarted": "Loslegen"
+  }
+}

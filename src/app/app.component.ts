@@ -7,7 +7,7 @@ import '@cds/core/icon/register.js';
 import { ClarityIcons, factoryIcon, languageIcon, installIcon, exportIcon } from '@cds/core/icon';
 import { DataService } from './data.service';
 import { DataStructure } from './data.service';
-import { sample } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -20,7 +20,7 @@ import { sample } from 'rxjs';
     CommonModule,
     ReactiveFormsModule,
     ClrVerticalNavModule,
-    RouterModule,
+    RouterModule
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
@@ -28,14 +28,36 @@ import { sample } from 'rxjs';
 export class AppComponent {
   title = 'ibsys2';
 
+  retrievedData: DataStructure | null = null;
+
+  languages = [
+    { code: 'en', name: 'English' },
+    { code: 'de', name: 'Deutsch' } // Add more languages as needed
+  ];
+  currentLang = 'en'; // Default language
+
   protected readonly form = new FormGroup({
     files: new FormControl<FileList | null>(null),
   });
 
-  //This won't be pretty...
+  constructor(private dataService: DataService, private translate: TranslateService) { 
+      // Check localStorage for the last selected language
+      const savedLang = localStorage.getItem('language');
+      this.currentLang = savedLang ? savedLang : 'en';
+  
+      // Set the default language
+      this.translate.setDefaultLang(this.currentLang);
+      this.translate.use(this.currentLang);
+    }
+  
+    onLanguageChange(lang: string): void {
+      this.currentLang = lang;
+      this.translate.use(lang);
+  
+      // Persist the selected language
+      localStorage.setItem('language', lang);    
+  }
 
-  retrievedData: DataStructure | null = null;
-  constructor(private dataService: DataService) {}
   onGetDebugData(): void {
     this.retrievedData = this.dataService.getData();
     console.log(this.retrievedData);
