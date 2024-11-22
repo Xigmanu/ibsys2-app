@@ -75,6 +75,10 @@ export class SetupComponent {
     });
   }
 
+  toFixedNumber(value: number, decimals: number) {
+    return Number(Number(value).toFixed(decimals));
+  }
+
   //Mapping work.
   mapXmlData(jsonData: any): void {
     this.uploadBtnState = ClrLoadingState.LOADING;
@@ -216,41 +220,291 @@ export class SetupComponent {
         },
         result: {
           general: {
-            capacity: jsonData.results.result.general.capacity.$,
-            possibleCapacity:
-              jsonData.results.result.general.possiblecapacity.$,
-            relPossibleNormalCapacity:
-              jsonData.results.result.general.relpossiblenormalcapacity.$,
-            productiveTime: jsonData.results.result.general.productivetime.$,
-            efficiency: jsonData.results.result.general.effiency.$, //Why does this have a typo???!!!
-            sellwish: jsonData.results.result.general.sellwish.$,
-            salesQuantity: jsonData.results.result.general.salesquantity.$,
-            deliveryReliability:
-              jsonData.results.result.general.deliveryreliability.$,
-            idleTime: jsonData.results.result.general.idletime.$,
-            idleTimeCosts: jsonData.results.result.general.idletimecosts.$,
-            storeValue: jsonData.results.result.general.storevalue.$,
-            storageCosts: jsonData.results.result.general.storagecosts.$,
+            capacity: {
+              current: Number(
+                jsonData.results.result.general.capacity.$.current
+              ),
+              average: Number(
+                jsonData.results.result.general.capacity.$.average
+              ),
+              all: Number(jsonData.results.result.general.capacity.$.all),
+            },
+            possibleCapacity: {
+              current: Number(
+                jsonData.results.result.general.possiblecapacity.$.current
+              ),
+              average: Number(
+                jsonData.results.result.general.possiblecapacity.$.average
+              ),
+              all: Number(
+                jsonData.results.result.general.possiblecapacity.$.all
+              ),
+            },
+            relPossibleNormalCapacity: {
+              current: this.toFixedNumber(
+                Number(
+                  jsonData.results.result.general.relpossiblenormalcapacity.$.current.replace(
+                    '%',
+                    ''
+                  )
+                ) / 100,
+                4
+              ),
+              average: this.toFixedNumber(
+                Number(
+                  jsonData.results.result.general.relpossiblenormalcapacity.$.average.replace(
+                    '%',
+                    ''
+                  )
+                ) / 100,
+                4
+              ),
+              all:
+                jsonData.results.result.general.relpossiblenormalcapacity.$
+                  .all === '-'
+                  ? 0
+                  : this.toFixedNumber(
+                      Number(
+                        jsonData.results.result.general.relpossiblenormalcapacity.$.all.replace(
+                          '%',
+                          ''
+                        )
+                      ) / 100,
+                      4
+                    ),
+            },
+
+            productiveTime: {
+              current: Number(
+                jsonData.results.result.general.productivetime.$.current
+              ),
+              average: Number(
+                jsonData.results.result.general.productivetime.$.average
+              ),
+              all: Number(jsonData.results.result.general.productivetime.$.all),
+            },
+            efficiency: {
+              current: this.toFixedNumber(
+                Number(
+                  jsonData.results.result.general.effiency.$.current.replace(
+                    '%',
+                    ''
+                  )
+                ) / 100,
+                4
+              ),
+              average: this.toFixedNumber(
+                Number(
+                  jsonData.results.result.general.effiency.$.average.replace(
+                    '%',
+                    ''
+                  )
+                ) / 100,
+                4
+              ),
+              all:
+                jsonData.results.result.general.effiency.$.all === '-'
+                  ? 0
+                  : this.toFixedNumber(
+                      Number(
+                        jsonData.results.result.general.effiency.$.all.replace(
+                          '%',
+                          ''
+                        )
+                      ) / 100,
+                      4
+                    ),
+            },
+            sellwish: {
+              current: Number(
+                jsonData.results.result.general.sellwish.$.current
+              ),
+              average: Number(
+                jsonData.results.result.general.sellwish.$.average
+              ),
+              all: Number(jsonData.results.result.general.sellwish.$.all),
+            },
+            salesQuantity: {
+              current: Number(
+                jsonData.results.result.general.salesquantity.$.current
+              ),
+              average: Number(
+                jsonData.results.result.general.salesquantity.$.average
+              ),
+              all: Number(jsonData.results.result.general.salesquantity.$.all),
+            },
+            deliveryReliability: {
+              current: this.toFixedNumber(
+                Number(
+                  jsonData.results.result.general.deliveryreliability.$.current.replace(
+                    '%',
+                    ''
+                  )
+                ) / 100,
+                4
+              ),
+              average: this.toFixedNumber(
+                Number(
+                  jsonData.results.result.general.deliveryreliability.$.average.replace(
+                    '%',
+                    ''
+                  )
+                ) / 100,
+                4
+              ),
+              all:
+                jsonData.results.result.general.deliveryreliability.$.all ===
+                '-'
+                  ? 0
+                  : this.toFixedNumber(
+                      Number(
+                        jsonData.results.result.general.deliveryreliability.$.all.replace(
+                          '%',
+                          ''
+                        )
+                      ) / 100,
+                      4
+                    ),
+            },
+
+            idleTime: {
+              current: Number(
+                jsonData.results.result.general.idletime.$.current
+              ),
+              average: Number(
+                jsonData.results.result.general.idletime.$.average
+              ),
+              all: Number(jsonData.results.result.general.idletime.$.all),
+            },
+            idleTimeCosts: {
+              current: Number(
+                jsonData.results.result.general.idletimecosts.$.current
+              ),
+              average: Number(
+                jsonData.results.result.general.idletimecosts.$.average
+              ),
+              all: Number(jsonData.results.result.general.idletimecosts.$.all),
+            },
+            storeValue: {
+              current: Number(
+                jsonData.results.result.general.storevalue.$.current
+              ),
+              average: Number(
+                jsonData.results.result.general.storevalue.$.average
+              ),
+              all:
+                jsonData.results.result.general.storevalue.$.all === '-'
+                  ? 0
+                  : Number(jsonData.results.result.general.storevalue.$.all),
+            },
+            storageCosts: {
+              current: Number(
+                jsonData.results.result.general.storagecosts.$.current
+              ),
+              average: Number(
+                jsonData.results.result.general.storagecosts.$.average
+              ),
+              all: Number(jsonData.results.result.general.storagecosts.$.all),
+            },
           },
           defectiveGoods: {
-            quantity: jsonData.results.result.defectivegoods.quantity.$,
-            costs: jsonData.results.result.defectivegoods.costs.$,
+            quantity: {
+              current: Number(
+                jsonData.results.result.defectivegoods.quantity.$.current
+              ),
+              average: Number(
+                jsonData.results.result.defectivegoods.quantity.$.average
+              ),
+              all: Number(
+                jsonData.results.result.defectivegoods.quantity.$.all
+              ),
+            },
+            costs: {
+              current: Number(
+                jsonData.results.result.defectivegoods.costs.$.current
+              ),
+              average: Number(
+                jsonData.results.result.defectivegoods.costs.$.average
+              ),
+              all: Number(jsonData.results.result.defectivegoods.costs.$.all),
+            },
           },
           normalSale: {
-            salesPrice: jsonData.results.result.normalsale.salesprice.$,
-            profit: jsonData.results.result.normalsale.profit.$,
-            profitPerUnit: jsonData.results.result.normalsale.profitperunit.$,
+            salesPrice: {
+              current: Number(
+                jsonData.results.result.normalsale.salesprice.$.current
+              ),
+              average: Number(
+                jsonData.results.result.normalsale.salesprice.$.average
+              ),
+              all:
+                jsonData.results.result.normalsale.salesprice.$.all === '-'
+                  ? 0
+                  : Number(jsonData.results.result.normalsale.salesprice.$.all),
+            },
+            profit: {
+              current: Number(
+                jsonData.results.result.normalsale.profit.$.current
+              ),
+              average: Number(
+                jsonData.results.result.normalsale.profit.$.average
+              ),
+              all: Number(jsonData.results.result.normalsale.profit.$.all),
+            },
+            profitPerUnit: {
+              current: Number(
+                jsonData.results.result.normalsale.profitperunit.$.current
+              ),
+              average: Number(
+                jsonData.results.result.normalsale.profitperunit.$.average
+              ),
+              all:
+                jsonData.results.result.normalsale.profitperunit.$.all === '-'
+                  ? 0
+                  : Number(
+                      jsonData.results.result.normalsale.profitperunit.$.all
+                    ),
+            },
           },
           directSale: {
-            profit: jsonData.results.result.directsale.profit.$,
-            contractPenalty:
-              jsonData.results.result.directsale.contractpenalty.$,
+            profit: {
+              current: Number(
+                jsonData.results.result.directsale.profit.$.current
+              ),
+              average: Number(
+                jsonData.results.result.directsale.profit.$.average
+              ),
+              all: Number(jsonData.results.result.directsale.profit.$.all),
+            },
+            contractPenalty: {
+              current: Number(
+                jsonData.results.result.directsale.contractpenalty.$.current
+              ),
+              average: Number(
+                jsonData.results.result.directsale.contractpenalty.$.average
+              ),
+              all: Number(
+                jsonData.results.result.directsale.contractpenalty.$.all
+              ),
+            },
           },
           marketplaceSale: {
-            profit: jsonData.results.result.marketplacesale.profit.$,
+            profit: {
+              current: Number(
+                jsonData.results.result.marketplacesale.profit.$.current
+              ),
+              average: Number(
+                jsonData.results.result.marketplacesale.profit.$.average
+              ),
+              all: Number(jsonData.results.result.marketplacesale.profit.$.all),
+            },
           },
           summary: {
-            profit: jsonData.results.result.summary.profit.$,
+            profit: {
+              current: Number(jsonData.results.result.summary.profit.$.current),
+              average: Number(jsonData.results.result.summary.profit.$.average),
+              all: Number(jsonData.results.result.summary.profit.$.all),
+            },
           },
         },
       };
