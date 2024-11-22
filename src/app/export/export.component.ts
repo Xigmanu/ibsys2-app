@@ -1,22 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 import { ClarityModule, ClrLoadingState } from '@clr/angular';
 import { ClarityIcons, downloadIcon } from '@cds/core/icon';
-import { DataService, SellWishItem, SellDirectItem, Production, Order, WorkingTime } from '../data.service';
+import {
+  DataService,
+  SellWishItem,
+  SellDirectItem,
+  Production,
+  Order,
+  WorkingTime,
+} from '../data.service';
 import { CommonModule } from '@angular/common';
 import * as xml2js from 'xml2js';
 import { TranslateModule } from '@ngx-translate/core';
 
-
 @Component({
   selector: 'app-export',
   standalone: true,
-  imports: [
-    ClarityModule,
-    CommonModule,
-    TranslateModule
-  ],
+  imports: [ClarityModule, CommonModule, TranslateModule],
   templateUrl: './export.component.html',
-  styleUrl: './export.component.scss'
+  styleUrl: './export.component.scss',
 })
 export class ExportComponent implements OnInit {
   downloadBtnState: ClrLoadingState = ClrLoadingState.DEFAULT;
@@ -38,7 +40,7 @@ export class ExportComponent implements OnInit {
       this.productionListItems = data.output.productionList.productions;
       this.workingTimeListItems = data.output.workingTimeList.workingTimes;
     } else {
-      console.error("Data is null or not available.");
+      console.error('Data is null or not available.');
     }
   }
 
@@ -59,16 +61,16 @@ export class ExportComponent implements OnInit {
           $: {
             type: output.qualityControl.type,
             losequantity: output.qualityControl.loseQuantity,
-            delay: output.qualityControl.delay
-          }
+            delay: output.qualityControl.delay,
+          },
         },
         sellwish: {
           item: output.sellWish.items.map((item: any) => ({
             $: {
               article: item.article,
-              quantity: item.quantity
-            }
-          }))
+              quantity: item.quantity,
+            },
+          })),
         },
         selldirect: {
           item: output.sellDirect.items.map((item: any) => ({
@@ -76,39 +78,42 @@ export class ExportComponent implements OnInit {
               article: item.article,
               quantity: item.quantity,
               price: item.price,
-              penalty: item.penalty
-            }
-          }))
+              penalty: item.penalty,
+            },
+          })),
         },
         orderlist: {
           order: output.orderList.orders.map((order: any) => ({
             $: {
               article: order.article,
               quantity: order.quantity,
-              modus: order.modus
-            }
-          }))
+              modus: order.modus,
+            },
+          })),
         },
         productionlist: {
-          production: output.productionList.productions.map((production: any) => ({
-            $: {
-              article: production.article,
-              quantity: production.quantity
-            }
-          }))
+          production: output.productionList.productions.map(
+            (production: any) => ({
+              $: {
+                article: production.article,
+                quantity: production.quantity,
+              },
+            })
+          ),
         },
         workingtimelist: {
-          workingtime: output.workingTimeList.workingTimes.map((workingTime: any) => ({
-            $: {
-              station: workingTime.station,
-              shift: workingTime.shift,
-              overtime: workingTime.overtime
-            }
-          }))
-        }
-      }
+          workingtime: output.workingTimeList.workingTimes.map(
+            (workingTime: any) => ({
+              $: {
+                station: workingTime.station,
+                shift: workingTime.shift,
+                overtime: workingTime.overtime,
+              },
+            })
+          ),
+        },
+      },
     };
-  
 
     const builder = new xml2js.Builder();
     const xml = builder.buildObject(formattedOutput);
@@ -126,6 +131,5 @@ export class ExportComponent implements OnInit {
     this.downloadBtnState = ClrLoadingState.SUCCESS;
   }
 }
-
 
 ClarityIcons.addIcons(downloadIcon);

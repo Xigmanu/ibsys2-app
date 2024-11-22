@@ -1,125 +1,131 @@
-<h2>{{ 'export.title' | translate }}</h2>
-<p>{{ 'export.description' | translate }}</p>
-<br>
+<h2>{{ "export.title" | translate }}</h2>
+<p>{{ "export.description" | translate }}</p>
+<br />
 <h3>
-  {{ 'export.titleViewDecisions' | translate }}
-    <clr-tooltip>
-        <cds-icon clrTooltipTrigger shape="info-circle" size="24"></cds-icon>
-        <clr-tooltip-content [clrPosition]="'top-right'" [clrSize]="'sm'">
-          {{ 'export.tooltipViewDecisions' | translate }}
-        </clr-tooltip-content>
-        </clr-tooltip>    
+  {{ "export.titleViewDecisions" | translate }}
+  <clr-tooltip>
+    <cds-icon clrTooltipTrigger shape="info-circle" size="24"></cds-icon>
+    <clr-tooltip-content [clrPosition]="'top-right'" [clrSize]="'sm'">
+      {{ "export.tooltipViewDecisions" | translate }}
+    </clr-tooltip-content>
+  </clr-tooltip>
 </h3>
 <clr-tabs>
-    <clr-tab>
-      <button clrTabLink>{{ 'export.sellWish' | translate }}</button>
-      <clr-tab-content *clrIfActive>
-        <table class="table">
-            <thead>
-              <tr>
-                <th>{{ 'export.article' | translate }}</th>
-                <th>{{ 'export.quantity' | translate }}</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let item of sellWishItems">
-                <td>{{ item.article }}</td>
-                <td>{{ item.quantity }}</td>
-            </tbody>
-          </table>
-      </clr-tab-content>
-    </clr-tab>
-    <clr-tab>
-      <button clrTabLink>{{ 'export.directSell' | translate }}</button>
-      <clr-tab-content *clrIfActive>
-        <table class="table">
-          <thead>
-            <tr>
-              <th>{{ 'export.article' | translate }}</th>
-              <th>{{ 'export.quantity' | translate }}</th>
-              <th>{{ 'export.price' | translate }}</th>
-              <th>{{ 'export.penalty' | translate }}</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let item of sellDirectItems">
-              <td>{{ item.article }}</td>
-              <td>{{ item.quantity }}</td>
-              <td>{{ item.price }}</td>
-              <td>{{ item.penalty }}</td>
-          </tbody>
-        </table>
-      </clr-tab-content>
-    </clr-tab>
-    <clr-tab>
-      <button clrTabLink>{{ 'export.orderList' | translate }}</button>
-      <clr-tab-content *clrIfActive>
-        <table class="table">
-          <thead>
-            <tr>
-              <th>{{ 'export.article' | translate }}</th>
-              <th>{{ 'export.quantity' | translate }}</th>
-              <th>{{ 'export.mode' | translate }}</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let item of orderListItems">
-              <td>{{ item.article }}</td>
-              <td>{{ item.quantity }}</td>
-              <td>{{ item.modus }}</td>
-          </tbody>
-        </table>
-      </clr-tab-content>
-    </clr-tab>
-    <clr-tab>
-        <button clrTabLink>{{ 'export.productionList' | translate }}</button>
-        <clr-tab-content *clrIfActive>
-          <table class="table">
-            <thead>
-              <tr>
-                <th>{{ 'export.article' | translate }}</th>
-                <th>{{ 'export.quantity' | translate }}</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let item of productionListItems">
-                <td>{{ item.article }}</td>
-                <td>{{ item.quantity }}</td>
-            </tbody>
-          </table>
-        </clr-tab-content>
-    </clr-tab>
-    <clr-tab>
-        <button clrTabLink>{{ 'export.workingTimeList' | translate }}</button>
-        <clr-tab-content *clrIfActive>
-          <table class="table">
-            <thead>
-              <tr>
-                <th>{{ 'export.station' | translate }}</th>
-                <th>{{ 'export.shift' | translate }}</th>
-                <th>{{ 'export.overtime' | translate }}</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let item of workingTimeListItems">
-                <td>{{ item.station }}</td>
-                <td>{{ item.shift }}</td>
-                <td>{{ item.overtime }}</td>
-            </tbody>
-          </table>
-        </clr-tab-content>
-    </clr-tab>
+  <clr-tab>
+    <button clrTabLink>{{ "export.sellWish" | translate }}</button>
+    <clr-tab-content *clrIfActive>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>{{ "export.article" | translate }}</th>
+            <th>{{ "export.quantity" | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of sellWishItems">
+            <td>{{ item.article }}</td>
+            <td>{{ item.quantity }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </clr-tab-content>
+  </clr-tab>
+  <clr-tab>
+    <button clrTabLink>{{ "export.directSell" | translate }}</button>
+    <clr-tab-content *clrIfActive>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>{{ "export.article" | translate }}</th>
+            <th>{{ "export.quantity" | translate }}</th>
+            <th>{{ "export.price" | translate }}</th>
+            <th>{{ "export.penalty" | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of sellDirectItems">
+            <td>{{ item.article }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.price }}</td>
+            <td>{{ item.penalty }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </clr-tab-content>
+  </clr-tab>
+  <clr-tab>
+    <button clrTabLink>{{ "export.orderList" | translate }}</button>
+    <clr-tab-content *clrIfActive>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>{{ "export.article" | translate }}</th>
+            <th>{{ "export.quantity" | translate }}</th>
+            <th>{{ "export.mode" | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of orderListItems">
+            <td>{{ item.article }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.modus }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </clr-tab-content>
+  </clr-tab>
+  <clr-tab>
+    <button clrTabLink>{{ "export.productionList" | translate }}</button>
+    <clr-tab-content *clrIfActive>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>{{ "export.article" | translate }}</th>
+            <th>{{ "export.quantity" | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of productionListItems">
+            <td>{{ item.article }}</td>
+            <td>{{ item.quantity }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </clr-tab-content>
+  </clr-tab>
+  <clr-tab>
+    <button clrTabLink>{{ "export.workingTimeList" | translate }}</button>
+    <clr-tab-content *clrIfActive>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>{{ "export.station" | translate }}</th>
+            <th>{{ "export.shift" | translate }}</th>
+            <th>{{ "export.overtime" | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of workingTimeListItems">
+            <td>{{ item.station }}</td>
+            <td>{{ item.shift }}</td>
+            <td>{{ item.overtime }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </clr-tab-content>
+  </clr-tab>
 </clr-tabs>
-<br>
-<hr>
-<h3>{{ 'export.titleViewKPI' | translate }}</h3>
-<p>{{ 'export.descriptionViewKPI' | translate }}</p>
-<h3>{{ 'export.titleDownloadData' | translate }}</h3>
-<p>{{ 'export.descriptionDownloadData' | translate }}</p>
-<button 
-  class="btn btn-info-outline" 
+<br />
+<hr />
+<h3>{{ "export.titleViewKPI" | translate }}</h3>
+<p>{{ "export.descriptionViewKPI" | translate }}</p>
+<h3>{{ "export.titleDownloadData" | translate }}</h3>
+<p>{{ "export.descriptionDownloadData" | translate }}</p>
+<button
+  class="btn btn-info-outline"
   (click)="downloadOutputAsXML()"
-  [clrLoading]="downloadBtnState">
-    <cds-icon shape="download"></cds-icon>
-    {{ 'export.buttonExportData' | translate }}
+  [clrLoading]="downloadBtnState"
+>
+  <cds-icon shape="download"></cds-icon>
+  {{ "export.buttonExportData" | translate }}
 </button>

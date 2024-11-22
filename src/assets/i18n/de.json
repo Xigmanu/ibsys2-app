@@ -1,7 +1,5 @@
 {
-  "global": {
-
-  },
+  "global": {},
   "setup": {
     "title": "Einrichtung",
     "description": "Wählen Sie eine XML-Datei aus, die die Daten Ihrer vorherigen Geschäftsperiode enthält. Sie wird mit \"result\" enden. Z. B.: \"179_7_result.xml\"",

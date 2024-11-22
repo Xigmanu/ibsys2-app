@@ -1,40 +1,63 @@
 <div>
-  <h2>{{ 'setup.title' | translate }}</h2>
-  <p>{{ 'setup.description' | translate }}</p>
+  <h2>{{ "setup.title" | translate }}</h2>
+  <p>{{ "setup.description" | translate }}</p>
 
   <form clrForm clrLayout="vertical" [formGroup]="form">
     <clr-file-input-container>
-      <label>{{ 'setup.selectXmlButton' | translate }}</label>
-      <input type="file" (change)="onFileSelected($event)" formControlName="files" accept=".xml" required clrFileInput />
-      <clr-control-helper>{{ 'setup.selectXmlButton_loadtip' | translate }}</clr-control-helper>
-      <clr-control-success>{{ 'setup.selectXmlButton_success' | translate }}</clr-control-success>
-      <clr-control-error>{{ 'setup.selectXmlButton_error' | translate }}</clr-control-error>
+      <label>{{ "setup.selectXmlButton" | translate }}</label>
+      <input
+        type="file"
+        (change)="onFileSelected($event)"
+        formControlName="files"
+        accept=".xml"
+        required
+        clrFileInput
+      />
+      <clr-control-helper>{{
+        "setup.selectXmlButton_loadtip" | translate
+      }}</clr-control-helper>
+      <clr-control-success>{{
+        "setup.selectXmlButton_success" | translate
+      }}</clr-control-success>
+      <clr-control-error>{{
+        "setup.selectXmlButton_error" | translate
+      }}</clr-control-error>
     </clr-file-input-container>
   </form>
-  <div *ngIf="jsonData;else disabledUpload">
-    <button  class="btn btn-info-outline" [clrLoading]="uploadBtnState" (click)="mapXmlData(jsonData)">{{ 'setup.loadDataButton' | translate }}</button>
+  <div *ngIf="jsonData; else disabledUpload">
+    <button
+      class="btn btn-info-outline"
+      [clrLoading]="uploadBtnState"
+      (click)="mapXmlData(jsonData)"
+    >
+      {{ "setup.loadDataButton" | translate }}
+    </button>
   </div>
   <ng-template #disabledUpload>
-    <button class="btn btn-info-outline" disabled>{{ 'setup.loadDataButton' | translate }}</button>
+    <button class="btn btn-info-outline" disabled>
+      {{ "setup.loadDataButton" | translate }}
+    </button>
   </ng-template>
   <clr-alert *ngIf="mappingError" [clrAlertType]="'danger'">
     <clr-alert-item>
-      <span class="alert-text">{{ 'setup.xmlAlertDanger' | translate }}</span>
+      <span class="alert-text">{{ "setup.xmlAlertDanger" | translate }}</span>
     </clr-alert-item>
   </clr-alert>
   <clr-alert *ngIf="mappingSuccess" [clrAlertType]="'success'">
     <clr-alert-item>
-      <span class="alert-text">{{ 'setup.xmlAlertSuccess' | translate }}</span>
+      <span class="alert-text">{{ "setup.xmlAlertSuccess" | translate }}</span>
     </clr-alert-item>
   </clr-alert>
 </div>
 
 <div *ngIf="mappingSuccess">
-  <h2>{{ 'setup.inspectData' | translate }}</h2>
+  <h2>{{ "setup.inspectData" | translate }}</h2>
 
   <clr-accordion>
     <clr-accordion-panel>
-      <clr-accordion-title>{{ 'setup.xmlData' | translate }}</clr-accordion-title>
+      <clr-accordion-title>{{
+        "setup.xmlData" | translate
+      }}</clr-accordion-title>
       <clr-accordion-content *clrIfExpanded>
         <pre>{{ loadedData | json }}</pre>
       </clr-accordion-content>

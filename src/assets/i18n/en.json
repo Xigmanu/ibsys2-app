@@ -1,7 +1,5 @@
 {
-  "global": {
-
-  },
+  "global": {},
   "setup": {
     "title": "Setup",
     "description": "Select an XML file containing the data of your previous business period. It will be suffixed with result. E.g.: \"179_7_result.xml\"",
@@ -45,4 +43,3 @@
     "getStarted": "Get Started"
   }
 }
-  
