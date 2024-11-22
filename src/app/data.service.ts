@@ -326,6 +326,21 @@ export interface DataStructure {
   output: Output;
 }
 
+export interface TempDataStructure {
+  disposition: Disposition;
+}
+
+export interface Disposition {
+  p1: DispoItem[];
+  p2: DispoItem[];
+  p3: DispoItem[];
+}
+
+export interface DispoItem {
+  articleId: string;
+  safetyStock: number;
+}
+
 /////////////////////////////////////////////////////////////////////////
 //
 // INTERFACES END
@@ -409,5 +424,43 @@ export class DataService {
       this.data = response;
       console.log('Sample data loaded.');
     });
+  }
+
+  private tempData: TempDataStructure = {
+    disposition: {
+      p1: [],
+      p2: [],
+      p3: [],
+    },
+  };
+
+  setDisposition(data: Disposition): void {
+    this.tempData.disposition = data;
+  }
+
+  getDisposition(): Disposition {
+    return this.tempData.disposition;
+  }
+
+  getDispoStock(production: keyof Disposition, article: string): DispoItem {
+    const list = this.tempData.disposition[production];
+
+    for (const entry of list) {
+      if (entry.articleId === article) {
+        return entry;
+      }
+    }
+
+    return {
+      articleId: 'ERROR',
+      safetyStock: 0,
+    };
+  }
+
+  getDispoAllStock(
+    production: keyof Disposition,
+    article: string
+  ): DispoItem[] {
+    return this.tempData.disposition[production];
   }
 }
