@@ -457,10 +457,7 @@ export class DataService {
     };
   }
 
-  getDispoAllStock(
-    production: keyof Disposition,
-    article: string
-  ): DispoItem[] {
+  getDispoAllStock(production: keyof Disposition): DispoItem[] {
     return this.tempData.disposition[production];
   }
 }
