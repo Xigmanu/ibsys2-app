@@ -10,17 +10,29 @@
       </a>
     </div>
     <div class="header-actions">
-      <button class="btn btn-warning-outline" (click)="onGetDebugData()">Output Data in Console</button>
-      <button class="btn btn-warning-outline" (click)="onSetSampleData()">Generate Sample</button>
+      <button class="btn btn-warning-outline" (click)="onGetDebugData()">
+        Output Data in Console
+      </button>
+      <button class="btn btn-warning-outline" (click)="onSetSampleData()">
+        Generate Sample
+      </button>
       <clr-dropdown>
-        <button class="nav-icon" clrDropdownTrigger aria-label="toggle settings menu">
+        <button
+          class="nav-icon"
+          clrDropdownTrigger
+          aria-label="toggle language menu"
+        >
           <cds-icon shape="language"></cds-icon>
           <cds-icon shape="angle" direction="down"></cds-icon>
         </button>
         <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
-          <a href="..." clrDropdownItem>English</a>
-          <a href="..." clrDropdownItem>Deutsch</a>
-          <a href="..." clrDropdownItem>Et cetera</a>
+          <button
+            *ngFor="let lang of languages"
+            clrDropdownItem
+            (click)="onLanguageChange(lang.code)"
+          >
+            {{ lang.name }}
+          </button>
         </clr-dropdown-menu>
       </clr-dropdown>
     </div>
@@ -32,41 +44,13 @@
         <cds-icon clrVerticalNavIcon shape="install"></cds-icon>
         Setup
       </a>
-      <a clrVerticalNavLink routerLink="./vertriebswunsch" routerLinkActive="active">
-        <cds-icon clrVerticalNavIcon shape="dollar-bill"></cds-icon>
-        Vertriebswunsch
-      </a>
-      <a clrVerticalNavLink routerLink="./dispo" routerLinkActive="active">
-        <cds-icon clrVerticalNavIcon shape="bolt"></cds-icon>
-        Dispo
+      <a clrVerticalNavLink routerLink="./export" routerLinkActive="active">
+        <cds-icon clrVerticalNavIcon shape="export"></cds-icon>
+        Export
       </a>
     </clr-vertical-nav>
     <div class="content-area">
       <router-outlet></router-outlet>
-      <!--
-
-      <button clrButton class="btn btn-primary">Clarity Test Button</button>
-      <label for="name">Enter Name:</label>
-      <input clrInput id="name" type="text" [(ngModel)]="title" placeholder="Your Name" />
-      <p>Hello, {{ title }}!</p>
-      <clr-accordion>
-          <clr-accordion-panel>
-            <clr-accordion-title>Item 1</clr-accordion-title>
-            <clr-accordion-content *clrIfExpanded>Content 1</clr-accordion-content>
-          </clr-accordion-panel>
-
-          <clr-accordion-panel>
-            <clr-accordion-title>Item 2</clr-accordion-title>
-            <clr-accordion-content *clrIfExpanded>Content 2</clr-accordion-content>
-          </clr-accordion-panel>
-
-          <clr-accordion-panel>
-            <clr-accordion-title>Item 3</clr-accordion-title>
-            <clr-accordion-content *clrIfExpanded>Content 3</clr-accordion-content>
-          </clr-accordion-panel>
-      </clr-accordion>
-      <router-outlet></router-outlet>
-      -->
     </div>
   </div>
 </div>

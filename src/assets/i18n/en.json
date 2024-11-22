@@ -1,0 +1,45 @@
+{
+  "global": {},
+  "setup": {
+    "title": "Setup",
+    "description": "Select an XML file containing the data of your previous business period. It will be suffixed with result. E.g.: \"179_7_result.xml\"",
+    "selectXmlButton": "Select XML",
+    "selectXmlButton_loadtip": "Load an XML file.",
+    "selectXmlButton_success": "XML File loaded!",
+    "selectXmlButton_error": "File must be of type .xml!",
+    "loadDataButton": "Load Data",
+    "xmlAlertDanger": "XML could not be loaded. Please ensure that it's name is \"...result.xml\" and has the required data within.",
+    "xmlAlertSuccess": "XML has been loaded into the system succesfully.",
+    "inspectData": "Inspect Data",
+    "xmlData": "XML Data"
+  },
+  "export": {
+    "title": "Export",
+    "description": "You can export your data here.",
+    "titleViewDecisions": "View/Review Decision Data",
+    "tooltipViewDecisions": "Before exporting, verify that the correct data is present.",
+    "sellWish": "Sellwish",
+    "directSell": "Direct Sell",
+    "orderList": "Order List",
+    "productionList": "Production List",
+    "workingTimeList": "Working Time List",
+    "article": "Article",
+    "quantity": "Quantity",
+    "price": "Price",
+    "penalty": "Penalty",
+    "mode": "Mode",
+    "station": "Station",
+    "shift": "Shift",
+    "overtime": "Overtime",
+    "titleViewKPI": "View KPI",
+    "descriptionViewKPI": "WIP",
+    "titleDownloadData": "Download Decision Data",
+    "descriptionDownloadData": "Download the generated .xml file and upload it to the SCS afterward.",
+    "buttonExportData": "Export Data"
+  },
+  "homepage": {
+    "title": "Welcome to Sisyphus",
+    "description": "Professional Production Management Software by G8-Softworks.",
+    "getStarted": "Get Started"
+  }
+}

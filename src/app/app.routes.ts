@@ -3,6 +3,7 @@ import { SetupComponent } from './setup/setup.component';
 import { HomepageComponent } from './homepage/homepage.component';
 import {KaufteildispoComponent} from './kaufteildispo/kaufteildispo.component';
 import { DirektverkaufComponent } from './direktverkauf/direktverkauf.component';
+import { ExportComponent } from './export/export.component';
 
 export const routes: Routes = [
     {
@@ -19,5 +20,9 @@ export const routes: Routes = [
     {
         path: 'vertriebswunsch',
         component: DirektverkaufComponent
-    }
+    } ,
+  {
+    path: 'export',
+    component: ExportComponent,
+  },
 ];
