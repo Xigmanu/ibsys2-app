@@ -1,6 +1,6 @@
 import {AbstractControl, FormControl, FormGroup} from '@angular/forms';
 import {Component, OnInit, Input} from '@angular/core';
-import {DataService} from '../data.service';
+import {DataService, InwardStockMovementOrder} from '../data.service';
 
 export interface KaufteilDispoControlFormDefinition {
   label: string;
@@ -17,8 +17,8 @@ export enum KauftelidispoArt {
   DISKONTMENGE = 'diskontmenge',
   VERBRAUCH = 'verbrauch',
   BESTAND_AKTUELL = 'bestandAktuell',
-  LIEFERUNG = 'lieferung',
-  LIEFERZEIT = 'liferzeit',
+  EINGEHENDELIEFERUNG = 'eingehendeLieferung',
+  ANKUNFTSZEIT = 'ankunftszeit',
   BENOETIGTE_MENGE = 'benoetigteMenge',
   BESTELLMENGE = 'bestellmenge',
   BESTELLTYP = 'bestelltyp'
@@ -31,8 +31,8 @@ export interface KaufteilDispoFormControl {
   [KauftelidispoArt.DISKONTMENGE]: FormControl;
   [KauftelidispoArt.VERBRAUCH]: FormControl;
   [KauftelidispoArt.BESTAND_AKTUELL]: FormControl;
-  [KauftelidispoArt.LIEFERUNG]: FormControl;
-  [KauftelidispoArt.LIEFERZEIT]: FormControl;
+  [KauftelidispoArt.EINGEHENDELIEFERUNG]: FormControl;
+  [KauftelidispoArt.ANKUNFTSZEIT]: FormControl;
   [KauftelidispoArt.BENOETIGTE_MENGE]: FormControl;
   [KauftelidispoArt.BESTELLMENGE]: FormControl;
   [KauftelidispoArt.BESTELLTYP]: FormControl;
@@ -40,7 +40,8 @@ export interface KaufteilDispoFormControl {
 
 export function Uebernehmen(formGroup: FormGroup): void {
 }
-export type kaufteilDispoFormDef={[key in KauftelidispoArt]: KaufteilDispoControlFormDefinition }
+
+export type kaufteilDispoFormDef = { [key in KauftelidispoArt]: KaufteilDispoControlFormDefinition }
 
 export function dispoControlFormDefinition(
   formGroup: FormGroup)
@@ -88,17 +89,17 @@ export function dispoControlFormDefinition(
       type: 'text',
       tooltip: '',
     },
-    [KauftelidispoArt.LIEFERUNG]: {
+    [KauftelidispoArt.EINGEHENDELIEFERUNG]: {
       label: 'Lieferung',
-      formControlName: KauftelidispoArt.LIEFERUNG,
-      formControl: formGroup.get(KauftelidispoArt.LIEFERUNG)!,
+      formControlName: KauftelidispoArt.EINGEHENDELIEFERUNG,
+      formControl: formGroup.get(KauftelidispoArt.EINGEHENDELIEFERUNG)!,
       type: 'text',
       tooltip: '',
     },
-    [KauftelidispoArt.LIEFERZEIT]: {
+    [KauftelidispoArt.ANKUNFTSZEIT]: {
       label: 'Lieferzeit',
-      formControlName: KauftelidispoArt.LIEFERZEIT,
-      formControl: formGroup.get(KauftelidispoArt.LIEFERZEIT)!,
+      formControlName: KauftelidispoArt.ANKUNFTSZEIT,
+      formControl: formGroup.get(KauftelidispoArt.ANKUNFTSZEIT)!,
       type: 'text',
       tooltip: '',
     },
@@ -125,6 +126,7 @@ export function dispoControlFormDefinition(
     }
   }
 }
+
 export function mapJsonToFormControls(jsonData: any): any {
   const mappedData: any = {};
   for (const key in jsonData) {
@@ -138,8 +140,8 @@ export function mapJsonToFormControls(jsonData: any): any {
           [KauftelidispoArt.DISKONTMENGE]: null,
           [KauftelidispoArt.VERBRAUCH]: null,
           [KauftelidispoArt.BESTAND_AKTUELL]: null,
-          [KauftelidispoArt.LIEFERUNG]: null,
-          [KauftelidispoArt.LIEFERZEIT]: item.Lieferzeit,
+          [KauftelidispoArt.EINGEHENDELIEFERUNG]: null,
+          [KauftelidispoArt.ANKUNFTSZEIT]: item.Lieferzeit,
           [KauftelidispoArt.BENOETIGTE_MENGE]: null,
           [KauftelidispoArt.BESTELLMENGE]: null,
           [KauftelidispoArt.BESTELLTYP]: null
@@ -153,26 +155,30 @@ export function mapJsonToFormControls(jsonData: any): any {
 export function mapServiceDataToFormControls(dataService: DataService): any {
   const serviceData = dataService.getData();
   const mappedServiceData: any = {};
-console.log(serviceData.input.inwardStockMovement.values());
-  if (serviceData && serviceData.output && serviceData.output.orderList && serviceData.output.orderList.orders) {
-    serviceData.output.orderList.orders.forEach((order: any) => {
-      if (order.Typ === 'K') {
-        mappedServiceData[order.id] = {
-          [KauftelidispoArt.KAUFTEIL]: order.Nr,
-          [KauftelidispoArt.FRIST]: order.Lieferzeit,
-          [KauftelidispoArt.ABWEICHUNG]: order.Lieferzeitabweichung,
+
+  if (serviceData && serviceData.input && serviceData.input.inwardStockMovement) {
+    serviceData.input.inwardStockMovement.forEach((order: any) => {
+        mappedServiceData[order.article] = {
+          [KauftelidispoArt.KAUFTEIL]: order.article,
           [KauftelidispoArt.DISKONTMENGE]: null,
           [KauftelidispoArt.VERBRAUCH]: null,
           [KauftelidispoArt.BESTAND_AKTUELL]: null,
-          [KauftelidispoArt.LIEFERUNG]: null,
-          [KauftelidispoArt.LIEFERZEIT]: order.Lieferzeit,
+          [KauftelidispoArt.EINGEHENDELIEFERUNG]: getEingehendeLieferung(order),
+          [KauftelidispoArt.ANKUNFTSZEIT]: null,
           [KauftelidispoArt.BENOETIGTE_MENGE]: null,
           [KauftelidispoArt.BESTELLMENGE]: null,
           [KauftelidispoArt.BESTELLTYP]: null
         };
-      }
-    });
-  }
 
+    });
+
+  }
   return mappedServiceData;
+
 }
+
+function getEingehendeLieferung(inwardStock: InwardStockMovementOrder): string {
+  const date:string = inwardStock.orderPeriod +'.'+ inwardStock.id;
+  return date;
+}
+

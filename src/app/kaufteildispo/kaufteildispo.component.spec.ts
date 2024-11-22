@@ -1,6 +1,35 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { KaufteildispoComponent } from './kaufteildispo.component';
+import { mapJsonToFormControls } from './kaufteildispo.util';
+import { ReactiveFormsModule } from '@angular/forms';
+import { ClarityModule } from '@clr/angular';
+import { CommonModule } from '@angular/common';
+
+const mockSortedData = {
+  "10": {
+    "Typ": "E",
+    "Nr": "10",
+    "Bezeichnung": "Schutzblech h.",
+    "Verwendung": "K",
+    "Startmenge": 100.0,
+    "Startpreis": "12,4",
+    "Lieferkosten": null,
+    "Lieferzeit": null,
+    "Lieferzeitabweichung": null,
+    "Arbeitsplatz 3": {
+      "Bearbeitungszeit": null,
+      "Rüstzeit": "2"
+    },
+    "Arbeitsplatz 4": {
+      "Bearbeitungszeit": "1",
+      "Rüstzeit": "3"
+    },
+    "Arbeitsplatz 6": {
+      "Bearbeitungszeit": "3",
+      "Rüstzeit": "2"
+    }
+  }
+};
 
 describe('KaufteildispoComponent', () => {
   let component: KaufteildispoComponent;
@@ -8,9 +37,9 @@ describe('KaufteildispoComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [KaufteildispoComponent]
+      imports: [KaufteildispoComponent, ReactiveFormsModule, ClarityModule, CommonModule]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(KaufteildispoComponent);
     component = fixture.componentInstance;
@@ -19,5 +48,28 @@ describe('KaufteildispoComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should map the Json data to a form control', () => {
+    const mappedData = mapJsonToFormControls(mockSortedData);
+    expect(mappedData).toEqual({
+      "10": {
+        "kaufteil": "10",
+        "frist": null,
+        "abweichung": null,
+        "diskontmenge": null,
+        "verbrauch": null,
+        "bestandAktuell": null,
+        "lieferung": null,
+        "lieferzeit": null,
+        "benoetigteMenge": null,
+        "bestellmenge": null,
+        "bestelltyp": null
+      }
+    });
+  });
+
+  it('should map the service data to an Object', () => {
+    // Add your test implementation here
   });
 });

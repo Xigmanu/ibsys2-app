@@ -9,7 +9,7 @@ import {
   AbstractControl
 } from '@angular/forms';
 import {CommonModule, NgIf} from '@angular/common';
-import {mapJsonToFormControls,mapServiceDataToFormControls} from './kaufteildispo.util';
+import {mapJsonToFormControls, mapServiceDataToFormControls, KauftelidispoArt} from './kaufteildispo.util';
 import {ClarityModule} from '@clr/angular';
 import * as data from '../../assets/SortedData.json';
 import {DataService} from '../data.service';
@@ -49,17 +49,17 @@ export class KaufteildispoComponent implements OnInit {
 
   createFormGrp(): FormGroup {
     return this.fb.group({
-      kaufteil: [''],
-      frist: [''],
-      abweichung: [''],
-      diskontmenge: [''],
-      verbrauch: [''],
-      bestandAktuell: [''],
-      lieferung: [''],
-      lieferzeit: [''],
-      benoetigteMenge: [''],
-      bestellmenge: [''],
-      bestelltyp: ['']
+      [KauftelidispoArt.KAUFTEIL]: [''],
+      [KauftelidispoArt.FRIST]: [''],
+      [KauftelidispoArt.ABWEICHUNG]: [''],
+      [KauftelidispoArt.DISKONTMENGE]: [''],
+      [KauftelidispoArt.VERBRAUCH]: [''],
+      [KauftelidispoArt.BESTAND_AKTUELL]: [''],
+      [KauftelidispoArt.EINGEHENDELIEFERUNG]: [''],
+      [KauftelidispoArt.ANKUNFTSZEIT]: [''],
+      [KauftelidispoArt.BENOETIGTE_MENGE]: [''],
+      [KauftelidispoArt.BESTELLMENGE]: [''],
+      [KauftelidispoArt.BESTELLTYP]: ['']
     });
   }
 
@@ -74,6 +74,7 @@ export class KaufteildispoComponent implements OnInit {
   }
 
   protected readonly data = data;
+  protected readonly KauftelidispoArt = KauftelidispoArt;
 }
 
 
