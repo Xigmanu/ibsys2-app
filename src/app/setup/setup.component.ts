@@ -3,29 +3,53 @@ import { parseString } from 'xml2js';
 import { FormControl, FormGroup } from '@angular/forms';
 import { JsonPipe, CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ClarityModule } from '@clr/angular';
+import { ClarityModule, ClrLoadingState } from '@clr/angular';
 import { RouterOutlet, RouterModule } from '@angular/router';
-
+import {
+  DataStructure,
+  Input,
+  WarehouseStock,
+  InwardStockMovementOrder,
+  FutureInwardStockMovementOrder,
+  IdleTimeCost,
+  WaitingListWorkstation,
+  MissingPart,
+  OrderInWork,
+  CompletedOrder,
+  CompletedOrderBatch,
+  CycleTimeOrder,
+} from '../data.service';
+import { DataService } from '../data.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-setup',
   standalone: true,
   imports: [
-    JsonPipe, 
+    JsonPipe,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     ClarityModule,
     RouterModule,
     RouterOutlet,
+    TranslateModule,
   ],
   templateUrl: './setup.component.html',
-  styleUrl: './setup.component.css'
+  styleUrl: './setup.component.css',
 })
 export class SetupComponent {
+  uploadBtnState: ClrLoadingState = ClrLoadingState.DEFAULT;
+  constructor(private dataService: DataService) {}
+
   protected readonly form = new FormGroup({
     files: new FormControl<FileList | null>(null),
   });
+
+  public jsonData: any;
+  public loadedData: any;
+  public mappingError: boolean = false;
+  public mappingSuccess: boolean = false;
 
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -38,19 +62,461 @@ export class SetupComponent {
       };
       reader.readAsText(file);
     }
-    
   }
-
-  public jsonData: any; 
 
   convertXmlToJson(xml: string): void {
     parseString(xml, { explicitArray: false }, (err, result) => {
       if (err) {
-        console.error('Fehler beim Parsen des XML:', err);
+        //console.error('Fehler beim Parsen des XML:', err);
       } else {
-        this.jsonData = result; 
-        console.log('JSON-Daten:', this.jsonData);
+        this.jsonData = result;
+        //console.log('JSON-Daten:', this.jsonData);
       }
     });
+  }
+
+  toFixedNumber(value: number, decimals: number) {
+    return Number(Number(value).toFixed(decimals));
+  }
+
+  //Mapping work.
+  mapXmlData(jsonData: any): void {
+    this.uploadBtnState = ClrLoadingState.LOADING;
+    var dataSet: DataStructure = this.dataService.getData();
+    this.mappingError = false;
+    this.mappingSuccess = false;
+
+    try {
+      var input: Input = {
+        metaData: {
+          game: jsonData.results.$.game,
+          group: jsonData.results.$.group,
+          period: jsonData.results.$.period,
+        },
+        warehouseStock: jsonData.results.warehousestock.article.map(
+          (article: any): WarehouseStock => ({
+            id: Number(article.$.id),
+            amount: Number(article.$.amount),
+            startAmount: Number(article.$.startamount),
+            pct: article.$.pct,
+            price: parseFloat(article.$.price),
+            stockValue: parseFloat(article.$.stockvalue),
+          })
+        ),
+        inwardStockMovement: jsonData.results.inwardstockmovement.order.map(
+          (order: any): InwardStockMovementOrder => ({
+            orderPeriod: Number(order.$.orderperiod),
+            id: Number(order.$.id),
+            mode: Number(order.$.mode),
+            article: Number(order.$.article),
+            amount: Number(order.$.amount),
+            time: Number(order.$.time),
+            materialCosts: parseFloat(order.$.materialcosts),
+            orderCosts: parseFloat(order.$.ordercosts),
+            entireCosts: parseFloat(order.$.entirecosts),
+            pieceCosts: parseFloat(order.$.piececosts),
+          })
+        ),
+        futureInwardStockMovement:
+          jsonData.results.futureinwardstockmovement.order.map(
+            (order: any): FutureInwardStockMovementOrder => ({
+              orderPeriod: Number(order.$.orderperiod),
+              id: Number(order.$.id),
+              mode: Number(order.$.mode),
+              article: Number(order.$.article),
+              amount: Number(order.$.amount),
+            })
+          ),
+        idleTimeCosts: jsonData.results.idletimecosts.workplace.map(
+          (workplace: any): IdleTimeCost => ({
+            id: Number(workplace.$.id),
+            setupEvents: Number(workplace.$.setupevents),
+            idleTime: Number(workplace.$.idletime),
+            wageIdleTimeCosts: parseFloat(workplace.$.wageidletimecosts),
+            wageCosts: parseFloat(workplace.$.wagecosts),
+            machineIdleTimeCosts: parseFloat(workplace.$.machineidletimecosts),
+          })
+        ),
+        waitingListWorkstations:
+          jsonData.results.waitinglistworkstations.workplace.map(
+            (workplace: any): WaitingListWorkstation => ({
+              id: Number(workplace.$.id),
+              timeNeed: Number(workplace.$.timeneed),
+              waitingList: workplace.waitinglist
+                ? (Array.isArray(workplace.waitinglist)
+                    ? workplace.waitinglist
+                    : [workplace.waitinglist]
+                  ).map((wait: any) => ({
+                    period: Number(wait.$.period),
+                    order: Number(wait.$.order),
+                    firstBatch: Number(wait.$.firstbatch),
+                    lastBatch: Number(wait.$.lastbatch),
+                    item: Number(wait.$.item),
+                    amount: Number(wait.$.amount),
+                    timeNeed: Number(wait.$.timeneed),
+                  }))
+                : undefined,
+            })
+          ),
+        waitingListStock: jsonData.results.waitingliststock.missingpart.map(
+          (part: any): MissingPart => ({
+            id: Number(part.$.id),
+            waitingList: Array.isArray(part.waitinglist)
+              ? part.waitinglist.map((wait: any) => ({
+                  period: Number(wait.$.period),
+                  order: Number(wait.$.order),
+                  firstBatch: Number(wait.$.firstbatch),
+                  lastBatch: Number(wait.$.lastbatch),
+                  item: Number(wait.$.item),
+                  amount: Number(wait.$.amount),
+                }))
+              : [],
+          })
+        ),
+        ordersInWork: jsonData.results.ordersinwork.workplace.map(
+          (workplace: any): OrderInWork => ({
+            id: Number(workplace.$.id),
+            period: Number(workplace.$.period),
+            order: Number(workplace.$.order),
+            batch: Number(workplace.$.batch),
+            item: Number(workplace.$.item),
+            amount: Number(workplace.$.amount),
+            timeNeed: Number(workplace.$.timeneed),
+          })
+        ),
+        completedOrders: jsonData.results.completedorders.order.map(
+          (order: any): CompletedOrder => ({
+            period: Number(order.$.period),
+            id: Number(order.$.id),
+            item: Number(order.$.item),
+            quantity: Number(order.$.quantity),
+            cost: parseFloat(order.$.cost),
+            averageUnitCosts: parseFloat(order.$.averageunitcosts),
+            batches: Array.isArray(order.batch)
+              ? order.batch.map(
+                  (batch: any): CompletedOrderBatch => ({
+                    id: Number(batch.$.id),
+                    amount: Number(batch.$.amount),
+                    cycleTime: Number(batch.$.cycletime),
+                    cost: parseFloat(batch.$.cost),
+                  })
+                )
+              : [],
+          })
+        ),
+        cycleTimes: {
+          startedOrders: Number(jsonData.results.cycletimes.$.startedorders),
+          waitingOrders: Number(jsonData.results.cycletimes.$.waitingorders),
+          orders: jsonData.results.cycletimes.order.map(
+            (order: any): CycleTimeOrder => ({
+              id: Number(order.$.id),
+              period: Number(order.$.period),
+              startTime: order.$.starttime,
+              finishTime: order.$.finishtime,
+              cycleTimeMin: Number(order.$.cycletimemin),
+              cycleTimeFactor: parseFloat(order.$.cycletimefactor),
+            })
+          ),
+        },
+        result: {
+          general: {
+            capacity: {
+              current: Number(
+                jsonData.results.result.general.capacity.$.current
+              ),
+              average: Number(
+                jsonData.results.result.general.capacity.$.average
+              ),
+              all: Number(jsonData.results.result.general.capacity.$.all),
+            },
+            possibleCapacity: {
+              current: Number(
+                jsonData.results.result.general.possiblecapacity.$.current
+              ),
+              average: Number(
+                jsonData.results.result.general.possiblecapacity.$.average
+              ),
+              all: Number(
+                jsonData.results.result.general.possiblecapacity.$.all
+              ),
+            },
+            relPossibleNormalCapacity: {
+              current: this.toFixedNumber(
+                Number(
+                  jsonData.results.result.general.relpossiblenormalcapacity.$.current.replace(
+                    '%',
+                    ''
+                  )
+                ) / 100,
+                4
+              ),
+              average: this.toFixedNumber(
+                Number(
+                  jsonData.results.result.general.relpossiblenormalcapacity.$.average.replace(
+                    '%',
+                    ''
+                  )
+                ) / 100,
+                4
+              ),
+              all:
+                jsonData.results.result.general.relpossiblenormalcapacity.$
+                  .all === '-'
+                  ? 0
+                  : this.toFixedNumber(
+                      Number(
+                        jsonData.results.result.general.relpossiblenormalcapacity.$.all.replace(
+                          '%',
+                          ''
+                        )
+                      ) / 100,
+                      4
+                    ),
+            },
+
+            productiveTime: {
+              current: Number(
+                jsonData.results.result.general.productivetime.$.current
+              ),
+              average: Number(
+                jsonData.results.result.general.productivetime.$.average
+              ),
+              all: Number(jsonData.results.result.general.productivetime.$.all),
+            },
+            efficiency: {
+              current: this.toFixedNumber(
+                Number(
+                  jsonData.results.result.general.effiency.$.current.replace(
+                    '%',
+                    ''
+                  )
+                ) / 100,
+                4
+              ),
+              average: this.toFixedNumber(
+                Number(
+                  jsonData.results.result.general.effiency.$.average.replace(
+                    '%',
+                    ''
+                  )
+                ) / 100,
+                4
+              ),
+              all:
+                jsonData.results.result.general.effiency.$.all === '-'
+                  ? 0
+                  : this.toFixedNumber(
+                      Number(
+                        jsonData.results.result.general.effiency.$.all.replace(
+                          '%',
+                          ''
+                        )
+                      ) / 100,
+                      4
+                    ),
+            },
+            sellwish: {
+              current: Number(
+                jsonData.results.result.general.sellwish.$.current
+              ),
+              average: Number(
+                jsonData.results.result.general.sellwish.$.average
+              ),
+              all: Number(jsonData.results.result.general.sellwish.$.all),
+            },
+            salesQuantity: {
+              current: Number(
+                jsonData.results.result.general.salesquantity.$.current
+              ),
+              average: Number(
+                jsonData.results.result.general.salesquantity.$.average
+              ),
+              all: Number(jsonData.results.result.general.salesquantity.$.all),
+            },
+            deliveryReliability: {
+              current: this.toFixedNumber(
+                Number(
+                  jsonData.results.result.general.deliveryreliability.$.current.replace(
+                    '%',
+                    ''
+                  )
+                ) / 100,
+                4
+              ),
+              average: this.toFixedNumber(
+                Number(
+                  jsonData.results.result.general.deliveryreliability.$.average.replace(
+                    '%',
+                    ''
+                  )
+                ) / 100,
+                4
+              ),
+              all:
+                jsonData.results.result.general.deliveryreliability.$.all ===
+                '-'
+                  ? 0
+                  : this.toFixedNumber(
+                      Number(
+                        jsonData.results.result.general.deliveryreliability.$.all.replace(
+                          '%',
+                          ''
+                        )
+                      ) / 100,
+                      4
+                    ),
+            },
+
+            idleTime: {
+              current: Number(
+                jsonData.results.result.general.idletime.$.current
+              ),
+              average: Number(
+                jsonData.results.result.general.idletime.$.average
+              ),
+              all: Number(jsonData.results.result.general.idletime.$.all),
+            },
+            idleTimeCosts: {
+              current: Number(
+                jsonData.results.result.general.idletimecosts.$.current
+              ),
+              average: Number(
+                jsonData.results.result.general.idletimecosts.$.average
+              ),
+              all: Number(jsonData.results.result.general.idletimecosts.$.all),
+            },
+            storeValue: {
+              current: Number(
+                jsonData.results.result.general.storevalue.$.current
+              ),
+              average: Number(
+                jsonData.results.result.general.storevalue.$.average
+              ),
+              all:
+                jsonData.results.result.general.storevalue.$.all === '-'
+                  ? 0
+                  : Number(jsonData.results.result.general.storevalue.$.all),
+            },
+            storageCosts: {
+              current: Number(
+                jsonData.results.result.general.storagecosts.$.current
+              ),
+              average: Number(
+                jsonData.results.result.general.storagecosts.$.average
+              ),
+              all: Number(jsonData.results.result.general.storagecosts.$.all),
+            },
+          },
+          defectiveGoods: {
+            quantity: {
+              current: Number(
+                jsonData.results.result.defectivegoods.quantity.$.current
+              ),
+              average: Number(
+                jsonData.results.result.defectivegoods.quantity.$.average
+              ),
+              all: Number(
+                jsonData.results.result.defectivegoods.quantity.$.all
+              ),
+            },
+            costs: {
+              current: Number(
+                jsonData.results.result.defectivegoods.costs.$.current
+              ),
+              average: Number(
+                jsonData.results.result.defectivegoods.costs.$.average
+              ),
+              all: Number(jsonData.results.result.defectivegoods.costs.$.all),
+            },
+          },
+          normalSale: {
+            salesPrice: {
+              current: Number(
+                jsonData.results.result.normalsale.salesprice.$.current
+              ),
+              average: Number(
+                jsonData.results.result.normalsale.salesprice.$.average
+              ),
+              all:
+                jsonData.results.result.normalsale.salesprice.$.all === '-'
+                  ? 0
+                  : Number(jsonData.results.result.normalsale.salesprice.$.all),
+            },
+            profit: {
+              current: Number(
+                jsonData.results.result.normalsale.profit.$.current
+              ),
+              average: Number(
+                jsonData.results.result.normalsale.profit.$.average
+              ),
+              all: Number(jsonData.results.result.normalsale.profit.$.all),
+            },
+            profitPerUnit: {
+              current: Number(
+                jsonData.results.result.normalsale.profitperunit.$.current
+              ),
+              average: Number(
+                jsonData.results.result.normalsale.profitperunit.$.average
+              ),
+              all:
+                jsonData.results.result.normalsale.profitperunit.$.all === '-'
+                  ? 0
+                  : Number(
+                      jsonData.results.result.normalsale.profitperunit.$.all
+                    ),
+            },
+          },
+          directSale: {
+            profit: {
+              current: Number(
+                jsonData.results.result.directsale.profit.$.current
+              ),
+              average: Number(
+                jsonData.results.result.directsale.profit.$.average
+              ),
+              all: Number(jsonData.results.result.directsale.profit.$.all),
+            },
+            contractPenalty: {
+              current: Number(
+                jsonData.results.result.directsale.contractpenalty.$.current
+              ),
+              average: Number(
+                jsonData.results.result.directsale.contractpenalty.$.average
+              ),
+              all: Number(
+                jsonData.results.result.directsale.contractpenalty.$.all
+              ),
+            },
+          },
+          marketplaceSale: {
+            profit: {
+              current: Number(
+                jsonData.results.result.marketplacesale.profit.$.current
+              ),
+              average: Number(
+                jsonData.results.result.marketplacesale.profit.$.average
+              ),
+              all: Number(jsonData.results.result.marketplacesale.profit.$.all),
+            },
+          },
+          summary: {
+            profit: {
+              current: Number(jsonData.results.result.summary.profit.$.current),
+              average: Number(jsonData.results.result.summary.profit.$.average),
+              all: Number(jsonData.results.result.summary.profit.$.all),
+            },
+          },
+        },
+      };
+      dataSet.input = input;
+      this.loadedData = dataSet;
+    } catch (error) {
+      this.mappingError = true;
+      this.uploadBtnState = ClrLoadingState.ERROR;
+      return;
+    }
+
+    this.mappingSuccess = true;
+    this.uploadBtnState = ClrLoadingState.SUCCESS;
   }
 }
