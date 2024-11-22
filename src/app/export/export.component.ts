@@ -4,6 +4,7 @@ import { ClarityIcons, downloadIcon } from '@cds/core/icon';
 import { DataService, SellWishItem, SellDirectItem, Production, Order, WorkingTime } from '../data.service';
 import { CommonModule } from '@angular/common';
 import * as xml2js from 'xml2js';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @Component({
@@ -11,7 +12,8 @@ import * as xml2js from 'xml2js';
   standalone: true,
   imports: [
     ClarityModule,
-    CommonModule
+    CommonModule,
+    TranslateModule
   ],
   templateUrl: './export.component.html',
   styleUrl: './export.component.scss'

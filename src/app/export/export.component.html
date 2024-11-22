@@ -1,24 +1,24 @@
-<h2>Export</h2>
-<p>You can export your data here.</p>
+<h2>{{ 'export.title' | translate }}</h2>
+<p>{{ 'export.description' | translate }}</p>
 <br>
 <h3>
-    Entscheidungsdaten Einsehen/Überprüfen
+  {{ 'export.titleViewDecisions' | translate }}
     <clr-tooltip>
         <cds-icon clrTooltipTrigger shape="info-circle" size="24"></cds-icon>
         <clr-tooltip-content [clrPosition]="'top-right'" [clrSize]="'sm'">
-            Vor dem Export sollte überprüft werden, ob die korrekten Daten vorzufinden sind.
+          {{ 'export.tooltipViewDecisions' | translate }}
         </clr-tooltip-content>
         </clr-tooltip>    
 </h3>
 <clr-tabs>
     <clr-tab>
-      <button clrTabLink>Vertriebswunsch</button>
+      <button clrTabLink>{{ 'export.sellWish' | translate }}</button>
       <clr-tab-content *clrIfActive>
         <table class="table">
             <thead>
               <tr>
-                <th>Article</th>
-                <th>Quantity</th>
+                <th>{{ 'export.article' | translate }}</th>
+                <th>{{ 'export.quantity' | translate }}</th>
               </tr>
             </thead>
             <tbody>
@@ -30,15 +30,15 @@
       </clr-tab-content>
     </clr-tab>
     <clr-tab>
-      <button clrTabLink>Direktvertrieb</button>
+      <button clrTabLink>{{ 'export.directSell' | translate }}</button>
       <clr-tab-content *clrIfActive>
         <table class="table">
           <thead>
             <tr>
-              <th>Article</th>
-              <th>Quantity</th>
-              <th>Price</th>
-              <th>Penalty</th>
+              <th>{{ 'export.article' | translate }}</th>
+              <th>{{ 'export.quantity' | translate }}</th>
+              <th>{{ 'export.price' | translate }}</th>
+              <th>{{ 'export.penalty' | translate }}</th>
             </tr>
           </thead>
           <tbody>
@@ -52,14 +52,14 @@
       </clr-tab-content>
     </clr-tab>
     <clr-tab>
-      <button clrTabLink>Bestellübersicht</button>
+      <button clrTabLink>{{ 'export.orderList' | translate }}</button>
       <clr-tab-content *clrIfActive>
         <table class="table">
           <thead>
             <tr>
-              <th>Article</th>
-              <th>Quantity</th>
-              <th>Mode</th>
+              <th>{{ 'export.article' | translate }}</th>
+              <th>{{ 'export.quantity' | translate }}</th>
+              <th>{{ 'export.mode' | translate }}</th>
             </tr>
           </thead>
           <tbody>
@@ -72,13 +72,13 @@
       </clr-tab-content>
     </clr-tab>
     <clr-tab>
-        <button clrTabLink>Produktionsliste</button>
+        <button clrTabLink>{{ 'export.productionList' | translate }}</button>
         <clr-tab-content *clrIfActive>
           <table class="table">
             <thead>
               <tr>
-                <th>Article</th>
-                <th>Quantity</th>
+                <th>{{ 'export.article' | translate }}</th>
+                <th>{{ 'export.quantity' | translate }}</th>
               </tr>
             </thead>
             <tbody>
@@ -90,14 +90,14 @@
         </clr-tab-content>
     </clr-tab>
     <clr-tab>
-        <button clrTabLink>Arbeitszeitliste</button>
+        <button clrTabLink>{{ 'export.workingTimeList' | translate }}</button>
         <clr-tab-content *clrIfActive>
           <table class="table">
             <thead>
               <tr>
-                <th>Station</th>
-                <th>Shift</th>
-                <th>Overtime</th>
+                <th>{{ 'export.station' | translate }}</th>
+                <th>{{ 'export.shift' | translate }}</th>
+                <th>{{ 'export.overtime' | translate }}</th>
               </tr>
             </thead>
             <tbody>
@@ -112,14 +112,14 @@
 </clr-tabs>
 <br>
 <hr>
-<h3>KPI Einsehen</h3>
-<p>Lorem ipsum sed doloret.</p>
-<h3>Entscheidungsdaten herunterladen</h3>
-<p>Lade die generierte .xml Datei herunter, und anschließend im SCS hoch.</p>
+<h3>{{ 'export.titleViewKPI' | translate }}</h3>
+<p>{{ 'export.descriptionViewKPI' | translate }}</p>
+<h3>{{ 'export.titleDownloadData' | translate }}</h3>
+<p>{{ 'export.descriptionDownloadData' | translate }}</p>
 <button 
   class="btn btn-info-outline" 
   (click)="downloadOutputAsXML()"
   [clrLoading]="downloadBtnState">
     <cds-icon shape="download"></cds-icon>
-    Export Data
+    {{ 'export.buttonExportData' | translate }}
 </button>
