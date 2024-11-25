@@ -178,7 +178,7 @@ export function mapServiceDataToFormControls(dataService: DataService): any {
 }
 
 function getEingehendeLieferung(inwardStock: InwardStockMovementOrder): string {
-  const date:string = inwardStock.orderPeriod +'.'+ inwardStock.id;
+  const date:string = inwardStock.orderPeriod +'_'+ inwardStock.id;
   return date;
 }
 

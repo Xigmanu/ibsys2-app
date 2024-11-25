@@ -71,8 +71,8 @@ describe('KaufteildispoUtil', () => {
     const mappedServiceData = mapServiceDataToFormControls(dataService);
     expect(mappedServiceData).toEqual({
       '1': {
-        kaufteil: 'K1',
-        frist: '2023-10-01',
+        kaufteil: '41',
+        frist: '5_7',
         abweichung: '2',
         diskontmenge: null,
         verbrauch: null,
