@@ -1,0 +1,29 @@
+<form clrForm [formGroup]="form">
+    <table class="table">
+        <thead>
+            <th>Article</th>
+            <th>Sales Request</th>
+            <th>Safety Stock</th>
+            <th>Stock Previous Period</th>
+            <th>Orders In Queue</th>
+            <th>Orders In Process</th>
+            <th>Production Orders</th>
+        </thead>
+        <tbody formArrayName="rows">
+            <tr *ngFor="let row of rows.controls; let i = index" [formGroupName]="i">
+                <td>{{ row.get('article_ref_id')?.value }}</td>
+                <td>{{ row.get('sales_req')?.value }}</td>
+                <td>
+                    <input  clrInput 
+                            formControlName="stock_safety"
+                            [value]="row.get('stock_safety')?.value"
+                            (change)="onChange(i)">
+                </td>
+                <td>{{ row.get('stock_prev')?.value }}</td>
+                <td>{{ row.get('orders_queued')?.value }}</td>
+                <td>{{ row.get('orders_in_progress')?.value }}</td>
+                <td>{{ row.get('orders_prod')?.value }}</td>
+            </tr>
+        </tbody>
+    </table>
+</form>

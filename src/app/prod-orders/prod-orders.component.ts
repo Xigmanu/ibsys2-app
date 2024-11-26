@@ -1,11 +1,9 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { ClarityModule } from '@clr/angular'
-import { ProdOrdersDatagridComponent } from "./prod-orders-datagrid/prod-orders-datagrid.component";
-import { ProdOrdersGridRow, SafetyStock } from "./prod-orders-datagrid/prod-orders";
-import { DataService } from "../data.service";
-import { Subscription } from "rxjs";
-import { ProdOrdersDataService } from "./prod-orders.data.service";
+import { ProdOrdersTableComponent } from "./prod-orders-table/prod-orders-table.component";
+import { ProdOrdersTableRow } from "./prod-orders-table/prod-orders";
+import { DataService, DataStructure } from "../data.service";
 
 @Component({
     selector: 'app-prod-orders',
@@ -14,24 +12,32 @@ import { ProdOrdersDataService } from "./prod-orders.data.service";
     imports: [
         ClarityModule,
         RouterModule,
-        ProdOrdersDatagridComponent
+        ProdOrdersTableComponent
     ]
 })
-export class ProdOrdersComponent implements OnInit, OnDestroy {
-    rows_p1: ProdOrdersGridRow[] = [];
-    rows_p2: ProdOrdersGridRow[] = [];
-    rows_p3: ProdOrdersGridRow[] = [];
-    st_p1: SafetyStock[] = [];
-    sub: Subscription
+export class ProdOrdersComponent implements OnInit {
+    private dataStruct: DataStructure
+    rows_p1: ProdOrdersTableRow[] = [];
+    rows_p2: ProdOrdersTableRow[] = [];
+    rows_p3: ProdOrdersTableRow[] = [];
 
-    constructor(private globalDS: DataService, private outDataService: ProdOrdersDataService) {
+    constructor(private globalDS: DataService) {
+        this.dataStruct = this.globalDS.getData()
+        console.log(this.dataStruct)
     }
 
     ngOnInit(): void {
-        this.sub = this.outDataService.getSafetyStock().subscribe(stock => this.)
-    }
-
-    ngOnDestroy(): void {
-        
+        const foo: ProdOrdersTableRow = {
+            article_ref_id: "22",
+            orders_in_process: this.dataStruct.input.ordersInWork[0].amount,
+            orders_prod: this.dataStruct.input.ordersInWork[0].batch,
+            orders_queued: this.dataStruct.input.waitingListStock[0].id,
+            stock_prev: this.dataStruct.input.warehouseStock[0].amount,
+            sales_req: this.dataStruct.input.futureInwardStockMovement[0].amount
+        }
+        console.log("of")
+        this.rows_p1.push(foo)
+        this.rows_p2.push(foo)
+        this.rows_p3.push(foo)
     }
 }
