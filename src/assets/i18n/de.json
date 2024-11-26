@@ -42,11 +42,13 @@
     "description": "Professionelle Produktionsmanagement-Software von G8-Softworks.",
     "getStarted": "Loslegen"
   },
-  "prod_orders": {
-    "safety_stock": "Sicherheitsbestand",
-    "stock_prev": "Lagerbestand Vorperiode",
+  "disposition": {
+    "title": "Disposition",
+    "sales_request": "Vertriebswunsch",
+    "stock_safety": "Sicherheitsbestand",
+    "stock_old": "Lagerbestand Vorperiode",
     "orders_queued": "Aufträge in der Warteschlange",
-    "orders_active": "Aufträge im Progress",
-    "orders_prod": "Aufträge in der Produktion"
+    "orders_active": "Aufträge in Bearbeitung",
+    "orders_prod": "Produktionsaufträge"
   }
 }

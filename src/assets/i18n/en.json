@@ -42,9 +42,11 @@
     "description": "Professional Production Management Software by G8-Softworks.",
     "getStarted": "Get Started"
   },
-  "prod_orders": {
-    "safety_stock": "Safety Stock",
-    "stock_prev": "Stock Previous Period",
+  "disposition": {
+    "title": "Disposition",
+    "sales_request": "Sales Request",
+    "stock_safety": "Safety Stock",
+    "stock_old": "Stock Previous Period",
     "orders_queued": "Orders in Queue",
     "orders_active": "Active Orders",
     "orders_prod": "Production Orders"

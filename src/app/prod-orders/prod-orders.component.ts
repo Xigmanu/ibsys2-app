@@ -4,6 +4,7 @@ import { ClarityModule } from '@clr/angular'
 import { ProdOrdersTableComponent } from "./prod-orders-table/prod-orders-table.component";
 import { ProdOrdersTableRow } from "./prod-orders-table/prod-orders";
 import { DataService, DataStructure } from "../data.service";
+import { TranslateModule } from "@ngx-translate/core";
 
 @Component({
     selector: 'app-prod-orders',
@@ -12,7 +13,8 @@ import { DataService, DataStructure } from "../data.service";
     imports: [
         ClarityModule,
         RouterModule,
-        ProdOrdersTableComponent
+        ProdOrdersTableComponent,
+        TranslateModule
     ]
 })
 export class ProdOrdersComponent implements OnInit {

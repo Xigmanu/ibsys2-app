@@ -14,7 +14,7 @@ import { TranslateModule } from "@ngx-translate/core";
         ClrInputModule, 
         ClrFormsModule, 
         ReactiveFormsModule,
-        TranslateModule //TODO fix translations
+        TranslateModule
     ]
 })
 export class ProdOrdersTableComponent implements OnInit {

@@ -2,12 +2,12 @@
     <table class="table">
         <thead>
             <th>{{ "export.article" | translate }}</th>
-            <th>{{ "export.sellWish" | translate }}</th>
-            <th>{{ "prod_orders.safety_stock" | translate }}</th>
-            <th>{{ "prod_orders.stock_prev" | translate }}</th>
-            <th>{{ "prod_orders.orders_queued" | translate }}</th>
-            <th>{{ "prod_orders.orders_active" | translate }}</th>
-            <th>{{ "prod_orders.orders_prod" | translate }}</th>
+            <th>{{ "disposition.sales_request" | translate }}</th>
+            <th>{{ "disposition.stock_safety" | translate }}</th>
+            <th>{{ "disposition.stock_old" | translate }}</th>
+            <th>{{ "disposition.orders_queued" | translate }}</th>
+            <th>{{ "disposition.orders_active" | translate }}</th>
+            <th>{{ "disposition.orders_prod" | translate }}</th>
         </thead>
         <tbody formArrayName="rows">
             <tr *ngFor="let row of rows.controls; let i = index" [formGroupName]="i">
