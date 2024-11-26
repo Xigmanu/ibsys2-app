@@ -49,6 +49,7 @@
     "stock_old": "Stock Previous Period",
     "orders_queued": "Orders in Queue",
     "orders_active": "Active Orders",
-    "orders_prod": "Production Orders"
+    "orders_prod": "Production Orders",
+    "next": "Next"
   }
 }
