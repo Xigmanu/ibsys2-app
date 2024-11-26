@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from "@angular/core";
 import { ClrFormsModule, ClrInputModule } from "@clr/angular";
 import { CommonModule } from "@angular/common";
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule } from "@angular/forms";
-import { createFormGroupFromRow, DispositionTableRow } from "./disposition";
+import { createFormGroupFromRow, DispositionTableRow, DispositionTableRowName } from "./disposition";
 import { TranslateModule } from "@ngx-translate/core";
 
 @Component({
@@ -20,6 +20,7 @@ import { TranslateModule } from "@ngx-translate/core";
 export class ProdOrdersTableComponent implements OnInit {
     @Input() dataRef: DispositionTableRow[] = []
     form: FormGroup
+    rowNameEnum: typeof DispositionTableRowName = DispositionTableRowName
 
     constructor(
         private fb: FormBuilder
@@ -40,6 +41,6 @@ export class ProdOrdersTableComponent implements OnInit {
     }
 
     onChange(idx: number) {
-        this.dataRef[idx].stock_safety = this.rows.at(idx).get('stock_safety')?.value
+        this.dataRef[idx].stock_safety = this.rows.at(idx).get(DispositionTableRowName.STOCK_SAFETY)?.value
     }
 }
