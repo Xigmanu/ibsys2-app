@@ -1,0 +1,45 @@
+{
+  "global": {},
+  "setup": {
+    "title": "Einrichtung",
+    "description": "Wählen Sie eine XML-Datei aus, die die Daten Ihrer vorherigen Geschäftsperiode enthält. Sie wird mit \"result\" enden. Z. B.: \"179_7_result.xml\"",
+    "selectXmlButton": "XML auswählen",
+    "selectXmlButton_loadtip": "Laden Sie eine XML-Datei.",
+    "selectXmlButton_success": "XML-Datei erfolgreich geladen!",
+    "selectXmlButton_error": "Die Datei muss vom Typ .xml sein!",
+    "loadDataButton": "Daten laden",
+    "xmlAlertDanger": "Die XML-Datei konnte nicht geladen werden. Bitte stellen Sie sicher, dass ihr Name \"...result.xml\" lautet und die erforderlichen Daten enthält.",
+    "xmlAlertSuccess": "Die XML-Datei wurde erfolgreich in das System geladen.",
+    "inspectData": "Daten überprüfen",
+    "xmlData": "XML-Daten"
+  },
+  "export": {
+    "title": "Export",
+    "description": "Sie können Ihre Daten hier exportieren.",
+    "titleViewDecisions": "Entscheidungsdaten Einsehen/Überprüfen",
+    "tooltipViewDecisions": "Vor dem Export sollte überprüft werden, ob die korrekten Daten vorzufinden sind.",
+    "sellWish": "Verkaufswunsch",
+    "directSell": "Direktverkauf",
+    "orderList": "Bestellliste",
+    "productionList": "Produktionsliste",
+    "workingTimeList": "Arbeitszeitliste",
+    "article": "Artikel",
+    "quantity": "Menge",
+    "price": "Preis",
+    "penalty": "Strafe",
+    "mode": "Modus",
+    "station": "Station",
+    "shift": "Schicht",
+    "overtime": "Überstunden",
+    "titleViewKPI": "KPI Einsehen",
+    "descriptionViewKPI": "In Bearbeitung",
+    "titleDownloadData": "Entscheidungsdaten Herunterladen",
+    "descriptionDownloadData": "Laden Sie die generierte .xml-Datei herunter und laden Sie sie anschließend im SCS hoch.",
+    "buttonExportData": "Daten Exportieren"
+  },
+  "homepage": {
+    "title": "Willkommen bei Sisyphus",
+    "description": "Professionelle Produktionsmanagement-Software von G8-Softworks.",
+    "getStarted": "Loslegen"
+  }
+}
