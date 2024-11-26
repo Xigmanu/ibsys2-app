@@ -1,13 +1,13 @@
 <form clrForm [formGroup]="form">
     <table class="table">
         <thead>
-            <th>Article</th>
-            <th>Sales Request</th>
-            <th>Safety Stock</th>
-            <th>Stock Previous Period</th>
-            <th>Orders In Queue</th>
-            <th>Orders In Process</th>
-            <th>Production Orders</th>
+            <th>{{ "export.article" | translate }}</th>
+            <th>{{ "export.sellWish" | translate }}</th>
+            <th>{{ "prod_orders.safety_stock" | translate }}</th>
+            <th>{{ "prod_orders.stock_prev" | translate }}</th>
+            <th>{{ "prod_orders.orders_queued" | translate }}</th>
+            <th>{{ "prod_orders.orders_active" | translate }}</th>
+            <th>{{ "prod_orders.orders_prod" | translate }}</th>
         </thead>
         <tbody formArrayName="rows">
             <tr *ngFor="let row of rows.controls; let i = index" [formGroupName]="i">
