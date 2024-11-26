@@ -19,7 +19,6 @@ import {
 import { DataService } from './data.service';
 import { DataStructure } from './data.service';
 import { TranslateService } from '@ngx-translate/core';
-import {KaufteildispoComponent} from './kaufteildispo/kaufteildispo.component';
 
 @Component({
   selector: 'app-root',
