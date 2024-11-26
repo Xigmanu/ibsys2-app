@@ -2,12 +2,12 @@ import { Component, Input, OnInit } from "@angular/core";
 import { ClrFormsModule, ClrInputModule } from "@clr/angular";
 import { CommonModule } from "@angular/common";
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule } from "@angular/forms";
-import { createFormGroupFromRow, ProdOrdersTableRow } from "./prod-orders";
+import { createFormGroupFromRow, DispositionTableRow } from "./disposition";
 import { TranslateModule } from "@ngx-translate/core";
 
 @Component({
     selector: 'po-table',
-    templateUrl: './prod-orders-table.component.html',
+    templateUrl: './disposition-table.component.html',
     standalone: true,
     imports: [
         CommonModule, 
@@ -18,7 +18,7 @@ import { TranslateModule } from "@ngx-translate/core";
     ]
 })
 export class ProdOrdersTableComponent implements OnInit {
-    @Input() dataRef: ProdOrdersTableRow[] = []
+    @Input() dataRef: DispositionTableRow[] = []
     form: FormGroup
 
     constructor(

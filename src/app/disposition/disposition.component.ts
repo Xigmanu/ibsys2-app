@@ -1,14 +1,14 @@
 import { Component, OnInit } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { ClarityModule } from '@clr/angular'
-import { ProdOrdersTableComponent } from "./prod-orders-table/prod-orders-table.component";
-import { ProdOrdersTableRow } from "./prod-orders-table/prod-orders";
+import { ProdOrdersTableComponent } from "./disposition-table/disposition-table.component";
+import { DispositionTableRow } from "./disposition-table/disposition";
 import { DataService, DataStructure } from "../data.service";
 import { TranslateModule } from "@ngx-translate/core";
 
 @Component({
     selector: 'app-prod-orders',
-    templateUrl: './prod-orders.component.html',
+    templateUrl: './disposition.component.html',
     standalone: true,
     imports: [
         ClarityModule,
@@ -17,11 +17,11 @@ import { TranslateModule } from "@ngx-translate/core";
         TranslateModule
     ]
 })
-export class ProdOrdersComponent implements OnInit {
+export class DispositionComponent implements OnInit {
     private dataStruct: DataStructure
-    rows_p1: ProdOrdersTableRow[] = [];
-    rows_p2: ProdOrdersTableRow[] = [];
-    rows_p3: ProdOrdersTableRow[] = [];
+    rows_p1: DispositionTableRow[] = [];
+    rows_p2: DispositionTableRow[] = [];
+    rows_p3: DispositionTableRow[] = [];
 
     constructor(private globalDS: DataService) {
         this.dataStruct = this.globalDS.getData()
@@ -29,7 +29,7 @@ export class ProdOrdersComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        const foo: ProdOrdersTableRow = {
+        const foo: DispositionTableRow = {
             article_ref_id: "22",
             orders_in_process: this.dataStruct.input.ordersInWork[0].amount,
             orders_prod: this.dataStruct.input.ordersInWork[0].batch,

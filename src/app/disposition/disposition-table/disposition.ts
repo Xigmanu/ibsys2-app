@@ -1,6 +1,6 @@
 import { FormBuilder, FormGroup } from "@angular/forms"
 
-export interface ProdOrdersTableRow {
+export interface DispositionTableRow {
     article_ref_id: string,
     sales_req: number,
     stock_safety?: number,
@@ -10,7 +10,7 @@ export interface ProdOrdersTableRow {
     orders_prod: number,
 }
 
-export function createFormGroupFromRow(fb: FormBuilder, row: ProdOrdersTableRow): FormGroup {
+export function createFormGroupFromRow(fb: FormBuilder, row: DispositionTableRow): FormGroup {
     return fb.group({
         ['article_ref_id']: [row.article_ref_id],
         ['sales_req']: [row.sales_req],

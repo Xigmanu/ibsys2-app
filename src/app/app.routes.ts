@@ -2,7 +2,7 @@ import {Routes} from '@angular/router';
 import {SetupComponent} from './setup/setup.component';
 import {HomepageComponent} from './homepage/homepage.component';
 import {ExportComponent} from './export/export.component';
-import { ProdOrdersComponent } from './prod-orders/prod-orders.component';
+import { DispositionComponent } from './disposition/disposition.component';
 
 export const routes: Routes = [
     {
@@ -18,7 +18,7 @@ export const routes: Routes = [
         component: HomepageComponent,
     },
     {
-        path: 'prodorders',
-        component: ProdOrdersComponent
+        path: 'disposition',
+        component: DispositionComponent
     }
 ];
