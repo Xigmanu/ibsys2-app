@@ -18,16 +18,16 @@ import { TranslateModule } from "@ngx-translate/core";
     ]
 })
 export class ProdOrdersTableComponent implements OnInit {
-    @Input() dataRef: DispositionTableRow[] = []
-    form: FormGroup
-    rowNameEnum: typeof DispositionTableRowName = DispositionTableRowName
+    @Input() dataRef: DispositionTableRow[] = [];
+    form: FormGroup;
+    rowNameEnum: typeof DispositionTableRowName = DispositionTableRowName;
 
     constructor(
         private fb: FormBuilder
     ) {
         this.form = this.fb.group({
             rows: this.fb.array([])
-        })
+        });
     }
 
     get rows() {
@@ -35,12 +35,15 @@ export class ProdOrdersTableComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        const formArr = this.form.get('rows') as FormArray
-        const formGroup = createFormGroupFromRow(this.fb, this.dataRef[0])
-        formArr.push(formGroup)
+        if (!this.dataRef || this.dataRef.length == 0) {
+            return;
+        }
+        const formArr = this.form.get('rows') as FormArray;
+        const formGroup: FormGroup[] = this.dataRef.map(row => createFormGroupFromRow(this.fb, row));
+        formArr.push(formGroup);
     }
 
     onChange(idx: number) {
-        this.dataRef[idx].stock_safety = this.rows.at(idx).get(DispositionTableRowName.STOCK_SAFETY)?.value
+        this.dataRef[idx].stock_safety = this.rows.at(idx).get(DispositionTableRowName.STOCK_SAFETY)?.value;
     }
 }

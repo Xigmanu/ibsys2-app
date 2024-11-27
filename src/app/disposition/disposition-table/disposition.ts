@@ -8,7 +8,7 @@ export enum DispositionTableRowName {
     ORDERS_QUEUED = 'orders_queued',
     ORDERS_ACTIVE = 'orders_active',
     ORDERS_PROD = 'orders_prod'
-}
+};
 
 export interface DispositionTableRow {
     [DispositionTableRowName.ARTICLE_ID]: string,
@@ -18,7 +18,7 @@ export interface DispositionTableRow {
     [DispositionTableRowName.ORDERS_QUEUED]: number,
     [DispositionTableRowName.ORDERS_ACTIVE]: number,
     [DispositionTableRowName.ORDERS_PROD]: number,
-}
+};
 
 export function createFormGroupFromRow(fb: FormBuilder, row: DispositionTableRow): FormGroup {
     return fb.group({
@@ -29,5 +29,5 @@ export function createFormGroupFromRow(fb: FormBuilder, row: DispositionTableRow
         ['orders_queued']: [row[DispositionTableRowName.ORDERS_QUEUED]],
         ['orders_in_progress']: [row[DispositionTableRowName.ORDERS_ACTIVE]],
         ['orders_prod']: [row[DispositionTableRowName.ORDERS_PROD]]
-    })
-}
+    });
+};
