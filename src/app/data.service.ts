@@ -321,9 +321,21 @@ export interface Input {
   result: Result;
 }
 
+export interface Disposition {
+  p1: DispoItem[];
+  p2: DispoItem[];
+  p3: DispoItem[];
+}
+
+export interface DispoItem {
+  articleId: string;
+  safetyStock: number;
+}
+
 export interface DataStructure {
   input: Input;
   output: Output;
+  disposition: Disposition;
 }
 
 /////////////////////////////////////////////////////////////////////////
@@ -394,6 +406,11 @@ export class DataService {
       productionList: { productions: [] },
       workingTimeList: { workingTimes: [] },
     },
+    disposition: {
+      p1: [],
+      p2: [],
+      p3: [],
+    },
   };
 
   setData(data: DataStructure): void {
@@ -409,5 +426,24 @@ export class DataService {
       this.data = response;
       console.log('Sample data loaded.');
     });
+  }
+
+  getDispoStock(production: keyof Disposition, article: string): DispoItem {
+    const list = this.data.disposition[production];
+
+    for (const entry of list) {
+      if (entry.articleId === article) {
+        return entry;
+      }
+    }
+
+    return {
+      articleId: 'ERROR',
+      safetyStock: 0,
+    };
+  }
+
+  getDispoAllStock(production: keyof Disposition): DispoItem[] {
+    return this.data.disposition[production];
   }
 }
