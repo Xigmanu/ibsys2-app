@@ -3,6 +3,7 @@ import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule } from "@angular
 import { ClarityModule } from '@clr/angular';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
+import { DataService, DataStructure } from '../data.service'; 
 
 @Component({
   selector: 'app-direktverkauf',
@@ -13,8 +14,9 @@ import { TranslateModule } from '@ngx-translate/core';
 })
 export class DirektverkaufComponent implements OnInit {
   tableForm: FormGroup;
+  data: DataStructure | null = null;
   
-  constructor(private fb: FormBuilder, private cdr: ChangeDetectorRef,) {
+  constructor(private fb: FormBuilder, private cdr: ChangeDetectorRef, private dataService: DataService) {
     this.tableForm = this.fb.group({
       rows: this.fb.array([]),
       vertriebswunschP1: [''],
@@ -25,6 +27,8 @@ export class DirektverkaufComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeTable();
+    this.data = this.dataService.getData();
+    console.log('Lade initiale Daten:', this.data);
   }
 
   initializeTable() {
@@ -51,9 +55,9 @@ export class DirektverkaufComponent implements OnInit {
 
   saveData() {
     const sellWishItems = [
-      { article: 'P1', quantity: +this.tableForm.value.vertriebswunschP1 },
-      { article: 'P2', quantity: +this.tableForm.value.vertriebswunschP2 },
-      { article: 'P3', quantity: +this.tableForm.value.vertriebswunschP3 }
+      { article: 1, quantity: +this.tableForm.value.vertriebswunschP1 },
+      { article: 2, quantity: +this.tableForm.value.vertriebswunschP2 },
+      { article: 3, quantity: +this.tableForm.value.vertriebswunschP3 }
     ];
 
     const sellDirectItems = this.rows.controls.map(row => ({
@@ -63,6 +67,15 @@ export class DirektverkaufComponent implements OnInit {
       penalty: +row.get('konventionalStrafe')?.value
     }));
 
-    console.log('Daten gespeichert:', sellWishItems, sellDirectItems);
+    this.dataService.setData({
+      ...this.dataService.getData(),
+      output: {
+        ...this.dataService.getData().output,
+        sellWish: { items: sellWishItems },
+        sellDirect: { items: sellDirectItems }
+      }
+    });
+
+    console.log('Daten im DataService gespeichert:', this.dataService.getData());
   }
 }
