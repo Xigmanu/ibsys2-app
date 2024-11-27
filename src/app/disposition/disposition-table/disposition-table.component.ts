@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { ClrFormsModule, ClrInputModule } from "@clr/angular";
 import { CommonModule } from "@angular/common";
-import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule } from "@angular/forms";
-import { createFormGroupFromRow, DispositionTableRow, DispositionTableRowName } from "./disposition";
+import { AbstractControl, FormArray, FormBuilder, FormGroup, ReactiveFormsModule } from "@angular/forms";
+import { calculateProdOrderForRow, createFormGroupFromRow, DispositionTableRow, DispositionTableRowName } from "./disposition-util";
 import { TranslateModule } from "@ngx-translate/core";
 
 @Component({
@@ -44,6 +44,8 @@ export class ProdOrdersTableComponent implements OnInit {
     }
 
     onChange(idx: number) {
-        this.dataRef[idx].stock_safety = this.rows.at(idx).get(DispositionTableRowName.STOCK_SAFETY)?.value;
+        const rowControl: AbstractControl<any, any> = this.rows.at(idx)
+        this.dataRef[idx][DispositionTableRowName.STOCK_SAFETY] = rowControl.get(DispositionTableRowName.STOCK_SAFETY)?.value;
+        this.dataRef[idx][DispositionTableRowName.ORDERS_PROD] = calculateProdOrderForRow(rowControl)
     }
 }

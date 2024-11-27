@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { ClarityModule } from '@clr/angular'
 import { ProdOrdersTableComponent } from "./disposition-table/disposition-table.component";
-import { DispositionTableRow, DispositionTableRowName } from "./disposition-table/disposition";
+import { DispositionTableRow, DispositionTableRowName } from "./disposition-table/disposition-util";
 import { DataService, DataStructure, DispoItem } from "../data.service";
 import { TranslateModule } from "@ngx-translate/core";
 
@@ -28,7 +28,7 @@ export class DispositionComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        
+
     }
 
     onDataSafe() {

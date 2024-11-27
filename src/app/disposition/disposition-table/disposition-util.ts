@@ -1,4 +1,4 @@
-import { FormBuilder, FormGroup } from "@angular/forms"
+import { AbstractControl, FormBuilder, FormGroup } from "@angular/forms"
 
 export enum DispositionTableRowName {
     ARTICLE_ID = 'article_id',
