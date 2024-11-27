@@ -13,6 +13,15 @@
     "inspectData": "Daten überprüfen",
     "xmlData": "XML-Daten"
   },
+  "sellWish": {
+    "sellWish": "Vertriebswunsch",
+    "directSell": "Direktverkauf",
+    "product": "Produkt",
+    "quantity": "Menge",
+    "price": "Preis pro Einheit",
+    "penalty": "Konventionalstrafe",
+    "saveButton": "Speichern"
+  },
   "export": {
     "title": "Export",
     "description": "Sie können Ihre Daten hier exportieren.",

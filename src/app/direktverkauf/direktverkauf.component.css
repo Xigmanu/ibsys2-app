@@ -7,8 +7,6 @@
 .vertriebswunsch label {
   display: flex;
   align-items: center;
-  margin-bottom: 15px;
-  border: 1px solid white;
   padding: 8px;
 }
   
@@ -17,13 +15,15 @@
   width: 75px;
 }
 
-.vertriebswunsch {
-    width: 10%;
-    margin-right: 200px;
-}
-
 .vertriebswunsch div{
     margin-top: 24px;
+}
+
+.vertriebswunsch table,
+.vertriebswunsch table th,
+.vertriebswunsch table td {
+  border: 1px solid white;
+  border-collapse: collapse;
 }
   
 .direktverkauf table,
@@ -34,8 +34,7 @@
 }
 
 .direktverkauf{
-    width: 35%;
-    margin-left: 200px;
+  margin-left: 30px;
 }
 
 .component {
@@ -44,6 +43,7 @@
 }
 
 button.btn {
+  margin-left: 12px;
   margin-top: 250px;
   display: block;
 }

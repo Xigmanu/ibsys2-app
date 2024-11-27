@@ -2,11 +2,12 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule } from "@angular/forms";
 import { ClarityModule } from '@clr/angular';
 import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-direktverkauf',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, ClarityModule],
+  imports: [ReactiveFormsModule, CommonModule, ClarityModule, TranslateModule],
   templateUrl: './direktverkauf.component.html',
   styleUrl: './direktverkauf.component.css'
 })
@@ -50,9 +51,9 @@ export class DirektverkaufComponent implements OnInit {
 
   saveData() {
     const sellWishItems = [
-      { article: 1, quantity: +this.tableForm.value.vertriebswunschP1 },
-      { article: 2, quantity: +this.tableForm.value.vertriebswunschP2 },
-      { article: 3, quantity: +this.tableForm.value.vertriebswunschP3 }
+      { article: 'P1', quantity: +this.tableForm.value.vertriebswunschP1 },
+      { article: 'P2', quantity: +this.tableForm.value.vertriebswunschP2 },
+      { article: 'P3', quantity: +this.tableForm.value.vertriebswunschP3 }
     ];
 
     const sellDirectItems = this.rows.controls.map(row => ({

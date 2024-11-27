@@ -10,6 +10,10 @@ export const routes: Routes = [
     component: SetupComponent,
   },
   {
+    path: 'sellwish',
+    component: DirektverkaufComponent,
+  },
+  {
     path: 'export',
     component: ExportComponent,
   },
