@@ -11,7 +11,7 @@ export enum DispositionTableRowName {
 };
 
 export interface DispositionTableRow {
-    [DispositionTableRowName.ARTICLE_ID]: string,
+    [DispositionTableRowName.ARTICLE_ID]: number,
     [DispositionTableRowName.SALES_REQUEST]: number,
     [DispositionTableRowName.STOCK_SAFETY]?: number,
     [DispositionTableRowName.STOCK_OLD]: number,
