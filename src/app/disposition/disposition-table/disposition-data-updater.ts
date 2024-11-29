@@ -10,25 +10,25 @@ const primaryArticleIds: number[] = [1, 2, 3];
 const commonComponentIds: number[] = [26, 16, 17];
 
 export function createTableRows(dataStruct: DataStructure, articleIdx: number): DispositionTableRow[] {
-    const map = articleComponentMap[articleIdx]
+    const map: number[][] = articleComponentMap[articleIdx]
     if (!map) {
         return [];
     }
-    const initialRows = map.reduce((merged, arr) => merged.concat(arr)).map(id => getDataById(dataStruct, id))
+    const initialRows: DispositionTableRow[] = map.reduce((merged, arr) => merged.concat(arr)).map(id => createRowForArticle(dataStruct, id))
     updateRowsData(initialRows, map)
 
     return initialRows;
 }
 
-export function updateTable(rows: DispositionTableRow[]): void {
-    const map = articleComponentMap[getPrimaryArticleId(rows) - 1]
+export function updateTableRows(rows: DispositionTableRow[]): void {
+    const map: number[][] = articleComponentMap[getPrimaryArticleId(rows) - 1]
     if (map) {
         updateRowsData(rows, map)
     }
 }
 
 function updateRowsData(rows: DispositionTableRow[], map: number[][]): void {
-    let offset = 0
+    let offset: number = 0
     for (let i = 0; i < map.length; i++) {
         if (i == 0) {
             calculateProdOrderForRow(rows[i]);
@@ -53,20 +53,11 @@ function getPrimaryArticleId(rows: DispositionTableRow[]): number {
 /**
  * Reads values from the passed struct for item/order id and constructs an initial table row.
  */
-function getDataById(struct: DataStructure, id: number): DispositionTableRow {
+function createRowForArticle(struct: DataStructure, id: number): DispositionTableRow {
     const sellWish = (id in primaryArticleIds) ? struct.output.sellWish.items.find(item => item.article == id)?.quantity ?? 0: 0;
     const oldStock = struct.input.warehouseStock.find(stock => stock.id == id)?.amount ?? 0;
-    const queuedOrder = struct.input.waitingListWorkstations
-        .map(wlw => wlw.waitingList
-            ?.filter(vl => vl.order == id)
-            .map(order => order.amount ?? 0)
-            .reduce((sum, amount) => sum + amount, 0))
-        .map(value => value ?? 0)
-        .reduce((sum, amount) => sum + amount, 0)
-    const activeOrder = struct.input.ordersInWork
-        .filter(order => order.order == id)
-        .map(order => order.amount ?? 0)
-        .reduce((sum, amount) => sum + amount, 0);
+    const queuedOrder = getQueuedOrderAmount(struct, id)
+    const activeOrder = getActiveOrderAmount(struct, id)
 
     const isCommonId = commonComponentIds.find(next => next === id)
     return {
@@ -78,6 +69,25 @@ function getDataById(struct: DataStructure, id: number): DispositionTableRow {
         [DispositionTableRowName.ORDERS_ACTIVE]: (isCommonId) ? Math.trunc(activeOrder / 3) : activeOrder,
         [DispositionTableRowName.ORDERS_PROD]: 0
     }
+}
+
+function getQueuedOrderAmount(struct: DataStructure, id: number): number {
+    return struct.input
+        .waitingListWorkstations
+        .map(workstation => workstation.waitingList
+            ?.filter(value => value.order === id)
+            .map(value => value.amount ?? 0)
+            .reduce((sum, amount) => sum + amount, 0)
+        ).map(value => value ?? 0)
+        .reduce((sum, amount) => sum + amount, 0);
+}
+
+function getActiveOrderAmount(struct: DataStructure, id: number): number {
+    return struct.input
+        .ordersInWork
+        .filter(value => value.id === id)
+        .map(value => value.amount ?? 0)
+        .reduce((sum, amount) => sum + amount, 0);
 }
 
 function getRowById(rows: DispositionTableRow[], id: number): DispositionTableRow {
