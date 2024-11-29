@@ -22,12 +22,12 @@ export interface DispositionTableRow {
 
 export function createFormGroupFromRow(fb: FormBuilder, row: DispositionTableRow): FormGroup {
     return fb.group({
-        ['article_ref_id']: [row[DispositionTableRowName.ARTICLE_ID]],
-        ['sales_req']: [row[DispositionTableRowName.SALES_REQUEST]],
-        ['stock_safety']: [!row[DispositionTableRowName.STOCK_SAFETY] ? 0 : row[DispositionTableRowName.STOCK_SAFETY]],
-        ['stock_prev']: [row[DispositionTableRowName.STOCK_OLD]],
-        ['orders_queued']: [row[DispositionTableRowName.ORDERS_QUEUED]],
-        ['orders_in_progress']: [row[DispositionTableRowName.ORDERS_ACTIVE]],
-        ['orders_prod']: [row[DispositionTableRowName.ORDERS_PROD]]
+        [DispositionTableRowName.ARTICLE_ID]: [row[DispositionTableRowName.ARTICLE_ID]],
+        [DispositionTableRowName.SALES_REQUEST]: [row[DispositionTableRowName.SALES_REQUEST]],
+        [DispositionTableRowName.STOCK_SAFETY]: [!row[DispositionTableRowName.STOCK_SAFETY] ? 0 : row[DispositionTableRowName.STOCK_SAFETY]],
+        [DispositionTableRowName.STOCK_OLD]: [row[DispositionTableRowName.STOCK_OLD]],
+        [DispositionTableRowName.ORDERS_QUEUED]: [row[DispositionTableRowName.ORDERS_QUEUED]],
+        [DispositionTableRowName.ORDERS_ACTIVE]: [row[DispositionTableRowName.ORDERS_ACTIVE]],
+        [DispositionTableRowName.ORDERS_PROD]: [row[DispositionTableRowName.ORDERS_PROD]]
     });
 };
