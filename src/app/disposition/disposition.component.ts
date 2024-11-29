@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { ClarityModule } from '@clr/angular'
-import { ProdOrdersTableComponent } from "./disposition-table/disposition-table.component";
+import { ProdOrdersTableModule } from "./disposition-table/disposition-table.module";
 import { DispositionTableRow, DispositionTableRowName } from "./disposition-table/disposition-util";
 import { DataService, DataStructure, DispoItem } from "../data.service";
 import { TranslateModule } from "@ngx-translate/core";
@@ -14,7 +14,7 @@ import { createTableRows } from "./disposition-table/disposition-data-updater";
     imports: [
         ClarityModule,
         RouterModule,
-        ProdOrdersTableComponent,
+        ProdOrdersTableModule,
         TranslateModule
     ]
 })

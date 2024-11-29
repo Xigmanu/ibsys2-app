@@ -14,10 +14,13 @@
                 <td>{{ row.get(rowNameEnum.ARTICLE_ID)?.value }}</td>
                 <td>{{ row.get(rowNameEnum.SALES_REQUEST)?.value }}</td>
                 <td>
-                    <input  clrInput
+                    <clr-input-container>
+                        <input  clrInput
                             [formControlName]="rowNameEnum.STOCK_SAFETY"
                             [value]="row.get(rowNameEnum.STOCK_SAFETY)?.value"
                             (change)="onChange(i)">
+                        <clr-control-error>Invalid value</clr-control-error>
+                    </clr-input-container>
                 </td>
                 <td>{{ row.get(rowNameEnum.STOCK_OLD)?.value }}</td>
                 <td>{{ row.get(rowNameEnum.ORDERS_QUEUED)?.value }}</td>

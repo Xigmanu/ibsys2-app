@@ -8,7 +8,7 @@ import { updateTableRows } from "./disposition-data-updater";
 
 @Component({
     selector: 'po-table',
-    templateUrl: './disposition-table.component.html',
+    templateUrl: './disposition-table.module.html',
     standalone: true,
     imports: [
         CommonModule, 
@@ -18,7 +18,7 @@ import { updateTableRows } from "./disposition-data-updater";
         TranslateModule
     ]
 })
-export class ProdOrdersTableComponent implements OnInit {
+export class ProdOrdersTableModule implements OnInit {
     @Input() dataRef: DispositionTableRow[] = [];
     form: FormGroup;
     rowNameEnum: typeof DispositionTableRowName = DispositionTableRowName;
