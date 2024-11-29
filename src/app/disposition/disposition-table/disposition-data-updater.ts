@@ -46,7 +46,8 @@ function updateRowsData(rows: DispositionTableRow[], map: number[][]): void {
 }
 
 function getPrimaryArticleId(rows: DispositionTableRow[]): number {
-    return rows.find(row => row[DispositionTableRowName.ARTICLE_ID] in primaryArticleIds)?.[DispositionTableRowName.ARTICLE_ID]!
+    return rows.map(row => row[DispositionTableRowName.ARTICLE_ID])
+        .find(articleId => primaryArticleIds.includes(articleId))!
 }
 
 /**
