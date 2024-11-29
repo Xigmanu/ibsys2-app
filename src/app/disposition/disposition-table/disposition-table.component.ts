@@ -2,8 +2,9 @@ import { Component, Input, OnInit } from "@angular/core";
 import { ClrFormsModule, ClrInputModule } from "@clr/angular";
 import { CommonModule } from "@angular/common";
 import { AbstractControl, FormArray, FormBuilder, FormGroup, ReactiveFormsModule } from "@angular/forms";
-import { calculateProdOrderForRow, createFormGroupFromRow, DispositionTableRow, DispositionTableRowName } from "./disposition-util";
+import { createFormGroupFromRow, DispositionTableRow, DispositionTableRowName } from "./disposition-util";
 import { TranslateModule } from "@ngx-translate/core";
+import { updateRowsData } from "./disposition-data-updater";
 
 @Component({
     selector: 'po-table',
@@ -38,14 +39,13 @@ export class ProdOrdersTableComponent implements OnInit {
         if (!this.dataRef || this.dataRef.length == 0) {
             return;
         }
-        const formArr = this.form.get('rows') as FormArray;
-        const formGroup: FormGroup[] = this.dataRef.map(row => createFormGroupFromRow(this.fb, row));
-        formArr.push(formGroup);
+        this.dataRef.map(row => createFormGroupFromRow(this.fb, row)).forEach(group => this.rows.push(group))
     }
 
     onChange(idx: number) {
         const rowControl: AbstractControl<any, any> = this.rows.at(idx)
         this.dataRef[idx][DispositionTableRowName.STOCK_SAFETY] = rowControl.get(DispositionTableRowName.STOCK_SAFETY)?.value;
-        this.dataRef[idx][DispositionTableRowName.ORDERS_PROD] = calculateProdOrderForRow(rowControl)
+        updateRowsData(this.dataRef)
+        this.dataRef.forEach((ref, i) => this.rows.at(i).setValue(ref))
     }
 }

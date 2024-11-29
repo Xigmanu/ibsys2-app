@@ -5,6 +5,7 @@ import { ProdOrdersTableComponent } from "./disposition-table/disposition-table.
 import { DispositionTableRow, DispositionTableRowName } from "./disposition-table/disposition-util";
 import { DataService, DataStructure, DispoItem } from "../data.service";
 import { TranslateModule } from "@ngx-translate/core";
+import { createTableRows } from "./disposition-table/disposition-data-updater";
 
 @Component({
     selector: 'app-prod-orders',
@@ -28,7 +29,9 @@ export class DispositionComponent implements OnInit {
     }
 
     ngOnInit(): void {
-
+        this.rows_p1 = createTableRows(this.dataStruct, 0);
+        this.rows_p2 = createTableRows(this.dataStruct, 1);
+        this.rows_p3 = createTableRows(this.dataStruct, 2);
     }
 
     onDataSafe() {
@@ -44,7 +47,7 @@ export class DispositionComponent implements OnInit {
     convertRowsToDispoItemArray(rows: DispositionTableRow[]): DispoItem[] {
         return rows.map(row => {
             return {
-                articleId: row[DispositionTableRowName.ARTICLE_ID],
+                articleId: row[DispositionTableRowName.ARTICLE_ID].toString(),
                 safetyStock: !row[DispositionTableRowName.STOCK_SAFETY] 
                     ? 0 
                     : row[DispositionTableRowName.STOCK_SAFETY]
