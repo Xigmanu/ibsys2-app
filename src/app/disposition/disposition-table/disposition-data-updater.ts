@@ -1,7 +1,7 @@
 import { DispositionTableRow, DispositionTableRowName } from "./disposition-util";
 import { DataStructure } from "../../data.service";
 
-const articleComponentMap = [
+const articleComponentMap: number[][][] = [
     [[1], [26, 51], [16, 17, 50], [4, 10, 49], [7, 13, 18]],
     [[2], [26, 56], [16, 17, 55], [5, 11, 54], [8, 14, 19]],
     [[3], [26, 31], [16, 17, 30], [6, 12, 29], [9, 15, 20]],
@@ -15,32 +15,34 @@ export function createTableRows(dataStruct: DataStructure, articleIdx: number): 
         return [];
     }
     const initialRows = map.reduce((merged, arr) => merged.concat(arr)).map(id => getDataById(dataStruct, id))
+    updateRowsData(initialRows, map)
 
-    updateRowsData(initialRows)
-   
     return initialRows;
 }
 
-export function updateRowsData(rows: DispositionTableRow[]): void {
+export function updateTable(rows: DispositionTableRow[]): void {
     const map = articleComponentMap[getPrimaryArticleId(rows) - 1]
-    if (!map) {
-        return;
+    if (map) {
+        updateRowsData(rows, map)
     }
-    let a = 0
+}
+
+function updateRowsData(rows: DispositionTableRow[], map: number[][]): void {
+    let offset = 0
     for (let i = 0; i < map.length; i++) {
         if (i == 0) {
             calculateProdOrderForRow(rows[i]);
-            a += map[i].length
+            offset += map[i].length
             continue;
         }
         const lastProdOrder = getRowById(rows, map[i - 1].at(-1))
         for (let j = 0; j < map[i].length; j++) {
-            rows[j + a][DispositionTableRowName.SALES_REQUEST] = lastProdOrder[DispositionTableRowName.ORDERS_PROD]
-            calculateProdOrderForRow(rows[j + a], lastProdOrder[DispositionTableRowName.ORDERS_QUEUED])
+            const currentRow = rows[j + offset]
+            currentRow[DispositionTableRowName.SALES_REQUEST] = lastProdOrder[DispositionTableRowName.ORDERS_PROD]
+            calculateProdOrderForRow(currentRow, lastProdOrder[DispositionTableRowName.ORDERS_QUEUED])
         }
-        a += map[i].length
+        offset += map[i].length
     }
-
 }
 
 function getPrimaryArticleId(rows: DispositionTableRow[]): number {

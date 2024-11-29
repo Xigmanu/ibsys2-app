@@ -4,7 +4,7 @@ import { CommonModule } from "@angular/common";
 import { AbstractControl, FormArray, FormBuilder, FormGroup, ReactiveFormsModule } from "@angular/forms";
 import { createFormGroupFromRow, DispositionTableRow, DispositionTableRowName } from "./disposition-util";
 import { TranslateModule } from "@ngx-translate/core";
-import { updateRowsData } from "./disposition-data-updater";
+import { updateTable } from "./disposition-data-updater";
 
 @Component({
     selector: 'po-table',
@@ -45,7 +45,7 @@ export class ProdOrdersTableComponent implements OnInit {
     onChange(idx: number) {
         const rowControl: AbstractControl<any, any> = this.rows.at(idx)
         this.dataRef[idx][DispositionTableRowName.STOCK_SAFETY] = rowControl.get(DispositionTableRowName.STOCK_SAFETY)?.value;
-        updateRowsData(this.dataRef)
+        updateTable(this.dataRef)
         this.dataRef.forEach((ref, i) => this.rows.at(i).setValue(ref))
     }
 }
