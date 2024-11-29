@@ -1,4 +1,3 @@
-import { AbstractControl, FormArray } from "@angular/forms";
 import { DispositionTableRow, DispositionTableRowName } from "./disposition-util";
 import { DataStructure } from "../../data.service";
 
@@ -16,7 +15,36 @@ export function createTableRows(dataStruct: DataStructure, articleIdx: number): 
         return [];
     }
     const initialRows = map.reduce((merged, arr) => merged.concat(arr)).map(id => getDataById(dataStruct, id))
-    
+
+    updateRowsData(initialRows)
+   
+    return initialRows;
+}
+
+export function updateRowsData(rows: DispositionTableRow[]): void {
+    const map = articleComponentMap[getPrimaryArticleId(rows) - 1]
+    if (!map) {
+        return;
+    }
+    let a = 0
+    for (let i = 0; i < map.length; i++) {
+        if (i == 0) {
+            calculateProdOrderForRow(rows[i]);
+            a += map[i].length
+            continue;
+        }
+        const lastProdOrder = getRowById(rows, map[i - 1].at(-1))
+        for (let j = 0; j < map[i].length; j++) {
+            rows[j + a][DispositionTableRowName.SALES_REQUEST] = lastProdOrder[DispositionTableRowName.ORDERS_PROD]
+            calculateProdOrderForRow(rows[j + a], lastProdOrder[DispositionTableRowName.ORDERS_QUEUED])
+        }
+        a += map[i].length
+    }
+
+}
+
+function getPrimaryArticleId(rows: DispositionTableRow[]): number {
+    return rows.find(row => row[DispositionTableRowName.ARTICLE_ID] in primaryArticleIds)?.[DispositionTableRowName.ARTICLE_ID]!
 }
 
 /**
@@ -36,25 +64,31 @@ function getDataById(struct: DataStructure, id: number): DispositionTableRow {
         .filter(order => order.order == id)
         .map(order => order.amount ?? 0)
         .reduce((sum, amount) => sum + amount, 0);
-    
+
+    const isCommonId = commonComponentIds.find(next => next === id)
     return {
         [DispositionTableRowName.ARTICLE_ID]: id,
         [DispositionTableRowName.SALES_REQUEST]: sellWish,
         [DispositionTableRowName.STOCK_SAFETY]: 0,
-        [DispositionTableRowName.STOCK_OLD]: (id in commonComponentIds) ? oldStock / 3 : oldStock,
-        [DispositionTableRowName.ORDERS_QUEUED]: (id in commonComponentIds) ? queuedOrder * 3 : queuedOrder,
-        [DispositionTableRowName.ORDERS_ACTIVE]: (id in commonComponentIds) ? activeOrder * 3 : activeOrder,
+        [DispositionTableRowName.STOCK_OLD]: (isCommonId) ? Math.trunc(oldStock / 3) : oldStock,
+        [DispositionTableRowName.ORDERS_QUEUED]: (isCommonId) ? Math.trunc(queuedOrder / 3) : queuedOrder,
+        [DispositionTableRowName.ORDERS_ACTIVE]: (isCommonId) ? Math.trunc(activeOrder / 3) : activeOrder,
         [DispositionTableRowName.ORDERS_PROD]: 0
     }
 }
 
-function calculateProdOrderForRow(rowControl: AbstractControl<any, any>): number {
-    const sellReq = rowControl.get(DispositionTableRowName.SALES_REQUEST)?.value;
-    const stockSafety = rowControl.get(DispositionTableRowName.STOCK_SAFETY)?.value;
-    const stockOld = rowControl.get(DispositionTableRowName.STOCK_OLD)?.value;
-    const orderQueued = rowControl.get(DispositionTableRowName.ORDERS_QUEUED)?.value;
-    const orderActive = rowControl.get(DispositionTableRowName.ORDERS_ACTIVE)?.value;
+function getRowById(rows: DispositionTableRow[], id: number): DispositionTableRow {
+    return rows.find(row => row[DispositionTableRowName.ARTICLE_ID] == id)!
+}
 
-    const order = sellReq + stockSafety - stockOld - orderQueued - orderActive;
-    return order < 0 ? 0 : order;
+function calculateProdOrderForRow(row: DispositionTableRow, prevWaitingListAmount: number | undefined = undefined) {
+    const salesRequest = row[DispositionTableRowName.SALES_REQUEST];
+    const stockSafety = row[DispositionTableRowName.STOCK_SAFETY] ?? 0;
+    const stockOld = row[DispositionTableRowName.STOCK_OLD];
+    const ordersQueued = row[DispositionTableRowName.ORDERS_QUEUED];
+    const ordersActive = row[DispositionTableRowName.ORDERS_ACTIVE];
+
+    const prodOrder = salesRequest + stockSafety - stockOld - ordersQueued - ordersActive + (prevWaitingListAmount ?? 0);
+
+    row[DispositionTableRowName.ORDERS_PROD] = prodOrder < 0 ? 0 : prodOrder;
 }
