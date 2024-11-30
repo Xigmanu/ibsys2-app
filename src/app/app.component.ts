@@ -76,8 +76,12 @@ export class AppComponent {
     console.log(this.retrievedData);
   }
 
-  onSetSampleData(): void {
-    this.dataService.generateSampleData();
+  onSetInputSampleData(): void {
+    this.dataService.generateInputSampleData();
+  }
+
+  onSetOutputSampleData(): void {
+    this.dataService.generateOutputSampleData();
   }
 }
 

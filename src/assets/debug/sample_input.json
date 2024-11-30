@@ -4004,27 +4004,5 @@
         }
       }
     }
-  },
-  "output": {
-    "qualityControl": {
-      "type": "",
-      "loseQuantity": 0,
-      "delay": 0
-    },
-    "sellWish": {
-      "items": []
-    },
-    "sellDirect": {
-      "items": []
-    },
-    "orderList": {
-      "orders": []
-    },
-    "productionList": {
-      "productions": []
-    },
-    "workingTimeList": {
-      "workingTimes": []
-    }
   }
 }
