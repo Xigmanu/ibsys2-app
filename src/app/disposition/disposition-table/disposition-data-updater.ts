@@ -16,7 +16,6 @@ export function createTableRows(dataStruct: DataStructure, articleIdx: number): 
     }
     const initialRows: DispositionTableRow[] = map.reduce((merged, arr) => merged.concat(arr)).map(id => createRowForArticle(dataStruct, id))
     updateRowsData(initialRows, map)
-
     return initialRows;
 }
 
@@ -54,7 +53,7 @@ function getPrimaryArticleId(rows: DispositionTableRow[]): number {
  * Reads values from the passed struct for item/order id and constructs an initial table row.
  */
 function createRowForArticle(struct: DataStructure, id: number): DispositionTableRow {
-    const sellWish = (id in primaryArticleIds) ? struct.output.sellWish.items.find(item => item.article == id)?.quantity ?? 0: 0;
+    const sellWish = getSellWish(struct, id);
     const oldStock = struct.input.warehouseStock.find(stock => stock.id == id)?.amount ?? 0;
     const queuedOrder = getQueuedOrderAmount(struct, id)
     const activeOrder = getActiveOrderAmount(struct, id)
@@ -69,6 +68,16 @@ function createRowForArticle(struct: DataStructure, id: number): DispositionTabl
         [DispositionTableRowName.ORDERS_ACTIVE]: (isCommonId) ? Math.trunc(activeOrder / 3) : activeOrder,
         [DispositionTableRowName.ORDERS_PROD]: 0
     }
+}
+
+function getSellWish(struct: DataStructure, id: number): number {
+    if (primaryArticleIds.find(next => next === id)) {
+        return struct.output
+            .sellWish
+            .items
+            .find(item => item.article === id)?.quantity ?? 0;
+    }
+    return 0;
 }
 
 function getQueuedOrderAmount(struct: DataStructure, id: number): number {
@@ -102,6 +111,5 @@ function calculateProdOrderForRow(row: DispositionTableRow, prevWaitingListAmoun
     const ordersActive = row[DispositionTableRowName.ORDERS_ACTIVE];
 
     const prodOrder = salesRequest + stockSafety - stockOld - ordersQueued - ordersActive + (prevWaitingListAmount ?? 0);
-
     row[DispositionTableRowName.ORDERS_PROD] = prodOrder < 0 ? 0 : prodOrder;
 }
