@@ -1,30 +1,32 @@
 <h2>{{ "disposition.title" | translate }}</h2>
 <br />
 <clr-tabs>
-    <clr-tab>
-      <button clrTabLink>P1</button>
-      <clr-tab-content *clrIfActive>
-        <p cds-text="body" cds-layout="m-t:md">
-          <po-table [dataRef]="rows_p1"></po-table>
-        </p>
-      </clr-tab-content>
-    </clr-tab>
-    <clr-tab>
-      <button clrTabLink>P2</button>
-      <clr-tab-content *clrIfActive>
-        <p cds-text="body" cds-layout="m-t:md">
-          <po-table [dataRef]="rows_p2"></po-table>
-        </p>
-      </clr-tab-content>
-    </clr-tab>
-    <clr-tab>
-      <button clrTabLink>P3</button>
-      <clr-tab-content *clrIfActive>
-        <p cds-text="body" cds-layout="m-t:md">
-          <po-table [dataRef]="rows_p3"></po-table>
-        </p>
-      </clr-tab-content>
-    </clr-tab>
+  <clr-tab>
+    <button clrTabLink>P1</button>
+    <clr-tab-content *clrIfActive>
+      <p cds-text="body" cds-layout="m-t:md">
+        <po-table [dataRef]="rows_p1"></po-table>
+      </p>
+    </clr-tab-content>
+  </clr-tab>
+  <clr-tab>
+    <button clrTabLink>P2</button>
+    <clr-tab-content *clrIfActive>
+      <p cds-text="body" cds-layout="m-t:md">
+        <po-table [dataRef]="rows_p2"></po-table>
+      </p>
+    </clr-tab-content>
+  </clr-tab>
+  <clr-tab>
+    <button clrTabLink>P3</button>
+    <clr-tab-content *clrIfActive>
+      <p cds-text="body" cds-layout="m-t:md">
+        <po-table [dataRef]="rows_p3"></po-table>
+      </p>
+    </clr-tab-content>
+  </clr-tab>
 </clr-tabs>
-<br>
-<button class="btn btn-outline" (click)="onDataSafe()">{{ "disposition.next" | translate }}</button>
+<br />
+<button class="btn btn-outline" (click)="onDataSafe()">
+  {{ "disposition.next" | translate }}
+</button>
