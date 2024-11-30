@@ -2,9 +2,8 @@ import { Component, Input, OnInit } from "@angular/core";
 import { ClrFormsModule, ClrInputModule } from "@clr/angular";
 import { CommonModule } from "@angular/common";
 import { AbstractControl, FormArray, FormBuilder, FormGroup, ReactiveFormsModule } from "@angular/forms";
-import { createFormGroupFromRow, DispositionTableRow, DispositionTableRowName } from "./disposition-util";
 import { TranslateModule } from "@ngx-translate/core";
-import { updateTableRows } from "./disposition-data-updater";
+import { createFormGroupFromRow, DispositionTableRow, DispositionTableRowName, updateTableRows } from "./disposition-table-row";
 
 @Component({
     selector: 'po-table',
