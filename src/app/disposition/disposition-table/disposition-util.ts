@@ -13,7 +13,7 @@ export enum DispositionTableRowName {
 export interface DispositionTableRow {
     [DispositionTableRowName.ARTICLE_ID]: number,
     [DispositionTableRowName.SALES_REQUEST]: number,
-    [DispositionTableRowName.STOCK_SAFETY]?: number,
+    [DispositionTableRowName.STOCK_SAFETY]: number | undefined,
     [DispositionTableRowName.STOCK_OLD]: number,
     [DispositionTableRowName.ORDERS_QUEUED]: number,
     [DispositionTableRowName.ORDERS_ACTIVE]: number,

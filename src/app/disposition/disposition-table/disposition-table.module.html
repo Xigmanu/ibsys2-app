@@ -15,11 +15,14 @@
                 <td>{{ row.get(rowNameEnum.SALES_REQUEST)?.value }}</td>
                 <td>
                     <clr-input-container>
-                        <input  clrInput
+                        <input class="clrInput"  
+                            clrInput
+                            type="number"
+                            min="0"
                             [formControlName]="rowNameEnum.STOCK_SAFETY"
                             [value]="row.get(rowNameEnum.STOCK_SAFETY)?.value"
                             (change)="onChange(i)">
-                        <clr-control-error>Invalid value</clr-control-error>
+                        <clr-control-error>{{ "disposition.tableRowInput_error" | translate }}</clr-control-error>
                     </clr-input-container>
                 </td>
                 <td>{{ row.get(rowNameEnum.STOCK_OLD)?.value }}</td>

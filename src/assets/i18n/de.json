@@ -59,6 +59,7 @@
     "orders_queued": "Aufträge in der Warteschlange",
     "orders_active": "Aufträge in Bearbeitung",
     "orders_prod": "Produktionsaufträge",
-    "next": "Weiter"
+    "next": "Weiter",
+    "tableRowInput_error": "Der Wert muss größer oder gleich Null sein"
   }
 }
