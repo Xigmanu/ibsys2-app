@@ -1,0 +1,49 @@
+
+.title {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+    
+.vertriebswunsch label {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+}
+  
+.vertriebswunsch label input {
+  margin-left: 20px;
+  width: 75px;
+}
+
+.vertriebswunsch div{
+    margin-top: 24px;
+}
+
+.vertriebswunsch table,
+.vertriebswunsch table th,
+.vertriebswunsch table td {
+  border: 1px solid white;
+  border-collapse: collapse;
+}
+  
+.direktverkauf table,
+.direktverkauf table th,
+.direktverkauf table td {
+  border: 1px solid white;
+  border-collapse: collapse;
+}
+
+.direktverkauf{
+  margin-left: 30px;
+}
+
+.component {
+    display: flex;
+    justify-content: center;
+}
+
+button.btn {
+  margin-left: 12px;
+  margin-top: 250px;
+  display: block;
+}

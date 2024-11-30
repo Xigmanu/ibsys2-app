@@ -13,6 +13,15 @@
     "inspectData": "Inspect Data",
     "xmlData": "XML Data"
   },
+  "sellWish": {
+    "sellWish": "Sellwish",
+    "directSell": "Direct Sell",
+    "product": "Product",
+    "quantity": "Quantity",
+    "price": "Price per Unit",
+    "penalty": "Penalty",
+    "saveButton": "Save"
+  },
   "export": {
     "title": "Export",
     "description": "You can export your data here.",

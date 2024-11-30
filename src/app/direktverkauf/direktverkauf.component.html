@@ -1,0 +1,53 @@
+<div class="component">
+  <div class="vertriebswunsch">
+    <p class="title">{{ "sellWish.sellWish" | translate }}</p>
+    <form [formGroup]="tableForm">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>{{ "sellWish.product" | translate }}</th>
+            <th>{{ "sellWish.quantity" | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>P1</td>
+            <td><input clrInput formControlName="vertriebswunschP1" /></td>
+          </tr>
+          <tr>
+            <td>P2</td>
+            <td><input clrInput formControlName="vertriebswunschP2" /></td>
+          </tr>
+          <tr>
+            <td>P3</td>
+            <td><input clrInput formControlName="vertriebswunschP3" /></td>
+          </tr>
+        </tbody>
+      </table>
+    </form>
+  </div>
+<div class="direktverkauf">
+  <p class="title">{{ "sellWish.directSell" | translate }}</p>
+  <form [formGroup]="tableForm">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>{{ "sellWish.product" | translate }}</th>
+          <th>{{ "sellWish.quantity" | translate }}</th>
+          <th>{{ "sellWish.price" | translate }}</th>
+          <th>{{ "sellWish.penalty" | translate }}</th>
+        </tr>
+      </thead>
+      <tbody formArrayName="rows">
+        <tr *ngFor="let row of rows.controls; let i = index" [formGroupName]="i">
+          <td>{{ row.get('product')?.value }}</td>
+          <td><input clrInput formControlName="menge" /></td>
+          <td><input clrInput formControlName="preisProEinheit" /></td>
+          <td><input clrInput formControlName="konventionalStrafe" /></td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
+</div>
+<button class="btn btn-outline" (click)="saveData()">{{ "sellWish.saveButton" | translate }}</button>
+</div>

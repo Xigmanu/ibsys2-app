@@ -13,7 +13,7 @@ import {
   ClarityIcons,
   factoryIcon,
   languageIcon,
-  installIcon,
+  installIcon, dollarBillIcon,
   exportIcon,
 } from '@cds/core/icon';
 import { DataService } from './data.service';
@@ -81,4 +81,4 @@ export class AppComponent {
   }
 }
 
-ClarityIcons.addIcons(factoryIcon, languageIcon, installIcon, exportIcon);
+ClarityIcons.addIcons(factoryIcon, languageIcon, installIcon, exportIcon, dollarBillIcon);
