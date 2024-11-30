@@ -1,0 +1,1024 @@
+{
+    "1": {
+        "Typ": "P",
+        "Nr": "1",
+        "Bezeichnung": "Kinderfahrrad",
+        "Verwendung": null,
+        "Startmenge": 100,
+        "Startpreis": "156,13",
+        "Lieferkosten": null,
+        "Lieferzeit": null,
+        "Lieferzeitabweichung": null,
+        "Arbeitsplatz": {
+            "4": {
+                "Bearbeitungszeit": 6,
+                "Rüstzeit": 30
+            }
+        }
+    },
+    "2": {
+        "Typ": "P",
+        "Nr": "2",
+        "Bezeichnung": "Damenfahrrad",
+        "Verwendung": null,
+        "Startmenge": 100,
+        "Startpreis": "163,33",
+        "Lieferkosten": null,
+        "Lieferzeit": null,
+        "Lieferzeitabweichung": null,
+        "Arbeitsplatz": {
+            "4": {
+                "Bearbeitungszeit": 7,
+                "Rüstzeit": 20
+            }
+        }
+    },
+    "3": {
+        "Typ": "P",
+        "Nr": "3",
+        "Bezeichnung": "Herrenfahrrad",
+        "Verwendung": null,
+        "Startmenge": 100,
+        "Startpreis": "165,08",
+        "Lieferkosten": null,
+        "Lieferzeit": null,
+        "Lieferzeitabweichung": null,
+        "Arbeitsplatz": {
+            "4": {
+                "Bearbeitungszeit": 7,
+                "Rüstzeit": 30
+            }
+        }
+    },
+    "4": {
+        "Typ": "E",
+        "Nr": "4",
+        "Bezeichnung": "Hinterradgruppe",
+        "Verwendung": "K",
+        "Startmenge": 100,
+        "Startpreis": "40,85",
+        "Lieferkosten": null,
+        "Lieferzeit": null,
+        "Lieferzeitabweichung": null,
+        "Arbeitsplatz": {
+            "10": {
+                "Bearbeitungszeit": 4,
+                "Rüstzeit": 20
+            },
+            "11": {
+                "Bearbeitungszeit": 3,
+                "Rüstzeit": 10
+            }
+        }
+    },
+    "5": {
+        "Typ": "E",
+        "Nr": "5",
+        "Bezeichnung": "Hinterradgruppe",
+        "Verwendung": "D",
+        "Startmenge": 100,
+        "Startpreis": "39,85",
+        "Lieferkosten": null,
+        "Lieferzeit": null,
+        "Lieferzeitabweichung": null,
+        "Arbeitsplatz": {
+            "10": {
+                "Bearbeitungszeit": 4,
+                "Rüstzeit": 20
+            },
+            "11": {
+                "Bearbeitungszeit": 3,
+                "Rüstzeit": 10
+            }
+        }
+    },
+    "6": {
+        "Typ": "E",
+        "Nr": "6",
+        "Bezeichnung": "Hinterradgruppe",
+        "Verwendung": "H",
+        "Startmenge": 100,
+        "Startpreis": "40,85",
+        "Lieferkosten": null,
+        "Lieferzeit": null,
+        "Lieferzeitabweichung": null,
+        "Arbeitsplatz": {
+            "10": {
+                "Bearbeitungszeit": 4,
+                "Rüstzeit": 20
+            },
+            "11": {
+                "Bearbeitungszeit": 3,
+                "Rüstzeit": 20
+            }
+        }
+    },
+    "7": {
+        "Typ": "E",
+        "Nr": "7",
+        "Bezeichnung": "Vorderradgruppe",
+        "Verwendung": "K",
+        "Startmenge": 100,
+        "Startpreis": "35,85",
+        "Lieferkosten": null,
+        "Lieferzeit": null,
+        "Lieferzeitabweichung": null,
+        "Arbeitsplatz": {
+            "10": {
+                "Bearbeitungszeit": 4,
+                "Rüstzeit": 20
+            },
+            "11": {
+                "Bearbeitungszeit": 3,
+                "Rüstzeit": 10
+            }
+        }
+    },
+    "8": {
+        "Typ": "E",
+        "Nr": "8",
+        "Bezeichnung": "Vorderradgruppe",
+        "Verwendung": "D",
+        "Startmenge": 100,
+        "Startpreis": "35,85",
+        "Lieferkosten": null,
+        "Lieferzeit": null,
+        "Lieferzeitabweichung": null,
+        "Arbeitsplatz": {
+            "10": {
+                "Bearbeitungszeit": 4,
+                "Rüstzeit": 20
+            },
+            "11": {
+                "Bearbeitungszeit": 3,
+                "Rüstzeit": 10
+            }
+        }
+    },
+    "9": {
+        "Typ": "E",
+        "Nr": "9",
+        "Bezeichnung": "Vorderradgruppe",
+        "Verwendung": "H",
+        "Startmenge": 100,
+        "Startpreis": "35,85",
+        "Lieferkosten": null,
+        "Lieferzeit": null,
+        "Lieferzeitabweichung": null,
+        "Arbeitsplatz": {
+            "10": {
+                "Bearbeitungszeit": 4,
+                "Rüstzeit": 20
+            },
+            "11": {
+                "Bearbeitungszeit": 3,
+                "Rüstzeit": 20
+            }
+        }
+    },
+    "10": {
+        "Typ": "E",
+        "Nr": "10",
+        "Bezeichnung": "Schutzblech h.",
+        "Verwendung": "K",
+        "Startmenge": 100,
+        "Startpreis": "12,4",
+        "Lieferkosten": null,
+        "Lieferzeit": null,
+        "Lieferzeitabweichung": null,
+        "Arbeitsplatz": {
+            "7": {
+                "Bearbeitungszeit": 2,
+                "Rüstzeit": 20
+            },
+            "8": {
+                "Bearbeitungszeit": 1,
+                "Rüstzeit": 15
+            },
+            "9": {
+                "Bearbeitungszeit": 3,
+                "Rüstzeit": 15
+            },
+            "12": {
+                "Bearbeitungszeit": 3,
+                "Rüstzeit": 0
+            },
+            "13": {
+                "Bearbeitungszeit": 2,
+                "Rüstzeit": 0
+            }
+        }
+    },
+    "11": {
+        "Typ": "E",
+        "Nr": "11",
+        "Bezeichnung": "Schutzblech h.",
+        "Verwendung": "D",
+        "Startmenge": 100,
+        "Startpreis": "14,65",
+        "Lieferkosten": null,
+        "Lieferzeit": null,
+        "Lieferzeitabweichung": null,
+        "Arbeitsplatz": {
+            "7": {
+                "Bearbeitungszeit": 2,
+                "Rüstzeit": 20
+            },
+            "8": {
+                "Bearbeitungszeit": 2,
+                "Rüstzeit": 15
+            },
+            "9": {
+                "Bearbeitungszeit": 3,
+                "Rüstzeit": 15
+            },
+            "12": {
+                "Bearbeitungszeit": 3,
+                "Rüstzeit": 0
+            },
+            "13": {
+                "Bearbeitungszeit": 2,
+                "Rüstzeit": 0
+            }
+        }
+    },
+    "12": {
+        "Typ": "E",
+        "Nr": "12",
+        "Bezeichnung": "Schutzblech h.",
+        "Verwendung": "H",
+        "Startmenge": 100,
+        "Startpreis": "14,65",
+        "Lieferkosten": null,
+        "Lieferzeit": null,
+        "Lieferzeitabweichung": null,
+        "Arbeitsplatz": {
+            "7": {
+                "Bearbeitungszeit": 2,
+                "Rüstzeit": 20
+            },
+            "8": {
+                "Bearbeitungszeit": 2,
+                "Rüstzeit": 15
+            },
+            "9": {
+                "Bearbeitungszeit": 3,
+                "Rüstzeit": 15
+            },
+            "12": {
+                "Bearbeitungszeit": 3,
+                "Rüstzeit": 0
+            },
+            "13": {
+                "Bearbeitungszeit": 2,
+                "Rüstzeit": 0
+            }
+        }
+    },
+    "13": {
+        "Typ": "E",
+        "Nr": "13",
+        "Bezeichnung": "Schutzblech v.",
+        "Verwendung": "K",
+        "Startmenge": 100,
+        "Startpreis": "12,4",
+        "Lieferkosten": null,
+        "Lieferzeit": null,
+        "Lieferzeitabweichung": null,
+        "Arbeitsplatz": {
+            "7": {
+                "Bearbeitungszeit": 2,
+                "Rüstzeit": 20
+            },
+            "8": {
+                "Bearbeitungszeit": 1,
+                "Rüstzeit": 15
+            },
+            "9": {
+                "Bearbeitungszeit": 3,
+                "Rüstzeit": 15
+            },
+            "12": {
+                "Bearbeitungszeit": 3,
+                "Rüstzeit": 0
+            },
+            "13": {
+                "Bearbeitungszeit": 2,
+                "Rüstzeit": 0
+            }
+        }
+    },
+    "14": {
+        "Typ": "E",
+        "Nr": "14",
+        "Bezeichnung": "Schutzblech v.",
+        "Verwendung": "D",
+        "Startmenge": 100,
+        "Startpreis": "14,65",
+        "Lieferkosten": null,
+        "Lieferzeit": null,
+        "Lieferzeitabweichung": null,
+        "Arbeitsplatz": {
+            "7": {
+                "Bearbeitungszeit": 2,
+                "Rüstzeit": 20
+            },
+            "8": {
+                "Bearbeitungszeit": 2,
+                "Rüstzeit": 15
+            },
+            "9": {
+                "Bearbeitungszeit": 3,
+                "Rüstzeit": 15
+            },
+            "12": {
+                "Bearbeitungszeit": 3,
+                "Rüstzeit": 0
+            },
+            "13": {
+                "Bearbeitungszeit": 2,
+                "Rüstzeit": 0
+            }
+        }
+    },
+    "15": {
+        "Typ": "E",
+        "Nr": "15",
+        "Bezeichnung": "Schutzblech v.",
+        "Verwendung": "H",
+        "Startmenge": 100,
+        "Startpreis": "14,65",
+        "Lieferkosten": null,
+        "Lieferzeit": null,
+        "Lieferzeitabweichung": null,
+        "Arbeitsplatz": {
+            "7": {
+                "Bearbeitungszeit": 2,
+                "Rüstzeit": 20
+            },
+            "8": {
+                "Bearbeitungszeit": 2,
+                "Rüstzeit": 15
+            },
+            "9": {
+                "Bearbeitungszeit": 3,
+                "Rüstzeit": 15
+            },
+            "12": {
+                "Bearbeitungszeit": 3,
+                "Rüstzeit": 0
+            },
+            "13": {
+                "Bearbeitungszeit": 2,
+                "Rüstzeit": 0
+            }
+        }
+    },
+    "16": {
+        "Typ": "E",
+        "Nr": "16",
+        "Bezeichnung": "lenker cpl.",
+        "Verwendung": "KDH",
+        "Startmenge": 300,
+        "Startpreis": "7,02",
+        "Lieferkosten": null,
+        "Lieferzeit": null,
+        "Lieferzeitabweichung": null,
+        "Arbeitsplatz": {
+            "6": {
+                "Bearbeitungszeit": 2,
+                "Rüstzeit": 15
+            },
+            "14": {
+                "Bearbeitungszeit": 3,
+                "Rüstzeit": 0
+            }
+        }
+    },
+    "17": {
+        "Typ": "E",
+        "Nr": "17",
+        "Bezeichnung": "Sattel cpl.",
+        "Verwendung": "KDH",
+        "Startmenge": 300,
+        "Startpreis": "1,16",
+        "Lieferkosten": null,
+        "Lieferzeit": null,
+        "Lieferzeitabweichung": null,
+        "Arbeitsplatz": {
+            "15": {
+                "Bearbeitungszeit": 3,
+                "Rüstzeit": 15
+            }
+        }
+    },
+    "18": {
+        "Typ": "E",
+        "Nr": "18",
+        "Bezeichnung": "Rahmen",
+        "Verwendung": "K",
+        "Startmenge": 100,
+        "Startpreis": "13,15",
+        "Lieferkosten": null,
+        "Lieferzeit": null,
+        "Lieferzeitabweichung": null,
+        "Arbeitsplatz": {
+            "6": {
+                "Bearbeitungszeit": 3,
+                "Rüstzeit": 15
+            },
+            "7": {
+                "Bearbeitungszeit": 2,
+                "Rüstzeit": 20
+            },
+            "8": {
+                "Bearbeitungszeit": 3,
+                "Rüstzeit": 20
+            },
+            "9": {
+                "Bearbeitungszeit": 2,
+                "Rüstzeit": 15
+            }
+        }
+    },
+    "19": {
+        "Typ": "E",
+        "Nr": "19",
+        "Bezeichnung": "Rahmen",
+        "Verwendung": "D",
+        "Startmenge": 100,
+        "Startpreis": "14,35",
+        "Lieferkosten": null,
+        "Lieferzeit": null,
+        "Lieferzeitabweichung": null,
+        "Arbeitsplatz": {
+            "6": {
+                "Bearbeitungszeit": 3,
+                "Rüstzeit": 15
+            },
+            "7": {
+                "Bearbeitungszeit": 2,
+                "Rüstzeit": 20
+            },
+            "8": {
+                "Bearbeitungszeit": 3,
+                "Rüstzeit": 25
+            },
+            "9": {
+                "Bearbeitungszeit": 2,
+                "Rüstzeit": 20
+            }
+        }
+    },
+    "20": {
+        "Typ": "E",
+        "Nr": "20",
+        "Bezeichnung": "Rahmen",
+        "Verwendung": "H",
+        "Startmenge": 100,
+        "Startpreis": "15,55",
+        "Lieferkosten": null,
+        "Lieferzeit": null,
+        "Lieferzeitabweichung": null,
+        "Arbeitsplatz": {
+            "6": {
+                "Bearbeitungszeit": 3,
+                "Rüstzeit": 15
+            },
+            "7": {
+                "Bearbeitungszeit": 2,
+                "Rüstzeit": 20
+            },
+            "8": {
+                "Bearbeitungszeit": 3,
+                "Rüstzeit": 20
+            },
+            "9": {
+                "Bearbeitungszeit": 2,
+                "Rüstzeit": 15
+            }
+        }
+    },
+    "21": {
+        "Typ": "K",
+        "Nr": "21",
+        "Bezeichnung": "Kette",
+        "Verwendung": "K",
+        "Startmenge": 300,
+        "Startpreis": "5",
+        "Lieferkosten": "50",
+        "Lieferzeit": "1,8",
+        "Lieferzeitabweichung": "0,4",
+        "Arbeitsplatz": {}
+    },
+    "22": {
+        "Typ": "K",
+        "Nr": "22",
+        "Bezeichnung": "Kette",
+        "Verwendung": "D",
+        "Startmenge": 300,
+        "Startpreis": "6,5",
+        "Lieferkosten": "50",
+        "Lieferzeit": "1,7",
+        "Lieferzeitabweichung": "0,4",
+        "Arbeitsplatz": {}
+    },
+    "23": {
+        "Typ": "K",
+        "Nr": "23",
+        "Bezeichnung": "Kette",
+        "Verwendung": "H",
+        "Startmenge": 300,
+        "Startpreis": "6,5",
+        "Lieferkosten": "50",
+        "Lieferzeit": "1,2",
+        "Lieferzeitabweichung": "0,2",
+        "Arbeitsplatz": {}
+    },
+    "24": {
+        "Typ": "K",
+        "Nr": "24",
+        "Bezeichnung": "Mutter 3/8",
+        "Verwendung": "KDH",
+        "Startmenge": 6100,
+        "Startpreis": "0,06",
+        "Lieferkosten": "100",
+        "Lieferzeit": "3,2",
+        "Lieferzeitabweichung": "0,3",
+        "Arbeitsplatz": {}
+    },
+    "25 ": {
+        "Typ": "K",
+        "Nr": "25 ",
+        "Bezeichnung": "Scheibe 3/8�",
+        "Verwendung": "KDH",
+        "Startmenge": 3600,
+        "Startpreis": "0,06",
+        "Lieferkosten": "50",
+        "Lieferzeit": "0,9",
+        "Lieferzeitabweichung": "0,2",
+        "Arbeitsplatz": {}
+    },
+    "26 ": {
+        "Typ": "E",
+        "Nr": "26 ",
+        "Bezeichnung": "Pedal cpl.",
+        "Verwendung": "KDH",
+        "Startmenge": 300,
+        "Startpreis": "10,5",
+        "Lieferkosten": null,
+        "Lieferzeit": null,
+        "Lieferzeitabweichung": null,
+        "Arbeitsplatz": {
+            "7": {
+                "Bearbeitungszeit": 2,
+                "Rüstzeit": 30
+            },
+            "15": {
+                "Bearbeitungszeit": 3,
+                "Rüstzeit": 15
+            }
+        }
+    },
+    "27 ": {
+        "Typ": "K",
+        "Nr": "27 ",
+        "Bezeichnung": "Schraube 3/8�",
+        "Verwendung": "KDH",
+        "Startmenge": 1800,
+        "Startpreis": "0,1",
+        "Lieferkosten": "75",
+        "Lieferzeit": "0,9",
+        "Lieferzeitabweichung": "0,2",
+        "Arbeitsplatz": {}
+    },
+    "28 ": {
+        "Typ": "K",
+        "Nr": "28 ",
+        "Bezeichnung": "Rohr ��",
+        "Verwendung": "KDH",
+        "Startmenge": 4500,
+        "Startpreis": "1,2",
+        "Lieferkosten": "50",
+        "Lieferzeit": "1,7",
+        "Lieferzeitabweichung": "0,4",
+        "Arbeitsplatz": {}
+    },
+    "29 ": {
+        "Typ": "E",
+        "Nr": "29 ",
+        "Bezeichnung": "Vorderrad mont.",
+        "Verwendung": "H",
+        "Startmenge": 100,
+        "Startpreis": "69,29",
+        "Lieferkosten": null,
+        "Lieferzeit": null,
+        "Lieferzeitabweichung": null,
+        "Arbeitsplatz": {
+            "1": {
+                "Bearbeitungszeit": 6,
+                "Rüstzeit": 20
+            }
+        }
+    },
+    "30 ": {
+        "Typ": "E",
+        "Nr": "30 ",
+        "Bezeichnung": "Rahmen u. R�der",
+        "Verwendung": "H",
+        "Startmenge": 100,
+        "Startpreis": "127,53",
+        "Lieferkosten": null,
+        "Lieferzeit": null,
+        "Lieferzeitabweichung": null,
+        "Arbeitsplatz": {
+            "2": {
+                "Bearbeitungszeit": 5,
+                "Rüstzeit": 20
+            }
+        }
+    },
+    "31 ": {
+        "Typ": "E",
+        "Nr": "31 ",
+        "Bezeichnung": "Fahrrad o. Ped.",
+        "Verwendung": "H",
+        "Startmenge": 100,
+        "Startpreis": "144,42",
+        "Lieferkosten": null,
+        "Lieferzeit": null,
+        "Lieferzeitabweichung": null,
+        "Arbeitsplatz": {
+            "3": {
+                "Bearbeitungszeit": 6,
+                "Rüstzeit": 20
+            }
+        }
+    },
+    "32 ": {
+        "Typ": "K",
+        "Nr": "32 ",
+        "Bezeichnung": "Farbe",
+        "Verwendung": "KDH",
+        "Startmenge": 2700,
+        "Startpreis": "0,75",
+        "Lieferkosten": "50",
+        "Lieferzeit": "2,1",
+        "Lieferzeitabweichung": "0,5",
+        "Arbeitsplatz": {}
+    },
+    "33 ": {
+        "Typ": "K",
+        "Nr": "33 ",
+        "Bezeichnung": "Felge cpl.",
+        "Verwendung": "H",
+        "Startmenge": 900,
+        "Startpreis": "22",
+        "Lieferkosten": "75",
+        "Lieferzeit": "1,9",
+        "Lieferzeitabweichung": "0,5",
+        "Arbeitsplatz": {}
+    },
+    "34 ": {
+        "Typ": "K",
+        "Nr": "34 ",
+        "Bezeichnung": "Speiche",
+        "Verwendung": "H",
+        "Startmenge": 22000,
+        "Startpreis": "0,1",
+        "Lieferkosten": "50",
+        "Lieferzeit": "1,6",
+        "Lieferzeitabweichung": "0,3",
+        "Arbeitsplatz": {}
+    },
+    "35 ": {
+        "Typ": "K",
+        "Nr": "35 ",
+        "Bezeichnung": "Konus",
+        "Verwendung": "KDH",
+        "Startmenge": 3600,
+        "Startpreis": "1",
+        "Lieferkosten": "75",
+        "Lieferzeit": "2,2",
+        "Lieferzeitabweichung": "0,4",
+        "Arbeitsplatz": {}
+    },
+    "36 ": {
+        "Typ": "K",
+        "Nr": "36 ",
+        "Bezeichnung": "Freilauf",
+        "Verwendung": "KDH",
+        "Startmenge": 900,
+        "Startpreis": "8",
+        "Lieferkosten": "100",
+        "Lieferzeit": "1,2",
+        "Lieferzeitabweichung": "0,1",
+        "Arbeitsplatz": {}
+    },
+    "37 ": {
+        "Typ": "K",
+        "Nr": "37 ",
+        "Bezeichnung": "Gabel",
+        "Verwendung": "KDH",
+        "Startmenge": 900,
+        "Startpreis": "1,5",
+        "Lieferkosten": "50",
+        "Lieferzeit": "1,5",
+        "Lieferzeitabweichung": "0,3",
+        "Arbeitsplatz": {}
+    },
+    "38 ": {
+        "Typ": "K",
+        "Nr": "38 ",
+        "Bezeichnung": "Welle",
+        "Verwendung": "KDH",
+        "Startmenge": 300,
+        "Startpreis": "1,5",
+        "Lieferkosten": "50",
+        "Lieferzeit": "1,7",
+        "Lieferzeitabweichung": "0,4",
+        "Arbeitsplatz": {}
+    },
+    "39 ": {
+        "Typ": "K",
+        "Nr": "39 ",
+        "Bezeichnung": "Blech",
+        "Verwendung": "KDH",
+        "Startmenge": 900,
+        "Startpreis": "1,5",
+        "Lieferkosten": "75",
+        "Lieferzeit": "1,5",
+        "Lieferzeitabweichung": "0,3",
+        "Arbeitsplatz": {}
+    },
+    "40 ": {
+        "Typ": "K",
+        "Nr": "40 ",
+        "Bezeichnung": "Lenker",
+        "Verwendung": "KDH",
+        "Startmenge": 900,
+        "Startpreis": "2,5",
+        "Lieferkosten": "50",
+        "Lieferzeit": "1,7",
+        "Lieferzeitabweichung": "0,2",
+        "Arbeitsplatz": {}
+    },
+    "41 ": {
+        "Typ": "K",
+        "Nr": "41 ",
+        "Bezeichnung": "Mutter ��",
+        "Verwendung": "KDH",
+        "Startmenge": 900,
+        "Startpreis": "0,06",
+        "Lieferkosten": "50",
+        "Lieferzeit": "0,9",
+        "Lieferzeitabweichung": "0,2",
+        "Arbeitsplatz": {}
+    },
+    "42 ": {
+        "Typ": "K",
+        "Nr": "42 ",
+        "Bezeichnung": "Griff",
+        "Verwendung": "KDH",
+        "Startmenge": 1800,
+        "Startpreis": "0,1",
+        "Lieferkosten": "50",
+        "Lieferzeit": "1,2",
+        "Lieferzeitabweichung": "0,3",
+        "Arbeitsplatz": {}
+    },
+    "43 ": {
+        "Typ": "K",
+        "Nr": "43 ",
+        "Bezeichnung": "Sattel",
+        "Verwendung": "KDH",
+        "Startmenge": 1900,
+        "Startpreis": "5",
+        "Lieferkosten": "75",
+        "Lieferzeit": "2",
+        "Lieferzeitabweichung": "0,5",
+        "Arbeitsplatz": {}
+    },
+    "44 ": {
+        "Typ": "K",
+        "Nr": "44 ",
+        "Bezeichnung": "Stange ��",
+        "Verwendung": "KDH",
+        "Startmenge": 2700,
+        "Startpreis": "0,5",
+        "Lieferkosten": "50",
+        "Lieferzeit": "1",
+        "Lieferzeitabweichung": "0,2",
+        "Arbeitsplatz": {}
+    },
+    "45 ": {
+        "Typ": "K",
+        "Nr": "45 ",
+        "Bezeichnung": "Mutter ��",
+        "Verwendung": "KDH",
+        "Startmenge": 900,
+        "Startpreis": "0,06",
+        "Lieferkosten": "50",
+        "Lieferzeit": "1,7",
+        "Lieferzeitabweichung": "0,3",
+        "Arbeitsplatz": {}
+    },
+    "46 ": {
+        "Typ": "K",
+        "Nr": "46 ",
+        "Bezeichnung": "Schraube ��",
+        "Verwendung": "KDH",
+        "Startmenge": 900,
+        "Startpreis": "0,1",
+        "Lieferkosten": "50",
+        "Lieferzeit": "0,9",
+        "Lieferzeitabweichung": "0,3",
+        "Arbeitsplatz": {}
+    },
+    "47 ": {
+        "Typ": "K",
+        "Nr": "47 ",
+        "Bezeichnung": "Zahnkranz",
+        "Verwendung": "KDH",
+        "Startmenge": 900,
+        "Startpreis": "3,5",
+        "Lieferkosten": "50",
+        "Lieferzeit": "1,41",
+        "Lieferzeitabweichung": "0,1",
+        "Arbeitsplatz": {}
+    },
+    "48 ": {
+        "Typ": "K",
+        "Nr": "48 ",
+        "Bezeichnung": "Pedal",
+        "Verwendung": "KDH",
+        "Startmenge": 1800,
+        "Startpreis": "1,5",
+        "Lieferkosten": "75",
+        "Lieferzeit": "1",
+        "Lieferzeitabweichung": "0,2",
+        "Arbeitsplatz": {}
+    },
+    "49 ": {
+        "Typ": "E",
+        "Nr": "49 ",
+        "Bezeichnung": "Vorderrad cpl.",
+        "Verwendung": "K",
+        "Startmenge": 100,
+        "Startpreis": "64,64",
+        "Lieferkosten": null,
+        "Lieferzeit": null,
+        "Lieferzeitabweichung": null,
+        "Arbeitsplatz": {
+            "1": {
+                "Bearbeitungszeit": 6,
+                "Rüstzeit": 20
+            }
+        }
+    },
+    "50 ": {
+        "Typ": "E",
+        "Nr": "50 ",
+        "Bezeichnung": "Rahmen u. R�der",
+        "Verwendung": "K",
+        "Startmenge": 100,
+        "Startpreis": "120,63",
+        "Lieferkosten": null,
+        "Lieferzeit": null,
+        "Lieferzeitabweichung": null,
+        "Arbeitsplatz": {
+            "2": {
+                "Bearbeitungszeit": 5,
+                "Rüstzeit": 30
+            }
+        }
+    },
+    "51 ": {
+        "Typ": "E",
+        "Nr": "51 ",
+        "Bezeichnung": "Fahrrad o. Pedal",
+        "Verwendung": "K",
+        "Startmenge": 100,
+        "Startpreis": "137,47",
+        "Lieferkosten": null,
+        "Lieferzeit": null,
+        "Lieferzeitabweichung": null,
+        "Arbeitsplatz": {
+            "3": {
+                "Bearbeitungszeit": 5,
+                "Rüstzeit": 20
+            }
+        }
+    },
+    "52 ": {
+        "Typ": "K",
+        "Nr": "52 ",
+        "Bezeichnung": "Felge cpl.",
+        "Verwendung": "K",
+        "Startmenge": 600,
+        "Startpreis": "22",
+        "Lieferkosten": "50",
+        "Lieferzeit": "1,6",
+        "Lieferzeitabweichung": "0,4",
+        "Arbeitsplatz": {}
+    },
+    "53 ": {
+        "Typ": "K",
+        "Nr": "53 ",
+        "Bezeichnung": "Speiche",
+        "Verwendung": "K",
+        "Startmenge": 22000,
+        "Startpreis": "0,1",
+        "Lieferkosten": "50",
+        "Lieferzeit": "1,6",
+        "Lieferzeitabweichung": "0,2",
+        "Arbeitsplatz": {}
+    },
+    "54 ": {
+        "Typ": "E",
+        "Nr": "54 ",
+        "Bezeichnung": "Vorderrad cpl.",
+        "Verwendung": "D",
+        "Startmenge": 100,
+        "Startpreis": "68,09",
+        "Lieferkosten": null,
+        "Lieferzeit": null,
+        "Lieferzeitabweichung": null,
+        "Arbeitsplatz": {
+            "1": {
+                "Bearbeitungszeit": 6,
+                "Rüstzeit": 20
+            }
+        }
+    },
+    "55 ": {
+        "Typ": "E",
+        "Nr": "55 ",
+        "Bezeichnung": "Rahmen u. R�der",
+        "Verwendung": "D",
+        "Startmenge": 100,
+        "Startpreis": "125,33",
+        "Lieferkosten": null,
+        "Lieferzeit": null,
+        "Lieferzeitabweichung": null,
+        "Arbeitsplatz": {
+            "2": {
+                "Bearbeitungszeit": 5,
+                "Rüstzeit": 30
+            }
+        }
+    },
+    "56 ": {
+        "Typ": "E",
+        "Nr": "56 ",
+        "Bezeichnung": "Fahrrad o. Pedal",
+        "Verwendung": "D",
+        "Startmenge": 100,
+        "Startpreis": "142,67",
+        "Lieferkosten": null,
+        "Lieferzeit": null,
+        "Lieferzeitabweichung": null,
+        "Arbeitsplatz": {
+            "3": {
+                "Bearbeitungszeit": 6,
+                "Rüstzeit": 20
+            }
+        }
+    },
+    "57 ": {
+        "Typ": "K",
+        "Nr": "57 ",
+        "Bezeichnung": "Felge cpl.",
+        "Verwendung": "D",
+        "Startmenge": 600,
+        "Startpreis": "22",
+        "Lieferkosten": "50",
+        "Lieferzeit": "1,7",
+        "Lieferzeitabweichung": "0,3",
+        "Arbeitsplatz": {}
+    },
+    "58 ": {
+        "Typ": "K",
+        "Nr": "58 ",
+        "Bezeichnung": "Speiche",
+        "Verwendung": "D",
+        "Startmenge": 22000,
+        "Startpreis": "0,1",
+        "Lieferkosten": "50",
+        "Lieferzeit": "1,6",
+        "Lieferzeitabweichung": "0,5",
+        "Arbeitsplatz": {}
+    },
+    "59 ": {
+        "Typ": "K",
+        "Nr": "59 ",
+        "Bezeichnung": "Schwei�draht",
+        "Verwendung": "KDH",
+        "Startmenge": 1800,
+        "Startpreis": "0,15",
+        "Lieferkosten": "50",
+        "Lieferzeit": "0,7",
+        "Lieferzeitabweichung": "0,2",
+        "Arbeitsplatz": {}
+    }
+}
