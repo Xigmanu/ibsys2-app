@@ -19,6 +19,7 @@ import {
 import { DataService } from './data.service';
 import { DataStructure } from './data.service';
 import { TranslateService } from '@ngx-translate/core';
+import { GlobalStateService } from './shared/global-state.service';
 
 @Component({
   selector: 'app-root',
@@ -52,7 +53,8 @@ export class AppComponent {
 
   constructor(
     private dataService: DataService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    public globalState: GlobalStateService
   ) {
     // Check localStorage for the last selected language
     const savedLang = localStorage.getItem('language');
