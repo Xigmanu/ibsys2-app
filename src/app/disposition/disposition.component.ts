@@ -42,7 +42,7 @@ export class DispositionComponent implements OnInit {
     this.rows_p3 = createTableRows(this.dataStruct, 2);
   }
 
-  onDataSafe() {
+  onSave() {
     const p1DispoItems: DispoItem[] = this.convertRowsToDispoItemArray(
       this.rows_p1
     );
