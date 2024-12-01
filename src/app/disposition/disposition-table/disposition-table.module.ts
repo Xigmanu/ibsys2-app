@@ -17,7 +17,7 @@ import {
 } from './disposition-table-row';
 
 @Component({
-  selector: 'po-table',
+  selector: 'dispo-table',
   templateUrl: './disposition-table.module.html',
   standalone: true,
   imports: [
