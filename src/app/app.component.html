@@ -10,8 +10,11 @@
       <button class="btn btn-warning-outline" (click)="onGetDebugData()">
         Output Data in Console
       </button>
-      <button class="btn btn-warning-outline" (click)="onSetSampleData()">
-        Generate Sample
+      <button class="btn btn-warning-outline" (click)="onSetInputSampleData()">
+        Generate Input Sample
+      </button>
+      <button class="btn btn-warning-outline" (click)="onSetOutputSampleData()">
+        Generate Output Sample
       </button>
       <clr-dropdown>
         <button
@@ -41,19 +44,28 @@
         <cds-icon clrVerticalNavIcon shape="install"></cds-icon>
         Setup
       </a>
-      <a clrVerticalNavLink routerLink="./sellwish" routerLinkActive="active">
+      <a *ngIf="this.globalState.dataInitialized"
+      clrVerticalNavLink routerLink="./input" routerLinkActive="active">
+        <cds-icon clrVerticalNavIcon shape="dollar-bill"></cds-icon>
+        Input
+      </a>
+      <a *ngIf="this.globalState.dataInitialized"
+      clrVerticalNavLink routerLink="./sellwish" routerLinkActive="active">
         <cds-icon clrVerticalNavIcon shape="dollar-bill"></cds-icon>
         Sellwish
       </a>
-      <a clrVerticalNavLink routerLink="./capacity-plan" routerLinkActive="active">
+      <a *ngIf="this.globalState.dataInitialized"
+      clrVerticalNavLink routerLink="./capacity-plan" routerLinkActive="active">
         <cds-icon clrVerticalNavIcon shape="house"></cds-icon>
         capacity-plan
       </a>
-      <a clrVerticalNavLink routerLink="./export" routerLinkActive="active">
+      <a *ngIf="this.globalState.dataInitialized"
+      clrVerticalNavLink routerLink="./export" routerLinkActive="active">
         <cds-icon clrVerticalNavIcon shape="export"></cds-icon>
         Export
       </a>
-      <a clrVerticalNavLink routerLink="./dispo" routerLinkActive="active">
+      <a *ngIf="this.globalState.dataInitialized"
+      clrVerticalNavLink routerLink="./dispo" routerLinkActive="active">
         <cds-icon clrVerticalNavIcon shape="export"></cds-icon>
         Dispo
       </a>
