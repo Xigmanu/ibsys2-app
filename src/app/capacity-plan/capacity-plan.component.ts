@@ -66,46 +66,82 @@ export class CapacityPlanComponent implements OnInit {
     'P3',
   ];
   bezeichnungen = [
-    "Hinterrad", "", "",
-    "Vorderrad", "", "",
-    "Schutzblech hinten", "", "",
-    "Schutzblech vorne", "", "",
-    "Lenker",
-    "Sattel",
-    "Rahmen", "", "",
-    "Pedale",
-    "Vorderrad komplett (cpl)", "", "",
-    "Rahmen und Räder", "", "",
-    "Fahrrad ohne Pedale", "", "",
-    "Fahrrad komplett (cpl)", "", "",
+    'Hinterrad',
+    '',
+    '',
+    'Vorderrad',
+    '',
+    '',
+    'Schutzblech hinten',
+    '',
+    '',
+    'Schutzblech vorne',
+    '',
+    '',
+    'Lenker',
+    'Sattel',
+    'Rahmen',
+    '',
+    '',
+    'Pedale',
+    'Vorderrad komplett (cpl)',
+    '',
+    '',
+    'Rahmen und Räder',
+    '',
+    '',
+    'Fahrrad ohne Pedale',
+    '',
+    '',
+    'Fahrrad komplett (cpl)',
+    '',
+    '',
   ];
   werte = [
-    "K", "D", "H",
-    "K", "D", "H",
-    "K", "D", "H",
-    "K", "D", "H",
-    "KDH",
-    "KDH",
-    "K", "D", "H",
-    "KDH",
-    "K", "D", "H",
-    "K", "D", "H",
-    "K", "D", "H",
-    "K", "D", "H",
+    'K',
+    'D',
+    'H',
+    'K',
+    'D',
+    'H',
+    'K',
+    'D',
+    'H',
+    'K',
+    'D',
+    'H',
+    'KDH',
+    'KDH',
+    'K',
+    'D',
+    'H',
+    'KDH',
+    'K',
+    'D',
+    'H',
+    'K',
+    'D',
+    'H',
+    'K',
+    'D',
+    'H',
+    'K',
+    'D',
+    'H',
   ];
-  kapazitaetsbedarfNeu: any[]  = []
-  ruestzeitNeu: any[]  = []
-  kapazitaetsbedarfAlt: any[] = []
-  ruestzeitAlt: any[] = []
-  gesamtKapazitaet: any[] = []
-
+  kapazitaetsbedarfNeu: any[] = [];
+  ruestzeitNeu: any[] = [];
+  kapazitaetsbedarfAlt: any[] = [];
+  ruestzeitAlt: any[] = [];
+  gesamtKapazitaet: any[] = [];
+  schichten: any[] = [];
+  ueberstunden: any[] = [];
 
   productionArray: string[][] = [];
   productionForm: FormGroup = new FormGroup({});
   capacityData: Record<string, CapacityEntry> = capacityDataJson;
 
   ngOnInit() {
-
     this.productionForm = this.fb.group({
       productionlist: new FormControl(''),
       rustzeit: new FormControl(''),
@@ -121,16 +157,14 @@ export class CapacityPlanComponent implements OnInit {
     const productions = data.output.productionList.productions;
     for (let i = 0; i < this.items.length; i++) {
       const articleNumber = parseInt(this.items[i].substring(1));
-      let row: any[] = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-      
-      productions.forEach((production) => { 
-      
+      let row: any[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+      productions.forEach((production) => {
         if (production.article === articleNumber) {
           row = this.updateRow(row, production);
         }
-      })
-     
-      
+      });
+
       row.unshift(this.items[i]);
       row.unshift(this.werte[i]);
       row.unshift(this.bezeichnungen[i]);
@@ -138,20 +172,19 @@ export class CapacityPlanComponent implements OnInit {
       this.productionArray.push(row);
     }
     this.calculateKapazitaetsbedarfNeu();
-    this.calculateRuestzeitNeu();
-    this.calculateKapazitaetsbedarfAlt();
-    this.calculateRuestzeitAlt();
+    this.calculateRuestzeitNeu(data);
+    this.calculateKapazitaetsbedarfAlt(data);
+    this.calculateRuestzeitAlt(data);
     this.calculateGesamtKapazitaet();
-
-    console.log(productions)
+    this.calculateSchichtenUeberstunden();
   }
 
   updateRow(row: any[], production: Production): any[] {
-      row[0] += (production.quantity) ;
-      for (let i: number = 1; i < 15; i++) {
-        row[i] += this.calculateWorkingStations(production, i);
-      }
-      
+    row[0] += production.quantity;
+    for (let i: number = 1; i < 15; i++) {
+      row[i] += this.calculateWorkingStations(production, i);
+    }
+
     return row;
   }
 
@@ -162,67 +195,231 @@ export class CapacityPlanComponent implements OnInit {
       const bearbeitungszeit = arbeitsplatz.Bearbeitungszeit ?? 0;
       const rüstzeit = arbeitsplatz.Rüstzeit ?? 0;
 
-
-      return bearbeitungszeit * production.quantity + rüstzeit;
+      this.ruestzeitNeu[station] += rüstzeit;
+      return bearbeitungszeit * production.quantity;
     }
     return 0;
   }
 
   calculateKapazitaetsbedarfNeu() {
-    for (let i = 0; i < this.productionArray.length; i++) {
-      for (let j = 5; j < 18; j++) {
+    for (let i = 0; i < this.items.length; i++) {
+      for (let j = 4; j < 18; j++) {
         this.kapazitaetsbedarfNeu[j] += this.productionArray[i][j];
       }
     }
     this.productionArray.push(this.kapazitaetsbedarfNeu);
   }
 
-  calculateRuestzeitNeu() {
-    for (let i = 0; i < this.productionArray.length; i++) {
-      for (let j = 4; j < 18; j++) {
-        this.ruestzeitNeu[j] += this.productionArray[i][j];
-      }
-    }
+  calculateRuestzeitNeu(data: DataStructure) {
     this.productionArray.push(this.ruestzeitNeu);
   }
 
-  calculateKapazitaetsbedarfAlt() {
-    for (let i = 0; i < this.productionArray.length; i++) {
-      for (let j = 4; j < 18; j++) {
-        this.kapazitaetsbedarfAlt[j] += this.productionArray[i][j];
+  calculateKapazitaetsbedarfAlt(data: DataStructure) {
+    for (let i = 4; i < this.kapazitaetsbedarfAlt.length; i++) {
+      if (data.input.waitingListWorkstations[i - 4] != undefined) {
+        this.kapazitaetsbedarfAlt[i] =
+          data.input.waitingListWorkstations[i - 4].timeNeed;
+      } else {
+        this.kapazitaetsbedarfAlt[i] = -99999999;
       }
     }
     this.productionArray.push(this.kapazitaetsbedarfAlt);
   }
 
-  calculateRuestzeitAlt() {
-    for (let i = 0; i < this.productionArray.length; i++) {
-      for (let j = 4; j < 18; j++) {
-        this.ruestzeitAlt[j] += this.productionArray[i][j];
+  calculateRuestzeitAlt(data: DataStructure) {
+    for (let i = 4; i < this.ruestzeitAlt.length; i++) {
+      if (data.input.waitingListWorkstations[i - 4] != undefined) {
+        this.ruestzeitAlt[i] =
+          data.input.waitingListWorkstations[i - 4].timeNeed / 10; //TODO: Rüstzeit berechnen
+      } else {
+        this.ruestzeitAlt[i] = -99999999;
       }
     }
     this.productionArray.push(this.ruestzeitAlt);
   }
 
   calculateGesamtKapazitaet() {
-    for (let i = 5; i < this.gesamtKapazitaet.length; i++) {
-        this.gesamtKapazitaet[i] = this.ruestzeitAlt[i] + this.ruestzeitNeu[i] + this.kapazitaetsbedarfAlt[i] + this.kapazitaetsbedarfNeu[i];
+    for (let i = 4; i < this.gesamtKapazitaet.length; i++) {
+      this.gesamtKapazitaet[i] =
+        this.ruestzeitAlt[i] +
+        this.ruestzeitNeu[i] +
+        this.kapazitaetsbedarfAlt[i] +
+        this.kapazitaetsbedarfNeu[i];
     }
     this.productionArray.push(this.gesamtKapazitaet);
   }
 
+  calculateSchichtenUeberstunden() {
+
+    for (let i = 4; i < this.gesamtKapazitaet.length; i++) {
+      let schichten = 0;
+      let ueberstunden = 0;
+      let totalCapacity = this.gesamtKapazitaet[i];
+  
+  
+    if (totalCapacity <= 3600) {
+      schichten = 1;
+      ueberstunden = (totalCapacity - 2400) / 5;
+    } else if (totalCapacity <= 6000) {
+      schichten = 2;
+      ueberstunden = (totalCapacity - 4800) / 5;
+    } else {
+      schichten = 3;
+      ueberstunden = (totalCapacity - 7200) / 5;
+    }   
+    this.schichten[i] = schichten;
+    this.ueberstunden[i] = ueberstunden;
+    }
+    this.productionArray.push(this.schichten);
+    this.productionArray.push(this.ueberstunden);
+  }
+
   resetTable() {
     this.productionArray = [];
-    this.kapazitaetsbedarfNeu = ["Kapatitätsbedarf Neu",,,,0,0,0,0,0,0,0,0,0,0,0,0,0,0]; 
-    this.ruestzeitNeu= ["Rüstzeit Neu",,,,0,0,0,0,0,0,0,0,0,0,0,0,0,0]; 
-    this.kapazitaetsbedarfAlt = ["Kap. Warteschl.",,,,0,0,0,0,0,0,0,0,0,0,0,0,0,0]; //Rückstand Vorperiode
-    this.ruestzeitAlt = ["Rüs. Warteschl.",,,,0,0,0,0,0,0,0,0,0,0,0,0,0,0]; //Rückstand Vorperiode
-    this.gesamtKapazitaet = ["Gesamtkapazität",,,,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+    this.kapazitaetsbedarfNeu = [
+      'Kapatitätsbedarf Neu',
+      ,
+      ,
+      ,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+    ];
+    this.ruestzeitNeu = [
+      'Rüstzeit Neu',
+      ,
+      ,
+      ,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+    ];
+    this.kapazitaetsbedarfAlt = [
+      'Kap.bed. Warteschl.',
+      ,
+      ,
+      ,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+    ]; //Rückstand Vorperiode
+    this.ruestzeitAlt = [
+      'Rüs. Warteschl.',
+      ,
+      ,
+      ,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+    ]; //Rückstand Vorperiode
+    this.gesamtKapazitaet = [
+      'Gesamtkapazität',
+      ,
+      ,
+      ,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+    ];
+    this.schichten = [
+      'Schichten',
+      ,
+      ,
+      ,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+    ];
+    this.ueberstunden = [
+      'Überstunden pro Tag',
+      ,
+      ,
+      ,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+    ];
   }
 
   printProductionArray() {
     this.updateProductionArray();
     console.log(this.productionArray);
-
   }
 }
