@@ -19,6 +19,7 @@ import {
 @Component({
   selector: 'dispo-table',
   templateUrl: './disposition-table.module.html',
+  styleUrl: './disposition-table.module.scss',
   standalone: true,
   imports: [
     CommonModule,

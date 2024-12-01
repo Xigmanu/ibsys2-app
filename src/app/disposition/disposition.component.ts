@@ -18,6 +18,7 @@ import {
 @Component({
   selector: 'app-prod-orders',
   templateUrl: './disposition.component.html',
+  styleUrl: './disposition.component.scss',
   standalone: true,
   imports: [
     ClarityModule,
