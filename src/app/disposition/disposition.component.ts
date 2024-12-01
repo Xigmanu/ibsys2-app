@@ -28,32 +28,32 @@ import {
 })
 export class DispositionComponent implements OnInit {
   private dataStruct: DataStructure;
-  rows_p1: DispositionTableRow[] = [];
-  rows_p2: DispositionTableRow[] = [];
-  rows_p3: DispositionTableRow[] = [];
+  rowsP1: DispositionTableRow[] = [];
+  rowsP2: DispositionTableRow[] = [];
+  rowsP3: DispositionTableRow[] = [];
 
   constructor(private globalDS: DataService) {
     this.dataStruct = this.globalDS.getData();
   }
 
   ngOnInit(): void {
-    this.rows_p1 = createTableRows(this.dataStruct, 0);
-    this.rows_p2 = createTableRows(this.dataStruct, 1);
-    this.rows_p3 = createTableRows(this.dataStruct, 2);
+    this.rowsP1 = createTableRows(this.dataStruct, 0);
+    this.rowsP2 = createTableRows(this.dataStruct, 1);
+    this.rowsP3 = createTableRows(this.dataStruct, 2);
   }
 
   onSave() {
     const p1DispoItems: DispoItem[] = this.convertRowsToDispoItemArray(
-      this.rows_p1
+      this.rowsP1
     );
     const p2DispoItems: DispoItem[] = this.convertRowsToDispoItemArray(
-      this.rows_p2
+      this.rowsP2
     );
     const p3DispoItems: DispoItem[] = this.convertRowsToDispoItemArray(
-      this.rows_p3
+      this.rowsP3
     );
 
-    const rowsAll: DispositionTableRow[] = this.rows_p1.concat(this.rows_p2.concat(this.rows_p3));
+    const rowsAll: DispositionTableRow[] = this.rowsP1.concat(this.rowsP2.concat(this.rowsP3));
 
     const prodArr: Production[] = this.convertRowsToProductionArray(rowsAll);
 
