@@ -2,7 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ClarityModule } from '@clr/angular';
 import { ProdOrdersTableModule } from './disposition-table/disposition-table.module';
-import { DataService, DataStructure, DispoItem } from '../data.service';
+import {
+  DataService,
+  DataStructure,
+  DispoItem,
+  Production,
+} from '../data.service';
 import { TranslateModule } from '@ngx-translate/core';
 import {
   createTableRows,
@@ -48,18 +53,37 @@ export class DispositionComponent implements OnInit {
       this.rows_p3
     );
 
+    const rowsAll: DispositionTableRow[] = this.rows_p1.concat(this.rows_p2.concat(this.rows_p3));
+
+    const prodArr: Production[] = this.convertRowsToProductionArray(rowsAll);
+
     this.dataStruct.disposition.p1.push(...p1DispoItems);
     this.dataStruct.disposition.p2.push(...p2DispoItems);
     this.dataStruct.disposition.p3.push(...p3DispoItems);
+
+    this.dataStruct.output.productionList.productions.push(...prodArr);
   }
 
-  convertRowsToDispoItemArray(rows: DispositionTableRow[]): DispoItem[] {
+  private convertRowsToDispoItemArray(
+    rows: DispositionTableRow[]
+  ): DispoItem[] {
     return rows.map((row) => {
       return {
         articleId: row[DispositionTableRowName.ARTICLE_ID].toString(),
         safetyStock: !row[DispositionTableRowName.STOCK_SAFETY]
           ? 0
           : row[DispositionTableRowName.STOCK_SAFETY],
+      };
+    });
+  }
+
+  private convertRowsToProductionArray(
+    rows: DispositionTableRow[]
+  ): Production[] {
+    return rows.map((row) => {
+      return {
+        article: row[DispositionTableRowName.ARTICLE_ID],
+        quantity: row[DispositionTableRowName.ORDERS_PROD],
       };
     });
   }
