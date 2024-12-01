@@ -1,21 +1,26 @@
 {
-    "output": {
-      "qualityControl": {
-        "type": "no",
-        "loseQuantity": 0,
-        "delay": 0
-      },
-      "sellWish": [
+  "output": {
+    "qualityControl": {
+      "type": "no",
+      "loseQuantity": 0,
+      "delay": 0
+    },
+    "sellWish": {
+      "items": [
         { "article": 1, "quantity": 150 },
         { "article": 2, "quantity": 250 },
         { "article": 3, "quantity": 100 }
-      ],
-      "sellDirect": [
+      ]
+    },
+    "sellDirect": {
+      "items": [
         { "article": 1, "quantity": 0, "price": 0.0, "penalty": 0.0 },
         { "article": 2, "quantity": 0, "price": 0.0, "penalty": 0.0 },
         { "article": 3, "quantity": 0, "price": 0.0, "penalty": 0.0 }
-      ],
-      "orderList": [
+      ]
+    },
+    "orderList": {
+      "orders": [
         { "article": 23, "quantity": 300, "modus": 5 },
         { "article": 28, "quantity": 3000, "modus": 5 },
         { "article": 32, "quantity": 1999, "modus": 5 },
@@ -32,8 +37,10 @@
         { "article": 57, "quantity": 1000, "modus": 5 },
         { "article": 58, "quantity": 25000, "modus": 5 },
         { "article": 59, "quantity": 500, "modus": 5 }
-      ],
-      "productionList": [
+      ]
+    },
+    "productionList": {
+      "productions": [
         { "article": 5, "quantity": 192 },
         { "article": 6, "quantity": 59 },
         { "article": 8, "quantity": 242 },
@@ -59,8 +66,10 @@
         { "article": 2, "quantity": 252 },
         { "article": 3, "quantity": 95 },
         { "article": 1, "quantity": 120 }
-      ],
-      "workingTimeList": [
+      ]
+    },
+    "workingTimeList": {
+      "workingTimes": [
         { "station": 1, "shift": 1, "overtime": 11 },
         { "station": 2, "shift": 1, "overtime": 0 },
         { "station": 3, "shift": 1, "overtime": 21 },
@@ -78,4 +87,4 @@
       ]
     }
   }
-  
+}
