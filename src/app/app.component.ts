@@ -80,10 +80,12 @@ export class AppComponent {
 
   onSetInputSampleData(): void {
     this.dataService.generateInputSampleData();
+    this.globalState.dataInitialized = true;
   }
 
   onSetOutputSampleData(): void {
     this.dataService.generateOutputSampleData();
+    this.globalState.dataInitialized = true;
   }
 }
 
