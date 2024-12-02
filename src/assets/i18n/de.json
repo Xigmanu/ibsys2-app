@@ -20,7 +20,8 @@
     "quantity": "Menge",
     "price": "Preis pro Einheit",
     "penalty": "Konventionalstrafe",
-    "saveButton": "Speichern"
+    "saveButton": "Speichern",
+    "error": "Pflichtfeld"
   },
   "export": {
     "title": "Export",
@@ -50,5 +51,16 @@
     "title": "Willkommen bei Sisyphus",
     "description": "Professionelle Produktionsmanagement-Software von G8-Softworks.",
     "getStarted": "Loslegen"
+  },
+  "disposition": {
+    "title": "Disposition",
+    "sales_request": "Vertriebswunsch",
+    "stock_safety": "Sicherheitsbestand",
+    "stock_old": "Lagerbestand Vorperiode",
+    "orders_queued": "Aufträge in der Warteschlange",
+    "orders_active": "Aufträge in Bearbeitung",
+    "orders_prod": "Produktionsaufträge",
+    "button_save": "Speichern",
+    "tableRowInput_error": "Der Wert muss größer oder gleich Null sein"
   }
 }

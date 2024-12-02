@@ -6,8 +6,6 @@
     
 .vertriebswunsch label {
   display: flex;
-  align-items: center;
-  padding: 8px;
 }
   
 .vertriebswunsch label input {
@@ -42,8 +40,12 @@
     justify-content: center;
 }
 
-button.btn {
-  margin-left: 12px;
-  margin-top: 250px;
-  display: block;
+.error {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;  
+}
+
+input {
+  text-align: center;
 }

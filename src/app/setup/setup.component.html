@@ -43,16 +43,31 @@
       <span class="alert-text">{{ "setup.xmlAlertDanger" | translate }}</span>
     </clr-alert-item>
   </clr-alert>
-  <clr-alert *ngIf="mappingSuccess" [clrAlertType]="'success'">
+  <clr-alert
+    *ngIf="this.globalState.dataInitialized"
+    [clrAlertType]="'success'"
+  >
     <clr-alert-item>
       <span class="alert-text">{{ "setup.xmlAlertSuccess" | translate }}</span>
     </clr-alert-item>
   </clr-alert>
 </div>
 
-<div *ngIf="mappingSuccess">
+<br />
+<div *ngIf="this.globalState.dataInitialized">
+  <p>{{ "setup.msgReviewData" | translate }}</p>
+  <br />
+  <button
+    class="btn btn-info-outline"
+    [clrLoading]="uploadBtnState"
+    routerLink="/input"
+  >
+    {{ "setup.reviewDataButton" | translate }}
+  </button>
+</div>
+<!--
+<div *ngIf="this.globalState.dataInitialized">
   <h2>{{ "setup.inspectData" | translate }}</h2>
-
   <clr-accordion>
     <clr-accordion-panel>
       <clr-accordion-title>{{
@@ -64,3 +79,66 @@
     </clr-accordion-panel>
   </clr-accordion>
 </div>
+
+<div *ngIf="this.globalState.dataInitialized">
+  <clr-tabs>
+    <clr-tab>
+      <button clrTabLink>Metadata</button>
+      <clr-tab-content *clrIfActive>
+        <form class="clr-form">
+          <div class="clr-form-control">
+            <label for="game" class="clr-control-label">Game</label>
+            <div class="clr-control-container">
+              <div class="clr-input-wrapper">
+                <input
+                  type="text"
+                  id="game"
+                  placeholder="Game"
+                  class="clr-input"
+                  [(ngModel)]="data.input.metaData.game"
+                  name="game"
+                />
+                <cds-icon class="clr-validate-icon" shape="exclamation-circle"></cds-icon>
+              </div>
+            </div>
+          </div>
+
+          <div class="clr-form-control">
+            <label for="group" class="clr-control-label">Group</label>
+            <div class="clr-control-container">
+              <div class="clr-input-wrapper">
+                <input
+                  type="text"
+                  id="group"
+                  placeholder="Group"
+                  class="clr-input"
+                  [(ngModel)]="data.input.metaData.group"
+                  name="group"
+                />
+                <cds-icon class="clr-validate-icon" shape="exclamation-circle"></cds-icon>
+              </div>
+            </div>
+          </div>
+
+          <div class="clr-form-control">
+            <label for="period" class="clr-control-label">Period</label>
+            <div class="clr-control-container">
+              <div class="clr-input-wrapper">
+                <input
+                  type="text"
+                  id="period"
+                  placeholder="Period"
+                  class="clr-input"
+                  [(ngModel)]="data.input.metaData.period"
+                  name="period"
+                />
+                <cds-icon class="clr-validate-icon" shape="exclamation-circle"></cds-icon>
+              </div>
+            </div>
+          </div>
+        </form>
+      </clr-tab-content>
+    </clr-tab>
+  </clr-tabs>
+</div>
+-->

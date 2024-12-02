@@ -421,9 +421,35 @@ export class DataService {
     return this.data;
   }
 
-  generateSampleData(): void {
-    this.http.get('/assets/debug/sample.json').subscribe((response: any) => {
-      this.data = response;
+  deepMerge(target: any, source: any): any {
+    for (const key of Object.keys(source)) {
+      if (
+        source[key] &&
+        typeof source[key] === 'object' &&
+        !Array.isArray(source[key])
+      ) {
+        if (!target[key] || typeof target[key] !== 'object') {
+          target[key] = {};
+        }
+        this.deepMerge(target[key], source[key]);
+      } else {
+        target[key] = source[key];
+      }
+    }
+    return target;
+  }
+  
+
+  generateInputSampleData(): void {
+    this.http.get('/assets/debug/sample_input.json').subscribe((response: any) => {
+      this.deepMerge(this.data, response);
+      console.log('Sample data loaded.');
+    });
+  }
+
+  generateOutputSampleData(): void {
+    this.http.get('/assets/debug/sample_output.json').subscribe((response: any) => {
+      this.deepMerge(this.data, response);
       console.log('Sample data loaded.');
     });
   }

@@ -1,0 +1,39 @@
+<form clrForm clrLayout="vertical" [formGroup]="form">
+  <table class="table">
+    <thead>
+      <th>{{ "export.article" | translate }}</th>
+      <th>{{ "disposition.sales_request" | translate }}</th>
+      <th>{{ "disposition.stock_safety" | translate }}</th>
+      <th>{{ "disposition.stock_old" | translate }}</th>
+      <th>{{ "disposition.orders_queued" | translate }}</th>
+      <th>{{ "disposition.orders_active" | translate }}</th>
+      <th>{{ "disposition.orders_prod" | translate }}</th>
+    </thead>
+    <tbody formArrayName="rows">
+      <tr *ngFor="let row of rows.controls; let i = index" [formGroupName]="i">
+        <td>{{ row.get(rowNameEnum.ARTICLE_ID)?.value }}</td>
+        <td>{{ row.get(rowNameEnum.SALES_REQUEST)?.value }}</td>
+        <td>
+          <clr-input-container>
+            <input
+              class="input"
+              clrInput
+              type="number"
+              min="0"
+              [formControlName]="rowNameEnum.STOCK_SAFETY"
+              [value]="row.get(rowNameEnum.STOCK_SAFETY)?.value"
+              (change)="onChange(i)"
+            />
+            <clr-control-error
+              >{{ "disposition.tableRowInput_error" | translate }}</clr-control-error
+            >
+          </clr-input-container>
+        </td>
+        <td>{{ row.get(rowNameEnum.STOCK_OLD)?.value }}</td>
+        <td>{{ row.get(rowNameEnum.ORDERS_QUEUED)?.value }}</td>
+        <td>{{ row.get(rowNameEnum.ORDERS_ACTIVE)?.value }}</td>
+        <td>{{ row.get(rowNameEnum.ORDERS_PROD)?.value }}</td>
+      </tr>
+    </tbody>
+  </table>
+</form>
