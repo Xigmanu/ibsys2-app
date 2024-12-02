@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { ClarityModule } from '@clr/angular';
+import { ClarityModule, ClrLoadingState } from '@clr/angular';
 import { ProdOrdersTableModule } from './disposition-table/disposition-table.module';
 import {
   DataService,
@@ -29,9 +29,12 @@ import {
 })
 export class DispositionComponent implements OnInit {
   private dataStruct: DataStructure;
+
   rowsP1: DispositionTableRow[] = [];
   rowsP2: DispositionTableRow[] = [];
   rowsP3: DispositionTableRow[] = [];
+
+  saveBtnState: ClrLoadingState = ClrLoadingState.DEFAULT;
 
   constructor(private globalDS: DataService) {
     this.dataStruct = this.globalDS.getData();
@@ -54,7 +57,9 @@ export class DispositionComponent implements OnInit {
       this.rowsP3
     );
 
-    const rowsAll: DispositionTableRow[] = this.rowsP1.concat(this.rowsP2.concat(this.rowsP3));
+    const rowsAll: DispositionTableRow[] = this.rowsP1.concat(
+      this.rowsP2.concat(this.rowsP3)
+    );
 
     const prodArr: Production[] = this.convertRowsToProductionArray(rowsAll);
 
@@ -63,6 +68,8 @@ export class DispositionComponent implements OnInit {
     this.dataStruct.disposition.p3.push(...p3DispoItems);
 
     this.dataStruct.output.productionList.productions.push(...prodArr);
+
+    this.saveBtnState = ClrLoadingState.SUCCESS;
   }
 
   private convertRowsToDispoItemArray(
