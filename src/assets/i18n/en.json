@@ -53,5 +53,16 @@
     "title": "Welcome to Sisyphus",
     "description": "Professional Production Management Software by G8-Softworks.",
     "getStarted": "Get Started"
+  },
+  "disposition": {
+    "title": "Disposition",
+    "sales_request": "Sales Request",
+    "stock_safety": "Safety Stock",
+    "stock_old": "Stock Previous Period",
+    "orders_queued": "Orders in Queue",
+    "orders_active": "Active Orders",
+    "orders_prod": "Production Orders",
+    "button_save": "Save",
+    "tableRowInput_error": "Value must be greater than or equal to zero"
   }
 }
