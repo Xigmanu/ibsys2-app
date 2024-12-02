@@ -22,7 +22,8 @@
     "quantity": "Quantity",
     "price": "Price per Unit",
     "penalty": "Penalty",
-    "saveButton": "Save"
+    "saveButton": "Save",
+    "error": "Required Field"
   },
   "export": {
     "title": "Export",

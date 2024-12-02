@@ -20,7 +20,8 @@
     "quantity": "Menge",
     "price": "Preis pro Einheit",
     "penalty": "Konventionalstrafe",
-    "saveButton": "Speichern"
+    "saveButton": "Speichern",
+    "error": "Pflichtfeld"
   },
   "export": {
     "title": "Export",
