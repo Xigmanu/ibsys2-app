@@ -1,0 +1,14 @@
+th, td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+th {
+    font-size: 14px;
+}
+
+input {
+    width: 75%;
+}
+
+table td + td { border-left:1px solid #6a7a81; }

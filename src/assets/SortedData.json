@@ -252,7 +252,12 @@
         "Startpreis": "5",
         "Lieferkosten": 50.0,
         "Lieferzeit": "1,8",
-        "Lieferzeitabweichung": "0,4"
+        "Lieferzeitabweichung": "0,4",
+      "usedIn": {
+        "P1": 1,
+        "P2": 0,
+        "P3" : 0
+      }
     },
     "22": {
         "Typ": "K",
@@ -263,7 +268,12 @@
         "Startpreis": "6,5",
         "Lieferkosten": 50.0,
         "Lieferzeit": "1,7",
-        "Lieferzeitabweichung": "0,4"
+        "Lieferzeitabweichung": "0,4",
+      "usedIn": {
+        "P1": 0,
+        "P2": 1,
+        "P3" : 0
+      }
     },
     "23": {
         "Typ": "K",
@@ -274,7 +284,12 @@
         "Startpreis": "6,5",
         "Lieferkosten": 50.0,
         "Lieferzeit": "1,2",
-        "Lieferzeitabweichung": "0,2"
+        "Lieferzeitabweichung": "0,2",
+      "usedIn": {
+        "P1": 0,
+        "P2": 0,
+        "P3" : 1
+      }
     },
     "24": {
         "Typ": "K",
@@ -285,7 +300,12 @@
         "Startpreis": "0,06",
         "Lieferkosten": 100.0,
         "Lieferzeit": "3,2",
-        "Lieferzeitabweichung": "0,3"
+        "Lieferzeitabweichung": "0,3",
+      "usedIn": {
+        "P1": 7,
+        "P2": 7,
+        "P3" : 7
+      }
     },
     "25": {
         "Typ": "K",
@@ -296,7 +316,12 @@
         "Startpreis": "0,06",
         "Lieferkosten": 50.0,
         "Lieferzeit": "0,9",
-        "Lieferzeitabweichung": "0,2"
+        "Lieferzeitabweichung": "0,2",
+      "usedIn": {
+        "P1": 4,
+        "P2": 4,
+        "P3" : 4
+      }
     },
     "26": {
         "Typ": "E",
@@ -326,7 +351,12 @@
         "Startpreis": "0,1",
         "Lieferkosten": 75.0,
         "Lieferzeit": "0,9",
-        "Lieferzeitabweichung": "0,2"
+        "Lieferzeitabweichung": "0,2",
+      "usedIn": {
+        "P1": 2,
+        "P2": 2,
+        "P3" : 2
+      }
     },
     "28": {
         "Typ": "K",
@@ -337,7 +367,12 @@
         "Startpreis": "1,2",
         "Lieferkosten": 50.0,
         "Lieferzeit": "1,7",
-        "Lieferzeitabweichung": "0,4"
+        "Lieferzeitabweichung": "0,4",
+      "usedIn": {
+        "P1": 4,
+        "P2": 5,
+        "P3" : 6
+      }
     },
     "29": {
         "Typ": "E",
@@ -408,7 +443,12 @@
         "Startpreis": "0,75",
         "Lieferkosten": 50.0,
         "Lieferzeit": "2,1",
-        "Lieferzeitabweichung": "0,5"
+        "Lieferzeitabweichung": "0,5",
+      "usedIn": {
+        "P1": 3,
+        "P2": 3,
+        "P3" : 3
+      }
     },
     "33": {
         "Typ": "K",
@@ -419,7 +459,12 @@
         "Startpreis": "22",
         "Lieferkosten": 75.0,
         "Lieferzeit": "1,9",
-        "Lieferzeitabweichung": "0,5"
+        "Lieferzeitabweichung": "0,5",
+      "usedIn": {
+        "P1": 0,
+        "P2": 0,
+        "P3" : 2
+      }
     },
     "34": {
         "Typ": "K",
@@ -430,7 +475,12 @@
         "Startpreis": "0,1",
         "Lieferkosten": 50.0,
         "Lieferzeit": "1,6",
-        "Lieferzeitabweichung": "0,3"
+        "Lieferzeitabweichung": "0,3",
+      "usedIn": {
+        "P1": 0,
+        "P2": 0,
+        "P3" : 72
+      }
     },
     "35": {
         "Typ": "K",
@@ -441,7 +491,12 @@
         "Startpreis": "1",
         "Lieferkosten": 75.0,
         "Lieferzeit": "2,2",
-        "Lieferzeitabweichung": "0,4"
+        "Lieferzeitabweichung": "0,4",
+      "usedIn": {
+        "P1": 4,
+        "P2": 4,
+        "P3" : 4
+      }
     },
     "36": {
         "Typ": "K",
@@ -452,7 +507,12 @@
         "Startpreis": "8",
         "Lieferkosten": 100.0,
         "Lieferzeit": "1,2",
-        "Lieferzeitabweichung": "0,1"
+        "Lieferzeitabweichung": "0,1",
+      "usedIn": {
+        "P1": 1,
+        "P2": 1,
+        "P3" : 0
+      }
     },
     "37": {
         "Typ": "K",
@@ -463,7 +523,12 @@
         "Startpreis": "1,5",
         "Lieferkosten": 50.0,
         "Lieferzeit": "1,5",
-        "Lieferzeitabweichung": "0,3"
+        "Lieferzeitabweichung": "0,3",
+      "usedIn": {
+        "P1": 1,
+        "P2": 1,
+        "P3" : 1
+      }
     },
     "38": {
         "Typ": "K",
@@ -474,7 +539,12 @@
         "Startpreis": "1,5",
         "Lieferkosten": 50.0,
         "Lieferzeit": "1,7",
-        "Lieferzeitabweichung": "0,4"
+        "Lieferzeitabweichung": "0,4",
+      "usedIn": {
+        "P1": 1,
+        "P2": 1,
+        "P3" : 1
+      }
     },
     "39": {
         "Typ": "K",
@@ -485,7 +555,12 @@
         "Startpreis": "1,5",
         "Lieferkosten": 75.0,
         "Lieferzeit": "1,5",
-        "Lieferzeitabweichung": "0,3"
+        "Lieferzeitabweichung": "0,3",
+      "usedIn": {
+        "P1": 2,
+        "P2": 2,
+        "P3" : 2
+      }
     },
     "3": {
         "Typ": "P",
@@ -511,7 +586,12 @@
         "Startpreis": "2,5",
         "Lieferkosten": 50.0,
         "Lieferzeit": "1,7",
-        "Lieferzeitabweichung": "0,2"
+        "Lieferzeitabweichung": "0,2",
+      "usedIn": {
+        "P1": 1,
+        "P2": 1,
+        "P3" : 1
+      }
     },
     "41": {
         "Typ": "K",
@@ -522,7 +602,12 @@
         "Startpreis": "0,06",
         "Lieferkosten": 50.0,
         "Lieferzeit": "0,9",
-        "Lieferzeitabweichung": "0,2"
+        "Lieferzeitabweichung": "0,2",
+      "usedIn": {
+        "P1": 1,
+        "P2": 1,
+        "P3" : 1
+      }
     },
     "42": {
         "Typ": "K",
@@ -533,7 +618,12 @@
         "Startpreis": "0,1",
         "Lieferkosten": 50.0,
         "Lieferzeit": "1,2",
-        "Lieferzeitabweichung": "0,3"
+        "Lieferzeitabweichung": "0,3",
+      "usedIn": {
+        "P1": 2,
+        "P2": 2,
+        "P3" : 2
+      }
     },
     "43": {
         "Typ": "K",
@@ -544,7 +634,12 @@
         "Startpreis": "5",
         "Lieferkosten": 75.0,
         "Lieferzeit": "2",
-        "Lieferzeitabweichung": "0,5"
+        "Lieferzeitabweichung": "0,5",
+      "usedIn": {
+        "P1": 1,
+        "P2": 1,
+        "P3" : 1
+      }
     },
     "44": {
         "Typ": "K",
@@ -555,7 +650,12 @@
         "Startpreis": "0,5",
         "Lieferkosten": 50.0,
         "Lieferzeit": "1",
-        "Lieferzeitabweichung": "0,2"
+        "Lieferzeitabweichung": "0,2",
+      "usedIn": {
+        "P1": 3,
+        "P2": 3,
+        "P3" : 3
+      }
     },
     "45": {
         "Typ": "K",
@@ -566,7 +666,12 @@
         "Startpreis": "0,06",
         "Lieferkosten": 50.0,
         "Lieferzeit": "1,7",
-        "Lieferzeitabweichung": "0,3"
+        "Lieferzeitabweichung": "0,3",
+      "usedIn": {
+        "P1": 1,
+        "P2": 1,
+        "P3" : 1
+      }
     },
     "46": {
         "Typ": "K",
@@ -577,7 +682,12 @@
         "Startpreis": "0,1",
         "Lieferkosten": 50.0,
         "Lieferzeit": "0,9",
-        "Lieferzeitabweichung": "0,3"
+        "Lieferzeitabweichung": "0,3",
+      "usedIn": {
+        "P1": 1,
+        "P2": 1,
+        "P3" : 1
+      }
     },
     "47": {
         "Typ": "K",
@@ -588,7 +698,12 @@
         "Startpreis": "3,5",
         "Lieferkosten": 50.0,
         "Lieferzeit": "1,41",
-        "Lieferzeitabweichung": "0,1"
+        "Lieferzeitabweichung": "0,1",
+      "usedIn": {
+        "P1": 1,
+        "P2": 1,
+        "P3" : 1
+      }
     },
     "48": {
         "Typ": "K",
@@ -599,7 +714,12 @@
         "Startpreis": "1,5",
         "Lieferkosten": 75.0,
         "Lieferzeit": "1",
-        "Lieferzeitabweichung": "0,2"
+        "Lieferzeitabweichung": "0,2",
+      "usedIn": {
+        "P1": 2,
+        "P2": 2,
+        "P3" : 2
+      }
     },
     "49": {
         "Typ": "E",
@@ -670,7 +790,12 @@
         "Startpreis": "22",
         "Lieferkosten": 50.0,
         "Lieferzeit": "1,6",
-        "Lieferzeitabweichung": "0,4"
+        "Lieferzeitabweichung": "0,4",
+      "usedIn": {
+        "P1": 2,
+        "P2": 0,
+        "P3" : 0
+      }
     },
     "53": {
         "Typ": "K",
@@ -681,7 +806,12 @@
         "Startpreis": "0,1",
         "Lieferkosten": 50.0,
         "Lieferzeit": "1,6",
-        "Lieferzeitabweichung": "0,2"
+        "Lieferzeitabweichung": "0,2",
+      "usedIn": {
+        "P1": 72,
+        "P2": 0,
+        "P3" : 0
+      }
     },
     "54": {
         "Typ": "E",
@@ -737,7 +867,12 @@
         "Startpreis": "22",
         "Lieferkosten": 50.0,
         "Lieferzeit": "1,7",
-        "Lieferzeitabweichung": "0,3"
+        "Lieferzeitabweichung": "0,3",
+      "usedIn": {
+        "P1": 0,
+        "P2": 2,
+        "P3" : 0
+      }
     },
     "58": {
         "Typ": "K",
@@ -748,7 +883,12 @@
         "Startpreis": "0,1",
         "Lieferkosten": 50.0,
         "Lieferzeit": "1,6",
-        "Lieferzeitabweichung": "0,5"
+        "Lieferzeitabweichung": "0,5",
+      "usedIn": {
+        "P1": 0,
+        "P2": 72,
+        "P3" : 0
+      }
     },
     "59": {
         "Typ": "K",
@@ -759,7 +899,12 @@
         "Startpreis": "0,15",
         "Lieferkosten": 50.0,
         "Lieferzeit": "0,7",
-        "Lieferzeitabweichung": "0,2"
+        "Lieferzeitabweichung": "0,2",
+      "usedIn": {
+        "P1": 2,
+        "P2": 2,
+        "P3" : 2
+      }
     },
     "5": {
         "Typ": "E",
