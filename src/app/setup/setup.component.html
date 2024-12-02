@@ -55,14 +55,15 @@
 
 <br />
 <div *ngIf="this.globalState.dataInitialized">
-  <p>{{ "setup.msgReviewData" | translate }}</p>
+  <h2>{{ "setup.titleNextSteps" | translate }}</h2>
+  <p>{{ "setup.msgNextPage" | translate }}</p>
   <br />
   <button
     class="btn btn-info-outline"
     [clrLoading]="uploadBtnState"
     routerLink="/input"
   >
-    {{ "setup.reviewDataButton" | translate }}
+    {{ "setup.nextPageButton" | translate }}
   </button>
 </div>
 <!--

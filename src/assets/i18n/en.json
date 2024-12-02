@@ -2,18 +2,19 @@
   "global": {},
   "setup": {
     "title": "Setup",
+    "titleNextSteps": "Next Steps",
     "description": "Select an XML file containing the data of your previous business period. It will be suffixed with result. E.g.: \"179_7_result.xml\"",
     "selectXmlButton": "Select XML",
     "selectXmlButton_loadtip": "Load an XML file.",
     "selectXmlButton_success": "XML File loaded!",
     "selectXmlButton_error": "File must be of type .xml!",
     "loadDataButton": "Load Data",
-    "reviewDataButton": "Review Data",
+    "nextPageButton": "Review Input",
     "xmlAlertDanger": "XML could not be loaded. Please ensure that it's name is \"...result.xml\" and has the required data within.",
     "xmlAlertSuccess": "XML has been loaded into the system succesfully.",
     "inspectData": "Inspect Data",
     "xmlData": "XML Data",
-    "msgReviewData": "Your data has been stored within the system. Click the button below to review the input data."
+    "msgNextPage": "Your data has been stored within the system. Click the button below to move to the next page or select an option from the sidebar."
   },
   "sellWish": {
     "sellWish": "Sellwish",
