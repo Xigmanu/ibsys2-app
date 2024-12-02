@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { parseString } from 'xml2js';
 import { FormControl, FormGroup } from '@angular/forms';
 import { JsonPipe, CommonModule } from '@angular/common';
@@ -21,6 +21,8 @@ import {
 } from '../data.service';
 import { DataService } from '../data.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { GlobalStateService } from '../shared/global-state.service';
+
 
 @Component({
   selector: 'app-setup',
@@ -38,9 +40,82 @@ import { TranslateModule } from '@ngx-translate/core';
   templateUrl: './setup.component.html',
   styleUrl: './setup.component.css',
 })
-export class SetupComponent {
+export class SetupComponent implements OnInit{
+  constructor(private dataService: DataService, public globalState: GlobalStateService) {}
+
+  data: DataStructure = {
+    input: {
+      metaData: { game: '', group: '', period: '' },
+      warehouseStock: [],
+      inwardStockMovement: [],
+      futureInwardStockMovement: [],
+      idleTimeCosts: [],
+      waitingListWorkstations: [],
+      waitingListStock: [],
+      ordersInWork: [],
+      completedOrders: [],
+      cycleTimes: { startedOrders: 0, waitingOrders: 0, orders: [] },
+      result: {
+        general: {
+          capacity: { current: 0, average: 0, all: 0 },
+          possibleCapacity: { current: 0, average: 0, all: 0 },
+          relPossibleNormalCapacity: { current: 0, average: 0, all: 0 },
+          productiveTime: { current: 0, average: 0, all: 0 },
+          efficiency: { current: 0, average: 0, all: 0 },
+          sellwish: { current: 0, average: 0, all: 0 },
+          salesQuantity: { current: 0, average: 0, all: 0 },
+          deliveryReliability: { current: 0, average: 0, all: 0 },
+          idleTime: { current: 0, average: 0, all: 0 },
+          idleTimeCosts: { current: 0, average: 0, all: 0 },
+          storeValue: { current: 0, average: 0, all: 0 },
+          storageCosts: { current: 0, average: 0, all: 0 },
+        },
+        defectiveGoods: {
+          quantity: { current: 0, average: 0, all: 0 },
+          costs: { current: 0, average: 0, all: 0 },
+        },
+        normalSale: {
+          salesPrice: { current: 0, average: 0, all: 0 },
+          profit: { current: 0, average: 0, all: 0 },
+          profitPerUnit: { current: 0, average: 0, all: 0 },
+        },
+        directSale: {
+          profit: { current: 0, average: 0, all: 0 },
+          contractPenalty: { current: 0, average: 0, all: 0 },
+        },
+        marketplaceSale: {
+          profit: { current: 0, average: 0, all: 0 },
+        },
+        summary: {
+          profit: { current: 0, average: 0, all: 0 },
+        },
+      },
+    },
+    output: {
+      qualityControl: { type: '', loseQuantity: 0, delay: 0 },
+      sellWish: { items: [] },
+      sellDirect: { items: [] },
+      orderList: { orders: [] },
+      productionList: { productions: [] },
+      workingTimeList: { workingTimes: [] },
+    },
+    disposition: {
+      p1: [],
+      p2: [],
+      p3: [],
+    },
+  };
+
+  ngOnInit(): void {
+    const data = this.dataService.getData();
+    if (data) {
+      this.data = data;
+    } else {
+      console.error('Data is null or not available.');
+    }
+  }
+  
   uploadBtnState: ClrLoadingState = ClrLoadingState.DEFAULT;
-  constructor(private dataService: DataService) {}
 
   protected readonly form = new FormGroup({
     files: new FormControl<FileList | null>(null),
@@ -49,7 +124,6 @@ export class SetupComponent {
   public jsonData: any;
   public loadedData: any;
   public mappingError: boolean = false;
-  public mappingSuccess: boolean = false;
 
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -84,7 +158,7 @@ export class SetupComponent {
     this.uploadBtnState = ClrLoadingState.LOADING;
     var dataSet: DataStructure = this.dataService.getData();
     this.mappingError = false;
-    this.mappingSuccess = false;
+    this.globalState.dataInitialized = false;
 
     try {
       var input: Input = {
@@ -516,7 +590,7 @@ export class SetupComponent {
       return;
     }
 
-    this.mappingSuccess = true;
+    this.globalState.dataInitialized = true;
     this.uploadBtnState = ClrLoadingState.SUCCESS;
   }
 }

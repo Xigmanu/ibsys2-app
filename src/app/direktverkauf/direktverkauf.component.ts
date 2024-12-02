@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule } from "@angular/forms";
+import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { ClarityModule } from '@clr/angular';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
@@ -17,11 +17,12 @@ export class DirektverkaufComponent implements OnInit {
   data: DataStructure | null = null;
   
   constructor(private fb: FormBuilder, private cdr: ChangeDetectorRef, private dataService: DataService) {
+    const sellWishItems = this.dataService.getData()?.output?.sellWish?.items || [];
     this.tableForm = this.fb.group({
       rows: this.fb.array([]),
-      vertriebswunschP1: [''],
-      vertriebswunschP2: [''],
-      vertriebswunschP3: ['']
+      vertriebswunschP1: [sellWishItems[0]?.quantity ?? '0', Validators.required],
+      vertriebswunschP2: [sellWishItems[1]?.quantity ?? '0', Validators.required],
+      vertriebswunschP3: [sellWishItems[2]?.quantity ?? '0', Validators.required],
     });
   }
 
@@ -31,26 +32,35 @@ export class DirektverkaufComponent implements OnInit {
     console.log('Lade initiale Daten:', this.data);
   }
 
+  ngOnDestroy(): void {
+    this.saveData();
+  }
+
   initializeTable() {
-    const products = ['P1', 'P2', 'P3'];
+    const products = [1, 2, 3];
     products.forEach((product) => {
       this.addRow(product);
     });
     this.cdr.detectChanges();
   }
 
-  addRow(product: string) {
+  addRow(product: number) {
+    const sellDirectItems = this.dataService.getData()?.output?.sellDirect?.items || [];
     const row = this.fb.group({
       product: [product],
-      menge: [''],
-      preisProEinheit: [''],
-      konventionalStrafe: ['']
+      menge: [sellDirectItems[product-1]?.quantity ?? '0', Validators.required], 
+      preisProEinheit: [sellDirectItems[product-1]?.price ?? '0', Validators.required], 
+      konventionalStrafe: [sellDirectItems[product-1]?.penalty ?? '0', Validators.required],
     });
     this.rows.push(row);
   }
 
   get rows(): FormArray {
     return this.tableForm.get('rows') as FormArray;
+  }
+
+  isFormValid(): boolean {
+    return this.tableForm.valid;
   }
 
   saveData() {
@@ -61,7 +71,7 @@ export class DirektverkaufComponent implements OnInit {
     ];
 
     const sellDirectItems = this.rows.controls.map(row => ({
-      article: row.get('product')?.value,
+      article: row.get('product')!.value,
       quantity: +row.get('menge')?.value,
       price: +row.get('preisProEinheit')?.value,
       penalty: +row.get('konventionalStrafe')?.value
@@ -75,7 +85,5 @@ export class DirektverkaufComponent implements OnInit {
         sellDirect: { items: sellDirectItems }
       }
     });
-
-    console.log('Daten im DataService gespeichert:', this.dataService.getData());
   }
 }
