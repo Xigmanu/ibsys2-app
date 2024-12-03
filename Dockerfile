@@ -1,4 +1,5 @@
 ARG NODE_IMAGE_TAG=18.20.5-alpine
+
 ARG NGINX_IMAGE_TAG=stable-alpine3.20
 
 FROM node:${NODE_IMAGE_TAG} AS builder
