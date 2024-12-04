@@ -547,7 +547,7 @@
         "Lieferzeitabweichung": "0,3",
         "Arbeitsplatz": {}
     },
-    "25 ": {
+    "25": {
         "Typ": "K",
         "Nr": "25 ",
         "Bezeichnung": "Scheibe 3/8�",
@@ -559,7 +559,7 @@
         "Lieferzeitabweichung": "0,2",
         "Arbeitsplatz": {}
     },
-    "26 ": {
+    "26": {
         "Typ": "E",
         "Nr": "26 ",
         "Bezeichnung": "Pedal cpl.",
@@ -580,7 +580,7 @@
             }
         }
     },
-    "27 ": {
+    "27": {
         "Typ": "K",
         "Nr": "27 ",
         "Bezeichnung": "Schraube 3/8�",
@@ -592,7 +592,7 @@
         "Lieferzeitabweichung": "0,2",
         "Arbeitsplatz": {}
     },
-    "28 ": {
+    "28": {
         "Typ": "K",
         "Nr": "28 ",
         "Bezeichnung": "Rohr ��",
@@ -604,7 +604,7 @@
         "Lieferzeitabweichung": "0,4",
         "Arbeitsplatz": {}
     },
-    "29 ": {
+    "29": {
         "Typ": "E",
         "Nr": "29 ",
         "Bezeichnung": "Vorderrad mont.",
@@ -621,7 +621,7 @@
             }
         }
     },
-    "30 ": {
+    "30": {
         "Typ": "E",
         "Nr": "30 ",
         "Bezeichnung": "Rahmen u. R�der",
@@ -638,7 +638,7 @@
             }
         }
     },
-    "31 ": {
+    "31": {
         "Typ": "E",
         "Nr": "31 ",
         "Bezeichnung": "Fahrrad o. Ped.",
@@ -655,7 +655,7 @@
             }
         }
     },
-    "32 ": {
+    "32": {
         "Typ": "K",
         "Nr": "32 ",
         "Bezeichnung": "Farbe",
@@ -667,7 +667,7 @@
         "Lieferzeitabweichung": "0,5",
         "Arbeitsplatz": {}
     },
-    "33 ": {
+    "33": {
         "Typ": "K",
         "Nr": "33 ",
         "Bezeichnung": "Felge cpl.",
@@ -679,7 +679,7 @@
         "Lieferzeitabweichung": "0,5",
         "Arbeitsplatz": {}
     },
-    "34 ": {
+    "34": {
         "Typ": "K",
         "Nr": "34 ",
         "Bezeichnung": "Speiche",
@@ -691,7 +691,7 @@
         "Lieferzeitabweichung": "0,3",
         "Arbeitsplatz": {}
     },
-    "35 ": {
+    "35": {
         "Typ": "K",
         "Nr": "35 ",
         "Bezeichnung": "Konus",
@@ -703,7 +703,7 @@
         "Lieferzeitabweichung": "0,4",
         "Arbeitsplatz": {}
     },
-    "36 ": {
+    "36": {
         "Typ": "K",
         "Nr": "36 ",
         "Bezeichnung": "Freilauf",
@@ -715,7 +715,7 @@
         "Lieferzeitabweichung": "0,1",
         "Arbeitsplatz": {}
     },
-    "37 ": {
+    "37": {
         "Typ": "K",
         "Nr": "37 ",
         "Bezeichnung": "Gabel",
@@ -727,7 +727,7 @@
         "Lieferzeitabweichung": "0,3",
         "Arbeitsplatz": {}
     },
-    "38 ": {
+    "38": {
         "Typ": "K",
         "Nr": "38 ",
         "Bezeichnung": "Welle",
@@ -739,7 +739,7 @@
         "Lieferzeitabweichung": "0,4",
         "Arbeitsplatz": {}
     },
-    "39 ": {
+    "39": {
         "Typ": "K",
         "Nr": "39 ",
         "Bezeichnung": "Blech",
@@ -751,7 +751,7 @@
         "Lieferzeitabweichung": "0,3",
         "Arbeitsplatz": {}
     },
-    "40 ": {
+    "40": {
         "Typ": "K",
         "Nr": "40 ",
         "Bezeichnung": "Lenker",
@@ -763,7 +763,7 @@
         "Lieferzeitabweichung": "0,2",
         "Arbeitsplatz": {}
     },
-    "41 ": {
+    "41": {
         "Typ": "K",
         "Nr": "41 ",
         "Bezeichnung": "Mutter ��",
@@ -775,7 +775,7 @@
         "Lieferzeitabweichung": "0,2",
         "Arbeitsplatz": {}
     },
-    "42 ": {
+    "42": {
         "Typ": "K",
         "Nr": "42 ",
         "Bezeichnung": "Griff",
@@ -787,7 +787,7 @@
         "Lieferzeitabweichung": "0,3",
         "Arbeitsplatz": {}
     },
-    "43 ": {
+    "43": {
         "Typ": "K",
         "Nr": "43 ",
         "Bezeichnung": "Sattel",
@@ -799,7 +799,7 @@
         "Lieferzeitabweichung": "0,5",
         "Arbeitsplatz": {}
     },
-    "44 ": {
+    "44": {
         "Typ": "K",
         "Nr": "44 ",
         "Bezeichnung": "Stange ��",
@@ -811,7 +811,7 @@
         "Lieferzeitabweichung": "0,2",
         "Arbeitsplatz": {}
     },
-    "45 ": {
+    "45": {
         "Typ": "K",
         "Nr": "45 ",
         "Bezeichnung": "Mutter ��",
@@ -823,7 +823,7 @@
         "Lieferzeitabweichung": "0,3",
         "Arbeitsplatz": {}
     },
-    "46 ": {
+    "46": {
         "Typ": "K",
         "Nr": "46 ",
         "Bezeichnung": "Schraube ��",
@@ -835,7 +835,7 @@
         "Lieferzeitabweichung": "0,3",
         "Arbeitsplatz": {}
     },
-    "47 ": {
+    "47": {
         "Typ": "K",
         "Nr": "47 ",
         "Bezeichnung": "Zahnkranz",
@@ -847,7 +847,7 @@
         "Lieferzeitabweichung": "0,1",
         "Arbeitsplatz": {}
     },
-    "48 ": {
+    "48": {
         "Typ": "K",
         "Nr": "48 ",
         "Bezeichnung": "Pedal",
@@ -859,7 +859,7 @@
         "Lieferzeitabweichung": "0,2",
         "Arbeitsplatz": {}
     },
-    "49 ": {
+    "49": {
         "Typ": "E",
         "Nr": "49 ",
         "Bezeichnung": "Vorderrad cpl.",
@@ -876,7 +876,7 @@
             }
         }
     },
-    "50 ": {
+    "50": {
         "Typ": "E",
         "Nr": "50 ",
         "Bezeichnung": "Rahmen u. R�der",
@@ -893,7 +893,7 @@
             }
         }
     },
-    "51 ": {
+    "51": {
         "Typ": "E",
         "Nr": "51 ",
         "Bezeichnung": "Fahrrad o. Pedal",
@@ -910,7 +910,7 @@
             }
         }
     },
-    "52 ": {
+    "52": {
         "Typ": "K",
         "Nr": "52 ",
         "Bezeichnung": "Felge cpl.",
@@ -922,7 +922,7 @@
         "Lieferzeitabweichung": "0,4",
         "Arbeitsplatz": {}
     },
-    "53 ": {
+    "53": {
         "Typ": "K",
         "Nr": "53 ",
         "Bezeichnung": "Speiche",
@@ -934,7 +934,7 @@
         "Lieferzeitabweichung": "0,2",
         "Arbeitsplatz": {}
     },
-    "54 ": {
+    "54": {
         "Typ": "E",
         "Nr": "54 ",
         "Bezeichnung": "Vorderrad cpl.",
@@ -951,7 +951,7 @@
             }
         }
     },
-    "55 ": {
+    "55": {
         "Typ": "E",
         "Nr": "55 ",
         "Bezeichnung": "Rahmen u. R�der",
@@ -968,7 +968,7 @@
             }
         }
     },
-    "56 ": {
+    "56": {
         "Typ": "E",
         "Nr": "56 ",
         "Bezeichnung": "Fahrrad o. Pedal",
@@ -985,7 +985,7 @@
             }
         }
     },
-    "57 ": {
+    "57": {
         "Typ": "K",
         "Nr": "57 ",
         "Bezeichnung": "Felge cpl.",
@@ -997,7 +997,7 @@
         "Lieferzeitabweichung": "0,3",
         "Arbeitsplatz": {}
     },
-    "58 ": {
+    "58": {
         "Typ": "K",
         "Nr": "58 ",
         "Bezeichnung": "Speiche",
@@ -1009,7 +1009,7 @@
         "Lieferzeitabweichung": "0,5",
         "Arbeitsplatz": {}
     },
-    "59 ": {
+    "59": {
         "Typ": "K",
         "Nr": "59 ",
         "Bezeichnung": "Schwei�draht",
