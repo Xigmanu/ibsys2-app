@@ -45,7 +45,14 @@ export class SetupComponent implements OnInit{
 
   data: DataStructure = {
     input: {
-      metaData: { game: '', group: '', period: '' },
+      metaData: { 
+        game: '', group: '', period: '',
+        forecast: {
+          p1: 0,
+          p2: 0,
+          p3: 0,
+        }
+      },
       warehouseStock: [],
       inwardStockMovement: [],
       futureInwardStockMovement: [],
@@ -166,6 +173,11 @@ export class SetupComponent implements OnInit{
           game: jsonData.results.$.game,
           group: jsonData.results.$.group,
           period: jsonData.results.$.period,
+          forecast: {
+            p1: jsonData.results.forecast.p1,
+            p2: jsonData.results.forecast.p2,
+            p3: jsonData.results.forecast.p3,
+          }
         },
         warehouseStock: jsonData.results.warehousestock.article.map(
           (article: any): WarehouseStock => ({

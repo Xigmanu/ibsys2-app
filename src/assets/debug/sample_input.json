@@ -3,7 +3,12 @@
     "metaData": {
       "game": "56",
       "group": "8",
-      "period": "5"
+      "period": "5",
+      "forecast": {
+        "p1": 150,
+        "p2": 250,
+        "p3": 100
+      }
     },
     "warehouseStock": [
       {

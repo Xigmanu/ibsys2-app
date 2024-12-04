@@ -166,6 +166,13 @@ export interface MetaData {
   game: string;
   group: string;
   period: string;
+  forecast: Forecast;
+}
+
+export interface Forecast {
+  p1: number;
+  p2: number;
+  p3: number;
 }
 
 export interface Result {
@@ -352,7 +359,13 @@ export class DataService {
 
   private data: DataStructure = {
     input: {
-      metaData: { game: '', group: '', period: '' },
+      metaData: { game: '', group: '', period: '',
+        forecast: {
+          p1: 0,
+          p2: 0,
+          p3: 0,
+        }
+      },
       warehouseStock: [],
       inwardStockMovement: [],
       futureInwardStockMovement: [],
