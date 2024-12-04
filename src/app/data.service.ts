@@ -456,6 +456,20 @@ export class DataService {
   generateInputSampleData(): void {
     this.http.get('/assets/debug/sample_input.json').subscribe((response: any) => {
       this.deepMerge(this.data, response);
+      this.data.output.sellWish.items = [
+        {
+          article: 1,
+          quantity: this.data.input.metaData.forecast.p1,
+        },
+        {
+          article: 2,
+          quantity: this.data.input.metaData.forecast.p2,
+        },
+        {
+          article: 3,
+          quantity: this.data.input.metaData.forecast.p3,
+        },
+      ]
       console.log('Sample data loaded.');
     });
   }

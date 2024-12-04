@@ -174,9 +174,9 @@ export class SetupComponent implements OnInit{
           group: jsonData.results.$.group,
           period: jsonData.results.$.period,
           forecast: {
-            p1: jsonData.results.forecast.p1,
-            p2: jsonData.results.forecast.p2,
-            p3: jsonData.results.forecast.p3,
+            p1: Number(jsonData.results.forecast.$.p1),
+            p2: Number(jsonData.results.forecast.$.p2),
+            p3: Number(jsonData.results.forecast.$.p3),
           }
         },
         warehouseStock: jsonData.results.warehousestock.article.map(
@@ -595,6 +595,22 @@ export class SetupComponent implements OnInit{
         },
       };
       dataSet.input = input;
+      dataSet.output.sellWish = {
+        items: [
+          {
+            article: 1,
+            quantity: Number(jsonData.results.forecast.$.p1),
+          },
+          {
+            article: 2,
+            quantity: Number(jsonData.results.forecast.$.p2),
+          },
+          {
+            article: 3,
+            quantity: Number(jsonData.results.forecast.$.p3),
+          },
+        ]
+      }
       this.loadedData = dataSet;
     } catch (error) {
       this.mappingError = true;
