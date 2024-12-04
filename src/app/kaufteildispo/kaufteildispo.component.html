@@ -1,18 +1,57 @@
-<form [formGroup]="dispoForm">
+<form [formGroup]="forecastForm">
   <table class="table table-border">
     <thead class="text-nowrap">
+    <th colspan="5">Forecast</th>
     <tr>
-      <th>Periode {{metaData.periode}}</th>
-      <th>Periode n+1</th>
-      <th>Periode n+2</th>
-      <th>Periode n+3</th>
+      <th>{{ ForecastArt.PRODUKT }}</th>
+      <th>{{ ForecastArt.PERIODE_0 }}</th>
+      <th>{{ ForecastArt.PERIODE_1 }}</th>
+      <th>{{ ForecastArt.PERIODE_2 }}</th>
+      <th>{{ ForecastArt.PERIODE_3 }}</th>
     </tr>
     </thead>
-    <tbody>
-    <tr>
-      <td></td>
+    <tbody formArrayName="forecastRows">
+    <tr *ngFor="let group of getForecastControls.controls; let i = index" [formGroupName]="i">
+      <td>{{ group.get(ForecastArt.PRODUKT)?.value }}</td>
+      <td>{{ group.get(ForecastArt.PERIODE_0)?.value }}</td>
+      <td>
+        <clr-input-container>
+          <input clrInput type="text" id="periode 1" formControlName="periode 1"/>
+        </clr-input-container>
+        <div
+          *ngIf="group.get(ForecastArt.PERIODE_1)?.invalid && (group.get(ForecastArt.PERIODE_1)?.dirty || group.get(ForecastArt.PERIODE_1)?.touched)">
+          <div *ngIf="group.get(ForecastArt.PERIODE_1)?.errors?.['pattern']">
+            Forecast must be a whole number.
+          </div>
+        </div>
+      </td>
+      <td>
+        <clr-input-container>
+          <input clrInput type="text" id="periode 2" formControlName="periode 2"/>
+        </clr-input-container>
+        <div
+          *ngIf="group.get(ForecastArt.PERIODE_2)?.invalid && (group.get(ForecastArt.PERIODE_2)?.dirty || group.get(ForecastArt.PERIODE_2)?.touched)">
+          <div *ngIf="group.get(ForecastArt.PERIODE_2)?.errors?.['pattern']">
+            Forecast must be a whole number.
+          </div>
+        </div>
+      </td>
+      <td>
+        <clr-input-container>
+          <input clrInput type="text" id="periode 3" formControlName="periode 3"/>
+        </clr-input-container>
+        <div
+          *ngIf="group.get(ForecastArt.PERIODE_3)?.invalid && (group.get(ForecastArt.PERIODE_3)?.dirty || group.get(ForecastArt.PERIODE_3)?.touched)">
+          <div *ngIf="group.get(ForecastArt.PERIODE_3)?.errors?.['pattern']">
+            Forecast must be a whole number.
+          </div>
+        </div>
+      </td>
+    </tr>
     </tbody>
   </table>
+</form>
+<form [formGroup]="dispoForm">
   <table class="table table-border">
     <thead class="text-nowrap">
 
@@ -21,7 +60,7 @@
       <th>{{ KauftelidispoArt.FRIST }}</th>
       <th>{{ KauftelidispoArt.ABWEICHUNG }}</th>
       <th>{{ KauftelidispoArt.DISKONTMENGE }}</th>
-      <th colspan="5" scope="colgroup" >Bruttobedarf in Periode N</th>
+      <th colspan="5" scope="colgroup">Bruttobedarf in Periode N</th>
       <th>{{ KauftelidispoArt.BESTAND_AKTUELL }}</th>
       <th>{{ KauftelidispoArt.EINGEHENDELIEFERUNG }}</th>
       <th>{{ KauftelidispoArt.ANKUNFTSZEIT_EINGEHEND }}</th>
@@ -32,10 +71,10 @@
     </tr>
     <th colspan="4" scope="colgroup"></th>
     <th>{{ KauftelidispoArt.VERBRAUCH_AKTUELL }}</th>
-    <th>{{KauftelidispoArt.VERBRAUCH_PROGNOSE_1}}</th>
-    <th>{{KauftelidispoArt.VERBRAUCH_PROGNOSE_2}}</th>
-    <th>{{KauftelidispoArt.VERBRAUCH_PROGNOSE_3}}</th>
-    <th>{{KauftelidispoArt.VERBRAUCH_PROGNOSE_GES}}</th>
+    <th>{{ KauftelidispoArt.VERBRAUCH_PROGNOSE_1 }}</th>
+    <th>{{ KauftelidispoArt.VERBRAUCH_PROGNOSE_2 }}</th>
+    <th>{{ KauftelidispoArt.VERBRAUCH_PROGNOSE_3 }}</th>
+    <th>{{ KauftelidispoArt.VERBRAUCH_PROGNOSE_GES }}</th>
     <th colspan="7" scope="colgroup"></th>
     </thead>
     <tbody formArrayName="tableRows">
@@ -45,10 +84,10 @@
       <td>{{ group.get(KauftelidispoArt.ABWEICHUNG)?.value }}</td>
       <td>{{ group.get(KauftelidispoArt.DISKONTMENGE)?.value }}</td>
       <td>{{ group.get(KauftelidispoArt.VERBRAUCH_AKTUELL)?.value }}</td>
-      <td>{{group.get(KauftelidispoArt.VERBRAUCH_PROGNOSE_1)?.value}}</td>
-      <td>{{group.get(KauftelidispoArt.VERBRAUCH_PROGNOSE_2)?.value}}</td>
-      <td>{{group.get(KauftelidispoArt.VERBRAUCH_PROGNOSE_3)?.value}}</td>
-      <td>{{group.get(KauftelidispoArt.VERBRAUCH_PROGNOSE_GES)?.value}}</td>
+      <td>{{ group.get(KauftelidispoArt.VERBRAUCH_PROGNOSE_1)?.value }}</td>
+      <td>{{ group.get(KauftelidispoArt.VERBRAUCH_PROGNOSE_2)?.value }}</td>
+      <td>{{ group.get(KauftelidispoArt.VERBRAUCH_PROGNOSE_3)?.value }}</td>
+      <td>{{ group.get(KauftelidispoArt.VERBRAUCH_PROGNOSE_GES)?.value }}</td>
       <td>{{ group.get(KauftelidispoArt.BESTAND_AKTUELL)?.value }}</td>
       <td>{{ group.get(KauftelidispoArt.EINGEHENDELIEFERUNG)?.value }}</td>
       <td>{{ group.get(KauftelidispoArt.ANKUNFTSZEIT_EINGEHEND)?.value }}</td>

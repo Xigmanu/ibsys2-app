@@ -9,13 +9,15 @@ import {
 } from '@angular/forms';
 import {CommonModule, NgIf} from '@angular/common';
 import {
+  getSellwishItem,
+  ForecastArt,
   getBestellLiefertermin,
   KauftelidispoArt,
   mapDataToFormControls
 } from './kaufteildispo.util';
 import {ClarityModule} from '@clr/angular';
 import * as data from '../../assets/SortedData.json';
-import {DataService} from '../data.service';
+import {DataService, Output, SellWishItem} from '../data.service';
 
 @Component({
   selector: 'app-kaufteildispo',
@@ -27,33 +29,53 @@ import {DataService} from '../data.service';
 export class KaufteildispoComponent implements OnInit {
   private jsonData = data;
   public dispoForm: FormGroup;
+  public forecastForm: FormGroup;
+  public dataServiceData: any;
   private mappedData: any;
-  public metaData: any;
+  protected readonly data = data;
+  protected readonly KauftelidispoArt = KauftelidispoArt;
 
   constructor(private fb: FormBuilder,
               private dataService: DataService) {
     this.dispoForm = this.fb.group({
       tableRows: this.fb.array([], [Validators.required]),
     });
+    this.forecastForm = this.fb.group({
+      forecastRows: this.fb.array([], [Validators.required]),
+    });
   }
 
   ngOnInit(): void {
-    this.metaData = this.dataService.getData();
-    this.mappedData = mapDataToFormControls(this.jsonData, this.dataService, this.dispoForm, this.metaData.input.metaData,this.metaData.output);
+    this.dataServiceData = this.dataService.getData();
+    this.initializeTable();
+    this.mappedData = mapDataToFormControls(this.jsonData, this.dataService, this.dispoForm, this.forecastForm, this.dataServiceData.input.metaData, this.dataServiceData.output);
     const formArray = this.dispoForm.get('tableRows') as FormArray;
-    for (const key in this.mappedData) {
-      if (this.mappedData.hasOwnProperty(key)) {
-        const formGroup = this.createFormGrp();
-        formGroup.patchValue(this.mappedData[key]);
-        formArray.push(formGroup);
-      }
-    }
+    const forecastArray = this.forecastForm.get('forecastRows') as FormArray;
+    this.populateFormArrays(this.mappedData, this.dispoForm, this.forecastForm);
     this.subscribeToFormChanges();
   }
+  initializeTable() {
+    const products = [1, 2, 3];
+    products.forEach((product) => {
+      this.addForeCastRow(product);
+    });
+  }
+  addForeCastRow(product: number) {
+    const row = this.fb.group({
+      [ForecastArt.PRODUKT]: [product],
+      [ForecastArt.PERIODE_0]: [getSellwishItem(product,this.dataServiceData?.output)?.quantity ?? '0', Validators.required],
+      [ForecastArt.PERIODE_1]: ['0'],
+      [ForecastArt.PERIODE_2]: ['0'],
+      [ForecastArt.PERIODE_3]: ['0'],
+    });
+    this.forecastRows.push(row);
+  }
 
-  createFormGrp(): FormGroup {
+
+
+  createDispoFormGrp(): FormGroup {
     return this.fb.group({
-      [KauftelidispoArt.KAUFTEIL]: [''],
+      [KauftelidispoArt.KAUFTEIL]: [],
       [KauftelidispoArt.FRIST]: [''],
       [KauftelidispoArt.ABWEICHUNG]: [''],
       [KauftelidispoArt.DISKONTMENGE]: [''],
@@ -72,10 +94,14 @@ export class KaufteildispoComponent implements OnInit {
     const control = this.dispoForm.get('tableRows') as FormArray;
     return control;
   }
+  get getForecastControls() {
+    const control = this.forecastForm.get('forecastRows') as FormArray;
+    return control;
+  }
 
   addRow() {
     const control = this.dispoForm.get('tableRows') as FormArray;
-    control.push(this.createFormGrp());
+    control.push(this.createDispoFormGrp());
   }
 
   setFormGroup(formGroup: FormGroup): void {
@@ -85,12 +111,16 @@ export class KaufteildispoComponent implements OnInit {
   getFormGroup(): FormGroup {
     return this.dispoForm;
   }
-
-  protected readonly data = data;
-  protected readonly KauftelidispoArt = KauftelidispoArt;
+  get rows(): FormArray {
+    return this.dispoForm.get('tableRows') as FormArray;
+  }
+  get forecastRows(): FormArray {
+    return this.forecastForm.get('forecastRows') as FormArray;
+  }
 
   private subscribeToFormChanges(): void {
     const formArray = this.dispoForm.get('tableRows') as FormArray;
+    const forecastArray = this.forecastForm.get('forecastRows') as FormArray;
     formArray.controls.forEach((control: AbstractControl) => {
       const group = control as FormGroup;
       group.get(KauftelidispoArt.BESTELLTYP)?.valueChanges.subscribe(() => {
@@ -100,17 +130,32 @@ export class KaufteildispoComponent implements OnInit {
         const frist = group.get(KauftelidispoArt.FRIST)?.value;
         const kaufteil = group.get(KauftelidispoArt.KAUFTEIL)?.value;
         group.get(KauftelidispoArt.BESTELLUNG_LIEFERTERMIN)?.setValue(
-          getBestellLiefertermin(this.metaData, frist, bestelltyp),
+          getBestellLiefertermin(this.dataServiceData.input.metaData, frist, bestelltyp),
           {emitEvent: false});
+        this.saveData();
+        this.populateFormArrays(this.mappedData, this.dispoForm, this.forecastForm);
+      });
+    });
+    forecastArray.controls.forEach((control: AbstractControl) => {
+      const group = control as FormGroup;
+      group.get(ForecastArt.PERIODE_1)?.valueChanges.subscribe(() => {
+        this.mappedData = mapDataToFormControls(this.jsonData, this.dataService, this.dispoForm, this.forecastForm, this.dataServiceData.input.metaData, this.dataServiceData.output)
+        console.log('Forecast changed' + group.get(ForecastArt.PERIODE_0)?.value);
         this.saveData();
       });
     });
   }
-
-  get rows(): FormArray {
-    return this.dispoForm.get('rows') as FormArray;
+  private populateFormArrays(mappedData: any, dispoForm: FormGroup, forecastForm: FormGroup): void {
+    const formArray = dispoForm.get('tableRows') as FormArray;
+    const forecastArray = forecastForm.get('forecastRows') as FormArray;
+    for (const key in mappedData) {
+      if (mappedData.hasOwnProperty(key)) {
+        const formGroup = this.createDispoFormGrp();
+        formGroup.patchValue(mappedData[key]);
+        formArray.push(formGroup);
+      }
+    }
   }
-
   saveData() {
     const formArray = this.dispoForm.get('tableRows') as FormArray;
     const dataToSave = formArray.controls.map((control: AbstractControl) => {
@@ -133,6 +178,7 @@ export class KaufteildispoComponent implements OnInit {
     console.log('Data saved to DataService:', this.dataService.getData());
   }
 
+  protected readonly ForecastArt = ForecastArt;
 }
 
 export function bestellmengeValidator(): ValidatorFn {
@@ -142,5 +188,4 @@ export function bestellmengeValidator(): ValidatorFn {
     const bestellmenge = group.get(KauftelidispoArt.BESTELLMENGE)?.value;
     return modus && !bestellmenge ? {bestellmengeRequired: true} : null;
   };
-
 }
