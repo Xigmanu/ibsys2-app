@@ -60,19 +60,14 @@
         capacity-plan
       </a>
       <a *ngIf="this.globalState.dataInitialized"
-      clrVerticalNavLink routerLink="./export" routerLinkActive="active">
-        <cds-icon clrVerticalNavIcon shape="export"></cds-icon>
-        Export
-      </a>
-      <a *ngIf="this.globalState.dataInitialized"
       clrVerticalNavLink routerLink="./disposition" routerLinkActive="active">
         <cds-icon clrVerticalNavIcon shape="view-columns"></cds-icon>
         Disposition
       </a>
       <a *ngIf="this.globalState.dataInitialized"
-      clrVerticalNavLink routerLink="./dispo" routerLinkActive="active">
+      clrVerticalNavLink routerLink="./export" routerLinkActive="active">
         <cds-icon clrVerticalNavIcon shape="export"></cds-icon>
-        Dispo
+        Export
       </a>
     </clr-vertical-nav>
     <div class="content-area">
