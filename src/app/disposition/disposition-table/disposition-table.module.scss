@@ -1,14 +1,28 @@
 th, td {
     text-align: center;
     vertical-align: middle;
+    width: 10%;
 }
 
 th {
     font-size: 14px;
 }
 
-input {
-    width: 75%;
+.input-column {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.clr-form-container {
+    max-width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.output-col {
+    font-weight: bold;
 }
 
 table td + td { border-left:1px solid #6a7a81; }

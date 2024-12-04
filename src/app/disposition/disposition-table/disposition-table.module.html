@@ -14,25 +14,27 @@
         <td>{{ row.get(rowNameEnum.ARTICLE_ID)?.value }}</td>
         <td>{{ row.get(rowNameEnum.SALES_REQUEST)?.value }}</td>
         <td>
-          <clr-input-container>
-            <input
-              class="input"
-              clrInput
-              type="number"
-              min="0"
-              [formControlName]="rowNameEnum.STOCK_SAFETY"
-              [value]="row.get(rowNameEnum.STOCK_SAFETY)?.value"
-              (change)="onChange(i)"
-            />
-            <clr-control-error
-              >{{ "disposition.tableRowInput_error" | translate }}</clr-control-error
-            >
-          </clr-input-container>
+          <div class="input-column">
+            <clr-input-container class="input-container">
+              <input
+                class="input"
+                clrInput
+                type="number"
+                min="0"
+                [formControlName]="rowNameEnum.STOCK_SAFETY"
+                [value]="row.get(rowNameEnum.STOCK_SAFETY)?.value"
+                (change)="onChange(i)"
+              />
+              <clr-control-error
+                >{{ "disposition.tableRowInput_error" | translate }}</clr-control-error
+              >
+            </clr-input-container>
+          </div>
         </td>
         <td>{{ row.get(rowNameEnum.STOCK_OLD)?.value }}</td>
         <td>{{ row.get(rowNameEnum.ORDERS_QUEUED)?.value }}</td>
         <td>{{ row.get(rowNameEnum.ORDERS_ACTIVE)?.value }}</td>
-        <td>{{ row.get(rowNameEnum.ORDERS_PROD)?.value }}</td>
+        <td class="output-col">{{ row.get(rowNameEnum.ORDERS_PROD)?.value }}</td>
       </tr>
     </tbody>
   </table>
