@@ -3,32 +3,13 @@
   font-weight: bold;
   margin-bottom: 10px;
 }
-    
-.vertriebswunsch label {
-  display: flex;
-}
-  
-.vertriebswunsch label input {
-  margin-left: 20px;
-  width: 75px;
-}
 
 .vertriebswunsch div{
     margin-top: 24px;
 }
 
-.vertriebswunsch table,
-.vertriebswunsch table th,
-.vertriebswunsch table td {
-  border: 1px solid white;
-  border-collapse: collapse;
-}
-  
-.direktverkauf table,
-.direktverkauf table th,
-.direktverkauf table td {
-  border: 1px solid white;
-  border-collapse: collapse;
+.header-border th {
+  border: 1px solid lightblue;
 }
 
 .direktverkauf{
