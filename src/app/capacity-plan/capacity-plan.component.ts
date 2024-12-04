@@ -182,7 +182,12 @@ export class CapacityPlanComponent implements OnInit {
   updateRow(row: any[], production: Production): any[] {
     row[0] += production.quantity;
     for (let i: number = 1; i < 15; i++) {
-      row[i] += this.calculateWorkingStations(production, i);
+      if (i < 5) {
+        row[i] += this.calculateWorkingStations(production, i);
+      }
+      else {
+        row[i] += this.calculateWorkingStations(production, i+1);
+      }
     }
 
     return row;
@@ -194,8 +199,12 @@ export class CapacityPlanComponent implements OnInit {
       const arbeitsplatz = articleData.Arbeitsplatz[station];
       const bearbeitungszeit = arbeitsplatz.Bearbeitungszeit ?? 0;
       const rüstzeit = arbeitsplatz.Rüstzeit ?? 0;
-
-      this.ruestzeitNeu[station] += rüstzeit;
+      
+      if (station < 5) {
+        this.ruestzeitNeu[station+3] += rüstzeit;
+      } else {
+        this.ruestzeitNeu[station+2] += rüstzeit;
+      }
       return bearbeitungszeit * production.quantity;
     }
     return 0;
@@ -220,7 +229,7 @@ export class CapacityPlanComponent implements OnInit {
         this.kapazitaetsbedarfAlt[i] =
           data.input.waitingListWorkstations[i - 4].timeNeed;
       } else {
-        this.kapazitaetsbedarfAlt[i] = -99999999;
+        this.kapazitaetsbedarfAlt[i] = 0;
       }
     }
     this.productionArray.push(this.kapazitaetsbedarfAlt);
@@ -228,11 +237,16 @@ export class CapacityPlanComponent implements OnInit {
 
   calculateRuestzeitAlt(data: DataStructure) {
     for (let i = 4; i < this.ruestzeitAlt.length; i++) {
-      if (data.input.waitingListWorkstations[i - 4] != undefined) {
-        this.ruestzeitAlt[i] =
-          data.input.waitingListWorkstations[i - 4].timeNeed / 10; //TODO: Rüstzeit berechnen
+      const waitinglist = data.input.waitingListWorkstations[i - 4].waitingList
+      const station = data.input.waitingListWorkstations[i - 4].id;
+
+      if (waitinglist != undefined) {
+        waitinglist.forEach(waitingListitem  => {
+          const articleData = this.capacityData[waitingListitem.item];          
+          this.ruestzeitAlt[i] += articleData.Arbeitsplatz[station].Rüstzeit; 
+        })
       } else {
-        this.ruestzeitAlt[i] = -99999999;
+        this.ruestzeitAlt[i] = 0;
       }
     }
     this.productionArray.push(this.ruestzeitAlt);
@@ -419,7 +433,6 @@ export class CapacityPlanComponent implements OnInit {
   }
 
   printProductionArray() {
-    this.updateProductionArray();
-    console.log(this.productionArray);
+    console.log(this.capacityData);
   }
 }
