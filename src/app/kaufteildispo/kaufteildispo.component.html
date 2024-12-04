@@ -1,0 +1,77 @@
+<form [formGroup]="dispoForm">
+  <table class="table table-border">
+    <thead class="text-nowrap">
+    <tr>
+      <th>Periode {{metaData.periode}}</th>
+      <th>Periode n+1</th>
+      <th>Periode n+2</th>
+      <th>Periode n+3</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td></td>
+    </tbody>
+  </table>
+  <table class="table table-border">
+    <thead class="text-nowrap">
+
+    <tr>
+      <th>{{ KauftelidispoArt.KAUFTEIL }}</th>
+      <th>{{ KauftelidispoArt.FRIST }}</th>
+      <th>{{ KauftelidispoArt.ABWEICHUNG }}</th>
+      <th>{{ KauftelidispoArt.DISKONTMENGE }}</th>
+      <th colspan="5" scope="colgroup" >Bruttobedarf in Periode N</th>
+      <th>{{ KauftelidispoArt.BESTAND_AKTUELL }}</th>
+      <th>{{ KauftelidispoArt.EINGEHENDELIEFERUNG }}</th>
+      <th>{{ KauftelidispoArt.ANKUNFTSZEIT_EINGEHEND }}</th>
+      <th>{{ KauftelidispoArt.BENOETIGTE_MENGE }}</th>
+      <th>{{ KauftelidispoArt.BESTELLUNG_LIEFERTERMIN }}</th>
+      <th>{{ KauftelidispoArt.BESTELLMENGE }}</th>
+      <th>{{ KauftelidispoArt.BESTELLTYP }}</th>
+    </tr>
+    <th colspan="4" scope="colgroup"></th>
+    <th>{{ KauftelidispoArt.VERBRAUCH_AKTUELL }}</th>
+    <th>{{KauftelidispoArt.VERBRAUCH_PROGNOSE_1}}</th>
+    <th>{{KauftelidispoArt.VERBRAUCH_PROGNOSE_2}}</th>
+    <th>{{KauftelidispoArt.VERBRAUCH_PROGNOSE_3}}</th>
+    <th>{{KauftelidispoArt.VERBRAUCH_PROGNOSE_GES}}</th>
+    <th colspan="7" scope="colgroup"></th>
+    </thead>
+    <tbody formArrayName="tableRows">
+    <tr *ngFor="let group of getFormControls.controls; let i = index" [formGroupName]="i">
+      <td>{{ group.get(KauftelidispoArt.KAUFTEIL)?.value }}</td>
+      <td>{{ group.get(KauftelidispoArt.FRIST)?.value }}</td>
+      <td>{{ group.get(KauftelidispoArt.ABWEICHUNG)?.value }}</td>
+      <td>{{ group.get(KauftelidispoArt.DISKONTMENGE)?.value }}</td>
+      <td>{{ group.get(KauftelidispoArt.VERBRAUCH_AKTUELL)?.value }}</td>
+      <td>{{group.get(KauftelidispoArt.VERBRAUCH_PROGNOSE_1)?.value}}</td>
+      <td>{{group.get(KauftelidispoArt.VERBRAUCH_PROGNOSE_2)?.value}}</td>
+      <td>{{group.get(KauftelidispoArt.VERBRAUCH_PROGNOSE_3)?.value}}</td>
+      <td>{{group.get(KauftelidispoArt.VERBRAUCH_PROGNOSE_GES)?.value}}</td>
+      <td>{{ group.get(KauftelidispoArt.BESTAND_AKTUELL)?.value }}</td>
+      <td>{{ group.get(KauftelidispoArt.EINGEHENDELIEFERUNG)?.value }}</td>
+      <td>{{ group.get(KauftelidispoArt.ANKUNFTSZEIT_EINGEHEND)?.value }}</td>
+      <td>{{ group.get(KauftelidispoArt.BENOETIGTE_MENGE)?.value }}</td>
+      <td>{{ group.get(KauftelidispoArt.BESTELLUNG_LIEFERTERMIN)?.value }}</td>
+      <td>
+        <clr-input-container>
+          <input clrInput type="text" id="bestellmenge" formControlName="bestellmenge"/>
+        </clr-input-container>
+        <div
+          *ngIf="group.get(KauftelidispoArt.BESTELLMENGE)?.invalid && (group.get('bestellmenge')?.dirty || group.get('bestellmenge')?.touched)">
+          <div *ngIf="group.get(KauftelidispoArt.BESTELLMENGE)?.errors?.['pattern']">
+            Bestellmenge must be a whole number.
+          </div>
+        </div>
+      </td>
+      <td>
+        <select clrSelect [formControlName]=KauftelidispoArt.BESTELLTYP>
+          <option value="N">N</option>
+          <option value="E">E</option>
+        </select>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</form>
