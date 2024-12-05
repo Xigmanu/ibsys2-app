@@ -65,6 +65,11 @@
         Disposition
       </a>
       <a *ngIf="this.globalState.dataInitialized"
+      clrVerticalNavLink routerLink="./kaufteilDispo" routerLinkActive="active">
+        <cds-icon clrVerticalNavIcon shape="export"></cds-icon>
+        Kaufteil Dispo
+      </a>
+      <a *ngIf="this.globalState.dataInitialized"
       clrVerticalNavLink routerLink="./export" routerLinkActive="active">
         <cds-icon clrVerticalNavIcon shape="export"></cds-icon>
         Export

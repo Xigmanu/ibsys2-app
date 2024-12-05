@@ -5,6 +5,8 @@ import { ExportComponent } from './export/export.component';
 import { DirektverkaufComponent } from './direktverkauf/direktverkauf.component';
 import { CapacityPlanComponent } from './capacity-plan/capacity-plan.component';
 import { DispositionComponent } from './disposition/disposition.component';
+import { KaufteildispoComponent } from './kaufteildispo/kaufteildispo.component';
+import { InputComponent } from './input/input.component';
 
 export const routes: Routes = [
   {
@@ -30,5 +32,13 @@ export const routes: Routes = [
   {
     path: 'disposition',
     component: DispositionComponent
+  },
+  {
+    path: 'kaufteilDispo',
+    component: KaufteildispoComponent
+  },
+  {
+    path: 'input',
+    component: InputComponent,
   }
 ];
