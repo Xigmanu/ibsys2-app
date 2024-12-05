@@ -111,6 +111,42 @@ export class SetupComponent implements OnInit{
       p2: [],
       p3: [],
     },
+    decisions: {
+      production: {
+        period2: {
+          p1: 0,
+          p2: 0,
+          p3: 0,
+        },
+        period3: {
+          p1: 0,
+          p2: 0,
+          p3: 0,
+        },
+        period4: {
+          p1: 0,
+          p2: 0,
+          p3: 0,
+        }
+      },
+      forecast: {
+        period2: {
+          p1: 0,
+          p2: 0,
+          p3: 0,
+        },
+        period3: {
+          p1: 0,
+          p2: 0,
+          p3: 0,
+        },
+        period4: {
+          p1: 0,
+          p2: 0,
+          p3: 0,
+        }
+      },
+    }
   };
 
   ngOnInit(): void {
@@ -595,22 +631,8 @@ export class SetupComponent implements OnInit{
         },
       };
       dataSet.input = input;
-      dataSet.output.sellWish = {
-        items: [
-          {
-            article: 1,
-            quantity: Number(jsonData.results.forecast.$.p1),
-          },
-          {
-            article: 2,
-            quantity: Number(jsonData.results.forecast.$.p2),
-          },
-          {
-            article: 3,
-            quantity: Number(jsonData.results.forecast.$.p3),
-          },
-        ]
-      }
+      this.dataService.initialSync();
+
       this.loadedData = dataSet;
     } catch (error) {
       this.mappingError = true;

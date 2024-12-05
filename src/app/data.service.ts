@@ -339,10 +339,32 @@ export interface DispoItem {
   safetyStock: number;
 }
 
+export interface ForecastInput {
+  period2: ProductionValues,
+  period3: ProductionValues,
+  period4: ProductionValues
+}
+
+export interface ProductionInput {
+  period2: ProductionValues,
+  period3: ProductionValues,
+  period4: ProductionValues
+}
+
+export interface ProductionValues {
+  p1: number,
+  p2: number,
+  p3: number,
+}
+
 export interface DataStructure {
   input: Input;
   output: Output;
   disposition: Disposition;
+  decisions: {
+    production: ProductionInput
+    forecast: ForecastInput;
+  }
 }
 
 /////////////////////////////////////////////////////////////////////////
@@ -424,6 +446,42 @@ export class DataService {
       p2: [],
       p3: [],
     },
+    decisions: {
+      production: {
+        period2: {
+          p1: 0,
+          p2: 0,
+          p3: 0,
+        },
+        period3: {
+          p1: 0,
+          p2: 0,
+          p3: 0,
+        },
+        period4: {
+          p1: 0,
+          p2: 0,
+          p3: 0,
+        }
+      },
+      forecast: {
+        period2: {
+          p1: 0,
+          p2: 0,
+          p3: 0,
+        },
+        period3: {
+          p1: 0,
+          p2: 0,
+          p3: 0,
+        },
+        period4: {
+          p1: 0,
+          p2: 0,
+          p3: 0,
+        }
+      },
+    }
   };
 
   setData(data: DataStructure): void {
@@ -456,22 +514,27 @@ export class DataService {
   generateInputSampleData(): void {
     this.http.get('/assets/debug/sample_input.json').subscribe((response: any) => {
       this.deepMerge(this.data, response);
-      this.data.output.sellWish.items = [
-        {
-          article: 1,
-          quantity: this.data.input.metaData.forecast.p1,
-        },
-        {
-          article: 2,
-          quantity: this.data.input.metaData.forecast.p2,
-        },
-        {
-          article: 3,
-          quantity: this.data.input.metaData.forecast.p3,
-        },
-      ]
+      this.initialSync();
       console.log('Sample data loaded.');
     });
+  }
+
+  //Loads data from Input over to other areas. Only use during initialization!!
+  initialSync(): void {
+    this.data.output.sellWish.items = [
+      {
+        article: 1,
+        quantity: this.data.input.metaData.forecast.p1,
+      },
+      {
+        article: 2,
+        quantity: this.data.input.metaData.forecast.p2,
+      },
+      {
+        article: 3,
+        quantity: this.data.input.metaData.forecast.p3,
+      },
+    ];
   }
 
   generateOutputSampleData(): void {
