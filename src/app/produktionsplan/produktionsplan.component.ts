@@ -25,8 +25,8 @@ export class ProduktionsplanComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.initializeTable();
     this.data = this.dataService.getData();
+    this.initializeTable();
     console.log('Lade initiale Daten:', this.data);
   }
   ngOnDestroy(): void {
@@ -39,12 +39,13 @@ export class ProduktionsplanComponent implements OnInit, OnDestroy {
     });
   }
   addRow(product :number) {
+    const productionList = this.getProductList().find(item=> item.article===product);
     const row = this.fb.group({
       [ProduktionsArt.PRODUKT]: [product],
-      [ProduktionsArt.PERIODE_0]: ['0'],
-      [ProduktionsArt.PERIODE_1]: ['0'],
-      [ProduktionsArt.PERIODE_2]: ['0'],
-      [ProduktionsArt.PERIODE_3]: ['0'],
+      [ProduktionsArt.PERIODE_0]: [productionList?.quantity ?? '0'],
+      [ProduktionsArt.PERIODE_1]: [this.data?.decisions?.production?.period2[`p${product}` as keyof ProductionValues] ?? '0'],
+      [ProduktionsArt.PERIODE_2]: [this.data?.decisions?.production?.period3[`p${product}` as keyof ProductionValues] ?? '0'],
+      [ProduktionsArt.PERIODE_3]: [this.data?.decisions?.production?.period4[`p${product}` as keyof ProductionValues] ?? '0'],
     });
     this.Rows.push(row);
   }
@@ -53,23 +54,21 @@ export class ProduktionsplanComponent implements OnInit, OnDestroy {
   }
   saveData() {
     const productionList = [
-      { article: 1, quantity: +this.tableForm.get('Rows')?.value[0][ProduktionsArt.PERIODE_0] || 0 },
-      { article: 2, quantity: +this.tableForm.get('Rows')?.value[1][ProduktionsArt.PERIODE_0] || 0 },
-      { article: 3, quantity: +this.tableForm.get('Rows')?.value[2][ProduktionsArt.PERIODE_0] || 0 },
+      { article: 1, quantity: this.dataService.getProductionListArticle(1) ?? 0 },
+      { article: 2, quantity: this.dataService.getProductionListArticle(2) ?? 0 },
+      { article: 3, quantity: this.dataService.getProductionListArticle(3) ?? 0 },
     ];
-    const forecastProduction=this.extractProductionValues();
+    const forecastProduction = this.extractProductionValues();
     this.dataService.setData({
       ...this.dataService.getData(),
       decisions: {
         ...this.dataService.getData()?.decisions,
         production: forecastProduction,
       },
-      output:{
-        ...this.dataService.getData()?.output,
-        productionList:{
-          ...this.dataService.getData()?.output?.productionList,
-          productions: productionList,
-        },
+    });
+    productionList.forEach(item => {
+      if (item.article !== undefined) {
+        this.dataService.setProductionListArticle(item.article, item.quantity);
       }
     });
   }
@@ -98,6 +97,9 @@ export class ProduktionsplanComponent implements OnInit, OnDestroy {
     });
 
     return planningValues;
+  }
+  getProductList() {
+    return this.dataService.getData()?.output?.productionList?.productions || [];
   }
   protected readonly ProduktionsArt = ProduktionsArt;
 

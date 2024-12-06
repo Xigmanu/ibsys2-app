@@ -586,6 +586,7 @@ export class DataService {
       if (item.article == articleId) {
         position = i;
         this.data.output.productionList.productions.splice(i, 1);
+        i--;
       }
     }
     //Insert new Element at start

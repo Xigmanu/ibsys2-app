@@ -35,7 +35,7 @@ export class DirektverkaufComponent implements OnInit {
   ngOnInit(): void {
     this.data = this.dataService.getData();
     this.initializeTable();
-    this.initializeForecastTable(this.getSellwishItem());
+    this.initializeForecastTable();
     console.log('Lade initiale Daten:', this.data);
   }
 
@@ -71,8 +71,8 @@ export class DirektverkaufComponent implements OnInit {
 
   saveData() {
     const sellWishItems = [
-      { article: 1, quantity: +this.forecastForm.get('forecastRows')?.value[0][ForecastArt.PERIODE_0] },
-      { article: 2, quantity: +this.forecastForm.get('forecastRows')?.value[1][ForecastArt.PERIODE_0] },
+      { article: 1, quantity: +this.forecastForm.get('forecastRows')?.value[0][ForecastArt.PERIODE_0]},
+      { article: 2, quantity: +this.forecastForm.get('forecastRows')?.value[1][ForecastArt.PERIODE_0]},
       { article: 3, quantity: +this.forecastForm.get('forecastRows')?.value[2][ForecastArt.PERIODE_0]}
     ];
 
@@ -98,16 +98,16 @@ export class DirektverkaufComponent implements OnInit {
     });
   }
 
-  initializeForecastTable(sellwishItems: SellWishItem[]) {
+  initializeForecastTable() {
     this.forecastRows.clear();
     const products = [1, 2, 3];
     products.forEach((product) => {
-      this.addForeCastRow(product, sellwishItems);
+      this.addForeCastRow(product, );
     });
   }
 
-  addForeCastRow(product: number, sellwishItems: SellWishItem[]) {
-    const sellwishItem = sellwishItems.find(item => item.article === product);
+  addForeCastRow(product: number, ) {
+    const sellwishItem = this.getSellwishItem().find(item => item.article === product);
     const row = this.fb.group({
       [ForecastArt.PRODUKT]: [product],
       [ForecastArt.PERIODE_0]: [sellwishItem?.quantity ?? '0', Validators.required],
