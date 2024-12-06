@@ -576,13 +576,15 @@ export class DataService {
     return output;
   }
 
-  // Destructive function. Forces a merge of the article orders and places the new summarized order at the start of the array.
+  // Destructive function. Forces a merge of the article orders and places the new summarized order at first known position or at the end.
   // Use this when setting a new order.
   setProductionListArticle(articleId: number, quantity: number): void{
     //Erase previous entries for this article.
+    let position = -1;
     for ( let i = 0; i <= this.data.output.productionList.productions.length; i++ ) {
       let item = this.data.output.productionList.productions[i];
       if (item.article == articleId) {
+        position = i;
         this.data.output.productionList.productions.splice(i, 1);
       }
     }
@@ -591,6 +593,22 @@ export class DataService {
       article: articleId,
       quantity: quantity,
     }
-    this.data.output.productionList.productions.splice(0, 0, newItem);
+    if (position > -1) {
+      this.data.output.productionList.productions.splice(position, 0, newItem);
+    }
+    else {
+      this.data.output.productionList.productions.push(newItem);
+    }
+
+  }
+
+  //Simply adds a new production order at the end of the array.
+  addProductionListArticle(articleId: number, quantity: number): void{
+    //Insert new Element
+    let newItem: Production = {
+      article: articleId,
+      quantity: quantity,
+    }
+    this.data.output.productionList.productions.push(newItem)
   }
 }
