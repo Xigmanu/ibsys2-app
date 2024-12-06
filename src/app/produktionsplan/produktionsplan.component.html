@@ -1,0 +1,63 @@
+<form [formGroup]="tableForm">
+  <table class="table table-border">
+    <thead class="text-nowrap">
+    <th colspan="5">Produktionsplan</th>
+    <tr>
+      <th>{{ ProduktionsArt.PRODUKT }}</th>
+      <th>{{ ProduktionsArt.PERIODE_0 }}</th>
+      <th>{{ ProduktionsArt.PERIODE_1 }}</th>
+      <th>{{ ProduktionsArt.PERIODE_2 }}</th>
+      <th>{{ ProduktionsArt.PERIODE_3 }}</th>
+    </tr>
+    </thead>
+    <tbody formArrayName="rows">
+    <tr *ngFor="let group of Rows.controls; let i = index" [formGroupName]="i">
+      <td>{{ group.get(ProduktionsArt.PRODUKT)?.value }}</td>
+      <td>
+        <clr-input-container class="no-margin custom-margin">
+          <input clrInput type="text" id="Diese Periode" formControlName="Diese Periode"/>
+        </clr-input-container>
+        <div
+          *ngIf="group.get(ProduktionsArt.PERIODE_0)?.invalid && (group.get(ProduktionsArt.PERIODE_0)?.dirty || group.get(ProduktionsArt.PERIODE_0)?.touched)">
+          <div *ngIf="group.get(ProduktionsArt.PERIODE_0)?.errors?.['pattern']">
+            Forecast must be a whole number.
+          </div>
+        </div>
+      </td>
+      <td>
+        <clr-input-container class="no-margin custom-margin">
+          <input clrInput type="text" id="Periode 1" formControlName="Periode 1"/>
+        </clr-input-container>
+        <div
+          *ngIf="group.get(ProduktionsArt.PERIODE_1)?.invalid && (group.get(ProduktionsArt.PERIODE_1)?.dirty || group.get(ProduktionsArt.PERIODE_1)?.touched)">
+          <div *ngIf="group.get(ProduktionsArt.PERIODE_1)?.errors?.['pattern']">
+            Forecast must be a whole number.
+          </div>
+        </div>
+      </td>
+      <td>
+        <clr-input-container class="no-margin custom-margin">
+          <input clrInput type="text" id="Periode 2" formControlName="Periode 2"/>
+        </clr-input-container>
+        <div
+          *ngIf="group.get(ProduktionsArt.PERIODE_2)?.invalid && (group.get(ProduktionsArt.PERIODE_2)?.dirty || group.get(ProduktionsArt.PERIODE_2)?.touched)">
+          <div *ngIf="group.get(ProduktionsArt.PERIODE_2)?.errors?.['pattern']">
+            Forecast must be a whole number.
+          </div>
+        </div>
+      </td>
+      <td>
+        <clr-input-container class="no-margin">
+          <input clrInput type="text" id="Periode 3" formControlName="Periode 3"/>
+        </clr-input-container>
+        <div
+          *ngIf="group.get(ProduktionsArt.PERIODE_3)?.invalid && (group.get(ProduktionsArt.PERIODE_3)?.dirty || group.get(ProduktionsArt.PERIODE_3)?.touched)">
+          <div *ngIf="group.get(ProduktionsArt.PERIODE_3)?.errors?.['pattern']">
+            Forecast must be a whole number.
+          </div>
+        </div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</form>
