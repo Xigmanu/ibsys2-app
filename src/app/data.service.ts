@@ -563,7 +563,7 @@ export class DataService {
     return this.data.disposition[production];
   }
 
-  getProductionListArticle(articleId:number): number{
+  getProductionListArticle(articleId: number): number{
     let output = 0;
     if(this.data.output.productionList.productions.length === 0) {
       return output;
@@ -574,5 +574,23 @@ export class DataService {
       }
     }
     return output;
+  }
+
+  // Destructive function. Forces a merge of the article orders and places the new summarized order at the start of the array.
+  // Use this when setting a new order.
+  setProductionListArticle(articleId: number, quantity: number): void{
+    //Erase previous entries for this article.
+    for ( let i = 0; i <= this.data.output.productionList.productions.length; i++ ) {
+      let item = this.data.output.productionList.productions[i];
+      if (item.article == articleId) {
+        this.data.output.productionList.productions.splice(i, 1);
+      }
+    }
+    //Insert new Element at start
+    let newItem: Production = {
+      article: articleId,
+      quantity: quantity,
+    }
+    this.data.output.productionList.productions.splice(0, 0, newItem);
   }
 }
