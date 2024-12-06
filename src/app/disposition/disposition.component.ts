@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ClarityModule, ClrLoadingState } from '@clr/angular';
-import { ProdOrdersTableModule } from './disposition-table/disposition-table.module';
+import { DispositionTableComponent } from './disposition-table/disposition-table.component';
 import {
   DataService,
   DataStructure,
@@ -23,7 +23,7 @@ import {
   imports: [
     ClarityModule,
     RouterModule,
-    ProdOrdersTableModule,
+    DispositionTableComponent,
     TranslateModule,
   ],
 })

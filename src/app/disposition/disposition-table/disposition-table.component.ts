@@ -18,8 +18,8 @@ import {
 
 @Component({
   selector: 'dispo-table',
-  templateUrl: './disposition-table.module.html',
-  styleUrl: './disposition-table.module.scss',
+  templateUrl: './disposition-table.component.html',
+  styleUrl: './disposition-table.component.scss',
   standalone: true,
   imports: [
     CommonModule,
@@ -29,7 +29,7 @@ import {
     TranslateModule,
   ],
 })
-export class ProdOrdersTableModule implements OnInit {
+export class DispositionTableComponent implements OnInit {
   @Input() dataRef: DispositionTableRow[] = [];
   form: FormGroup;
   rowNameEnum: typeof DispositionTableRowName = DispositionTableRowName;
