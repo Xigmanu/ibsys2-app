@@ -562,7 +562,17 @@ export class DataService {
   getDispoAllStock(production: keyof Disposition): DispoItem[] {
     return this.data.disposition[production];
   }
+
   getProductionListArticle(articleId:number): number{
-    return 100;
+    let output = 0;
+    if(this.data.output.productionList.productions.length === 0) {
+      return output;
+    }
+    for ( var item of this.data.output.productionList.productions ) {
+      if (item.article == articleId) {
+        output += item.quantity;
+      }
+    }
+    return output;
   }
 }
