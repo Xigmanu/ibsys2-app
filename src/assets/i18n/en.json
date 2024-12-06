@@ -1,5 +1,7 @@
 {
-  "global": {},
+  "global": {
+    "productionPlan": "Production Plan"
+  },
   "setup": {
     "title": "Setup",
     "titleNextSteps": "Next Steps",

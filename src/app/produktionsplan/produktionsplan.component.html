@@ -15,7 +15,7 @@
       <td>{{ group.get(ProduktionsArt.PRODUKT)?.value }}</td>
       <td>
         <clr-input-container class="no-margin custom-margin">
-          <input clrInput type="text" id="Diese Periode" formControlName="Diese Periode"/>
+          <input clrInput type="text" id="Diese Periode" formControlName="Diese Periode" size="5" />
         </clr-input-container>
         <div
           *ngIf="group.get(ProduktionsArt.PERIODE_0)?.invalid && (group.get(ProduktionsArt.PERIODE_0)?.dirty || group.get(ProduktionsArt.PERIODE_0)?.touched)">
@@ -26,7 +26,7 @@
       </td>
       <td>
         <clr-input-container class="no-margin custom-margin">
-          <input clrInput type="text" id="Periode 1" formControlName="Periode 1"/>
+          <input clrInput type="text" id="Periode 1" formControlName="Periode 1" size="5" />
         </clr-input-container>
         <div
           *ngIf="group.get(ProduktionsArt.PERIODE_1)?.invalid && (group.get(ProduktionsArt.PERIODE_1)?.dirty || group.get(ProduktionsArt.PERIODE_1)?.touched)">
@@ -37,7 +37,7 @@
       </td>
       <td>
         <clr-input-container class="no-margin custom-margin">
-          <input clrInput type="text" id="Periode 2" formControlName="Periode 2"/>
+          <input clrInput type="text" id="Periode 2" formControlName="Periode 2" size="5" />
         </clr-input-container>
         <div
           *ngIf="group.get(ProduktionsArt.PERIODE_2)?.invalid && (group.get(ProduktionsArt.PERIODE_2)?.dirty || group.get(ProduktionsArt.PERIODE_2)?.touched)">
@@ -48,7 +48,7 @@
       </td>
       <td>
         <clr-input-container class="no-margin">
-          <input clrInput type="text" id="Periode 3" formControlName="Periode 3"/>
+          <input clrInput type="text" id="Periode 3" formControlName="Periode 3" size="5" />
         </clr-input-container>
         <div
           *ngIf="group.get(ProduktionsArt.PERIODE_3)?.invalid && (group.get(ProduktionsArt.PERIODE_3)?.dirty || group.get(ProduktionsArt.PERIODE_3)?.touched)">
