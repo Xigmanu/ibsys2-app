@@ -18,11 +18,12 @@ import {
 import {ClarityModule} from '@clr/angular';
 import * as data from '../../assets/SortedData.json';
 import {DataService, Output, SellWishItem} from '../data.service';
+import {ProduktionsplanComponent} from '../produktionsplan/produktionsplan.component';
 
 @Component({
   selector: 'app-kaufteildispo',
   standalone: true,
-  imports: [ReactiveFormsModule, NgIf, ClarityModule, CommonModule,],
+  imports: [ReactiveFormsModule, NgIf, ClarityModule, CommonModule, ProduktionsplanComponent,],
   templateUrl: './kaufteildispo.component.html',
   styleUrl: './kaufteildispo.component.scss',
 })
@@ -70,8 +71,6 @@ export class KaufteildispoComponent implements OnInit {
     });
     this.forecastRows.push(row);
   }
-
-
 
   createDispoFormGrp(): FormGroup {
     return this.fb.group({

@@ -25,18 +25,18 @@ export enum KauftelidispoArt {
 }
 
 export enum ForecastArt {
-  PRODUKT = 'produkt',
-  PERIODE_0 = 'periode 0',
-  PERIODE_1 = 'periode 1',
-  PERIODE_2 = 'periode 2',
-  PERIODE_3 = 'periode 3',
+  PRODUKT = 'Product',
+  PERIODE_0 = 'Sellwish',
+  PERIODE_1 = 'Periode 1',
+  PERIODE_2 = 'Periode 2',
+  PERIODE_3 = 'Periode 3',
 }
 
 
 export function Uebernehmen(formGroup: FormGroup): void {
 }
 
-export function mapDataToFormControls(jsonData: any, dataService: DataService, dispoForm: FormGroup,forecastForm:FormGroup, metaData: MetaData, output: Output): any {
+export function mapDataToFormControls(jsonData: any, dataService: DataService, dispoForm: FormGroup, forecastForm: FormGroup, metaData: MetaData, output: Output): any {
   const mappedData: any = {};
   const productionQuantities: any = {};
   const primaryArticleIds: number[] = [1, 2, 3];
@@ -59,7 +59,7 @@ export function mapDataToFormControls(jsonData: any, dataService: DataService, d
               ?.get(KauftelidispoArt.BESTELLTYP)
               ?.value),
           [KauftelidispoArt.VERBRAUCH_AKTUELL]: calculateVerbrauch(item.usedIn, output),
-          [KauftelidispoArt.VERBRAUCH_PROGNOSE_1]: calculateVerbrauchProg(item.usedIn, forecastForm ),
+          [KauftelidispoArt.VERBRAUCH_PROGNOSE_1]: calculateVerbrauchProg(item.usedIn, forecastForm),
         };
       }
     }
@@ -102,7 +102,6 @@ export function mapDataToFormControls(jsonData: any, dataService: DataService, d
 }
 
 export function getEingehendeLieferung(inwardStock: FutureInwardStockMovementOrder, frist: string, bestelltyp: string): string {
-
   const periodDays = 5;
   const fristNumber = parseFloat(frist.replace(',', '.'));
   let totalDays = Math.round(fristNumber * periodDays);
@@ -138,10 +137,10 @@ function calculateVerbrauch(usedIn: { P1: number, P2: number, P3: number }, outp
     (usedIn.P2 * sellwish_P2) +
     (usedIn.P3 * sellwish_P3);
 }
+
 function calculateVerbrauchProg(usedIn: { P1: number, P2: number, P3: number }, formGroup: FormGroup): number {
   const forecastRows = formGroup.get('forecastRows') as FormArray;
   let totalVerbrauch = 0;
-
   forecastRows.controls.forEach((group: AbstractControl) => {
     const forecastP1 = group.get(ForecastArt.PERIODE_0)?.value ?? 0;
     const forecastP2 = group.get(ForecastArt.PERIODE_1)?.value ?? 0;
@@ -149,7 +148,6 @@ function calculateVerbrauchProg(usedIn: { P1: number, P2: number, P3: number }, 
 
     totalVerbrauch += (usedIn.P1 * forecastP1) + (usedIn.P2 * forecastP2) + (usedIn.P3 * forecastP3);
   });
-
   return totalVerbrauch;
 }
 

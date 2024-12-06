@@ -509,7 +509,7 @@ export class DataService {
     }
     return target;
   }
-  
+
 
   generateInputSampleData(): void {
     this.http.get('/assets/debug/sample_input.json').subscribe((response: any) => {
@@ -561,5 +561,8 @@ export class DataService {
 
   getDispoAllStock(production: keyof Disposition): DispoItem[] {
     return this.data.disposition[production];
+  }
+  getProductionListArticle(articleId:number): number{
+    return 100;
   }
 }
