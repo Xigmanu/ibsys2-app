@@ -21,7 +21,7 @@ import {
   listIcon,
   inboxIcon,
 } from '@cds/core/icon';
-import { DataService } from './data.service';
+import { DataService, MetaData } from './data.service';
 import { DataStructure } from './data.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { GlobalStateService } from './shared/global-state.service';
@@ -92,6 +92,10 @@ export class AppComponent {
   onSetOutputSampleData(): void {
     this.dataService.generateOutputSampleData();
     this.globalState.dataInitialized = true;
+  }
+
+  getMetadata(): string {
+    return "- Gruppe " + this.dataService.getData().input.metaData.group + " - Periode " + this.dataService.getData().input.metaData.period;
   }
 }
 
