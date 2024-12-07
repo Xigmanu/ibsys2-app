@@ -581,7 +581,7 @@ export class DataService {
   setProductionListArticle(articleId: number, quantity: number): void{
     //Erase previous entries for this article.
     let position = -1;
-    for ( let i = 0; i <= this.data.output.productionList.productions.length; i++ ) {
+    for ( let i = 0; i < this.data.output.productionList.productions.length; i++ ) {
       var item: Production = this.data.output.productionList.productions[i];
       if (item.article == articleId) {
         position = i;
