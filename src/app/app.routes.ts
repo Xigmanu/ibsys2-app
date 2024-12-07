@@ -7,6 +7,7 @@ import { CapacityPlanComponent } from './capacity-plan/capacity-plan.component';
 import { DispositionComponent } from './disposition/disposition.component';
 import { KaufteildispoComponent } from './kaufteildispo/kaufteildispo.component';
 import { InputComponent } from './input/input.component';
+import { LotsizeComponent } from './lotsize/lotsize.component';
 
 export const routes: Routes = [
   {
@@ -40,5 +41,9 @@ export const routes: Routes = [
   {
     path: 'input',
     component: InputComponent,
+  },
+  {
+    path: 'lotsize',
+    component: LotsizeComponent,
   }
 ];
