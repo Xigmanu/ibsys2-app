@@ -582,11 +582,10 @@ export class DataService {
     //Erase previous entries for this article.
     let position = -1;
     for ( let i = 0; i <= this.data.output.productionList.productions.length; i++ ) {
-      let item = this.data.output.productionList.productions[i];
+      var item: Production = this.data.output.productionList.productions[i];
       if (item.article == articleId) {
         position = i;
-        this.data.output.productionList.productions.splice(i, 1);
-        i--;
+        this.data.output.productionList.productions.splice(position, 1);
       }
     }
     //Insert new Element at start
