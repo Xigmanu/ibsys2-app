@@ -21,7 +21,9 @@
     "price": "Preis pro Einheit",
     "penalty": "Konventionalstrafe",
     "saveButton": "Speichern",
-    "error": "Pflichtfeld"
+    "error": "Pflichtfeld",
+    "plan": "Produktionsplan",
+    "forecast": "Prognose"
   },
   "export": {
     "title": "Export",
