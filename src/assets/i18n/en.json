@@ -81,6 +81,7 @@
     "tableRowInput_error": "Value must be greater than or equal to zero"
   },
   "capacityPlan": {
+    "title": "Capacity Plan",
     "bezeichnung": "Description",
     "verwendung": "Usage",
     "artikel": "Article",
