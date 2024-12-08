@@ -109,8 +109,8 @@
         {{ "nav.export" | translate }}
       </a>
     </clr-vertical-nav>
-    <div class="content-area">
-      <router-outlet></router-outlet>
-    </div>
+    <div class="content-area" [@fadeAnimation]="o.isActivated ? o.activatedRoute : ''">
+    <router-outlet #o="outlet"></router-outlet>
+  </div>
   </div>
 </div>

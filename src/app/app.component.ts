@@ -25,6 +25,7 @@ import { DataService, MetaData } from './data.service';
 import { DataStructure } from './data.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { GlobalStateService } from './shared/global-state.service';
+import { fadeAnimation } from './animations';
 
 @Component({
   selector: 'app-root',
@@ -37,8 +38,9 @@ import { GlobalStateService } from './shared/global-state.service';
     ReactiveFormsModule,
     ClrVerticalNavModule,
     RouterModule,
-    TranslateModule
+    TranslateModule,
   ],
+  animations: [fadeAnimation],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
