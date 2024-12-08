@@ -150,10 +150,17 @@ export class LotsizeComponent implements OnInit {
    * @returns True if merge is possible, otherwise false.
    */
   canMerge(index: number): boolean {
-    const productions = this.productionList;
-    if (index < 0 || index >= productions.length - 1) {
+    const productions = this.dataService.getData().output.productionList.productions;
+    if (index < 0 || index >= productions.length) {
       return false;
     }
-    return productions[index].article === productions[index + 1].article;
-  }
+    
+    const currentArticle = productions[index].article;
+    
+    // Count how many times this article appears in the list
+    const articleCount = productions.filter(p => p.article === currentArticle).length;
+    
+    // Can merge if there's more than one instance of this article
+    return articleCount > 1;
+}
 }

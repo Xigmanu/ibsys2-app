@@ -14,7 +14,7 @@
         <button clrButton (click)="openConfirmModal('split', i)" class="btn btn-primary">
           {{ 'lotsize.button.split' | translate }}
         </button>
-        <button clrButton (click)="openConfirmModal('merge', i)" class="btn btn-primary">
+        <button *ngIf="canMerge(i) "clrButton (click)="openConfirmModal('merge', i)" class="btn btn-primary">
           {{ 'lotsize.button.merge' | translate }}
         </button>
       </td>
