@@ -35,7 +35,6 @@ export class KaufteildispoComponent implements OnInit {
   private mappedData: any;
   protected readonly data = data;
   protected readonly KauftelidispoArt = KauftelidispoArt;
-
   constructor(private fb: FormBuilder,
               private dataService: DataService) {
     this.dispoForm = this.fb.group({
@@ -54,6 +53,8 @@ export class KaufteildispoComponent implements OnInit {
     const forecastArray = this.forecastForm.get('forecastRows') as FormArray;
     this.populateFormArrays(this.mappedData, this.dispoForm, this.forecastForm);
     this.subscribeToFormChanges();
+    console.log("!!!!!",this.mappedData);
+    console.log("!!!!!",this.dispoForm);
   }
   initializeTable() {
     const products = [1, 2, 3];

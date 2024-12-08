@@ -36,7 +36,6 @@ export class DirektverkaufComponent implements OnInit {
     this.data = this.dataService.getData();
     this.initializeTable();
     this.initializeForecastTable();
-    console.log('Lade initiale Daten:', this.data);
   }
 
   ngOnDestroy(): void {

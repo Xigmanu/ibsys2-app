@@ -575,6 +575,10 @@ export class DataService {
     }
     return output;
   }
+  getDecisionProduction(articleId:number){
+    let output = 0;
+    return this.data.decisions.production;
+  }
 
   // Destructive function. Forces a merge of the article orders and places the new summarized order at first known position or at the end.
   // Use this when setting a new order.

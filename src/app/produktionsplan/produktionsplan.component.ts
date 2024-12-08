@@ -27,7 +27,6 @@ export class ProduktionsplanComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.data = this.dataService.getData();
     this.initializeTable();
-    console.log('Lade initiale Daten:', this.data);
   }
   ngOnDestroy(): void {
     this.saveData();
@@ -111,3 +110,5 @@ export enum ProduktionsArt {
   PERIODE_2 = 'Periode 2',
   PERIODE_3 = 'Periode 3',
 }
+
+
