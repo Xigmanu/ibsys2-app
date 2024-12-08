@@ -8,8 +8,8 @@
   </thead>
   <tbody cdkDropList (cdkDropListDropped)="drop($event)">
     <tr *ngFor="let production of productionList; let i = index" cdkDrag>
-      <td>{{ production.article }}</td>
-      <td>{{ production.quantity }}</td>
+    <td class="centered-cell">{{ production.article }}</td>
+    <td class="centered-cell">{{ production.quantity }}</td>
       <td>
         <button clrButton (click)="openConfirmModal('split', i)" class="btn btn-primary">
           {{ 'lotsize.button.split' | translate }}
