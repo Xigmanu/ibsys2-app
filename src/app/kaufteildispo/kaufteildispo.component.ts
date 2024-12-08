@@ -19,11 +19,13 @@ import {ClarityModule} from '@clr/angular';
 import * as data from '../../assets/SortedData.json';
 import {DataService, Output, SellWishItem} from '../data.service';
 import {ProduktionsplanComponent} from '../produktionsplan/produktionsplan.component';
+import { RouterModule } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-kaufteildispo',
   standalone: true,
-  imports: [ReactiveFormsModule, NgIf, ClarityModule, CommonModule, ProduktionsplanComponent,],
+  imports: [ReactiveFormsModule, NgIf, ClarityModule, CommonModule, ProduktionsplanComponent, RouterModule, TranslateModule,],
   templateUrl: './kaufteildispo.component.html',
   styleUrl: './kaufteildispo.component.scss',
 })

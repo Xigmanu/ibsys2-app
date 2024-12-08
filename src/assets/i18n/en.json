@@ -1,11 +1,13 @@
 {
   "global": {
-    "productionPlan": "Production Plan"
+    "productionPlan": "Production Plan",
+    "nextPage": "Next Page",
+    "prevPage": "Previous Page"
   },
   "nav": {
     "setup": "Setup",
     "input": "Input",
-    "sellwish": "Sellwish",
+    "sellwish": "Production Plan",
     "disposition": "BOM explosion",
     "capacityplan": "Capacity Plan",
     "orders": "Where-used list",

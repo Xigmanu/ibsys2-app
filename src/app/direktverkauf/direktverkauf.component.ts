@@ -6,11 +6,13 @@ import { TranslateModule } from '@ngx-translate/core';
 import { DataService, DataStructure, ForecastInput, ProductionValues, SellWishItem } from '../data.service';
 import { ForecastArt } from '../kaufteildispo/kaufteildispo.util';
 import { ProduktionsplanComponent } from '../produktionsplan/produktionsplan.component';
+import { RouterOutlet, RouterModule } from '@angular/router';
+
 
 @Component({
   selector: 'app-direktverkauf',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, ClarityModule, TranslateModule, ProduktionsplanComponent],
+  imports: [ReactiveFormsModule, CommonModule, ClarityModule, TranslateModule, ProduktionsplanComponent, RouterOutlet, RouterModule],
   templateUrl: './direktverkauf.component.html',
   styleUrl: './direktverkauf.component.css'
 })

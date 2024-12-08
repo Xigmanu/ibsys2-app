@@ -12,11 +12,12 @@ import {
 import { CommonModule } from '@angular/common';
 import * as xml2js from 'xml2js';
 import { TranslateModule } from '@ngx-translate/core';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-export',
   standalone: true,
-  imports: [ClarityModule, CommonModule, TranslateModule],
+  imports: [ClarityModule, CommonModule, TranslateModule, RouterModule],
   templateUrl: './export.component.html',
   styleUrl: './export.component.scss',
 })

@@ -10,6 +10,7 @@ import { ClarityModule } from '@clr/angular';
 import { CommonModule } from '@angular/common';
 import capacityDataJson from '../../assets/CapacityData.json';
 import { TranslateModule } from '@ngx-translate/core';
+import { Router, RouterModule } from '@angular/router';
 
 interface Arbeitsplatz {
   Bearbeitungszeit: number | null;
@@ -34,7 +35,7 @@ interface CapacityEntry {
   templateUrl: './capacity-plan.component.html',
   styleUrls: ['./capacity-plan.component.scss'],
   standalone: true,
-  imports: [ClarityModule, CommonModule, FormsModule, TranslateModule],
+  imports: [ClarityModule, CommonModule, FormsModule, TranslateModule, RouterModule],
 })
 export class CapacityPlanComponent implements OnInit {
   constructor(private fb: FormBuilder, private dataService: DataService) {}

@@ -49,3 +49,10 @@ input[type="number"] {
   width: 100%;
   box-sizing: border-box;
 }
+
+.bottom-right {
+  position: fixed;
+  bottom: 16px; /* Distance from the bottom */
+  right: 16px; /* Distance from the right */
+  z-index: 1000; /* Ensures the button stays above other content */
+}
