@@ -1,4 +1,4 @@
-import { DataStructure } from '../../data.service';
+import { DataStructure, DispoItem, Disposition } from '../../data.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 const articleComponentMap: number[][][] = [
@@ -27,6 +27,14 @@ export interface DispositionTableRow {
   [DispositionTableRowName.ORDERS_QUEUED]: number;
   [DispositionTableRowName.ORDERS_ACTIVE]: number;
   [DispositionTableRowName.ORDERS_PROD]: number;
+}
+
+export function getDispositionKey(
+  primaryId: number
+): keyof Disposition | undefined {
+  return primaryArticleIds.find((id) => id === primaryId)
+    ? (('p' + primaryId) as keyof Disposition)
+    : undefined;
 }
 
 export function createFormGroupFromRow(
@@ -70,7 +78,11 @@ export function createTableRows(
   }
   const initialRows: DispositionTableRow[] = map
     .reduce((merged, arr) => merged.concat(arr))
-    .map((id) => createRowForArticle(dataStruct, id));
+    .map((id) => {
+      const foo = createRowForArticle(dataStruct, id, articleIdx);
+      console.log(foo);
+      return foo;
+    });
   updateRowsData(initialRows, map);
   return initialRows;
 }
@@ -82,6 +94,12 @@ export function updateTableRows(rows: DispositionTableRow[]): void {
   }
 }
 
+export function getPrimaryArticleId(rows: DispositionTableRow[]): number {
+  return rows
+    .map((row) => row[DispositionTableRowName.ARTICLE_ID])
+    .find((articleId) => primaryArticleIds.includes(articleId))!;
+}
+
 function updateRowsData(rows: DispositionTableRow[], map: number[][]): void {
   let offset: number = 0;
   for (let i = 0; i < map.length; i++) {
@@ -90,24 +108,18 @@ function updateRowsData(rows: DispositionTableRow[], map: number[][]): void {
       offset += map[i].length;
       continue;
     }
-    const lastProdOrder = getRowById(rows, map[i - 1].at(-1));
+    const row: DispositionTableRow = getRowById(rows, map[i - 1].at(-1));
     for (let j = 0; j < map[i].length; j++) {
       const currentRow = rows[j + offset];
       currentRow[DispositionTableRowName.SALES_REQUEST] =
-        lastProdOrder[DispositionTableRowName.ORDERS_PROD];
+        row[DispositionTableRowName.ORDERS_PROD];
       calculateProdOrderForRow(
         currentRow,
-        lastProdOrder[DispositionTableRowName.ORDERS_QUEUED]
+        row[DispositionTableRowName.ORDERS_QUEUED]
       );
     }
     offset += map[i].length;
   }
-}
-
-function getPrimaryArticleId(rows: DispositionTableRow[]): number {
-  return rows
-    .map((row) => row[DispositionTableRowName.ARTICLE_ID])
-    .find((articleId) => primaryArticleIds.includes(articleId))!;
 }
 
 /**
@@ -115,19 +127,21 @@ function getPrimaryArticleId(rows: DispositionTableRow[]): number {
  */
 function createRowForArticle(
   struct: DataStructure,
-  id: number
+  id: number,
+  primaryId: number
 ): DispositionTableRow {
   const sellWish = getSellWish(struct, id);
   const oldStock =
     struct.input.warehouseStock.find((stock) => stock.id == id)?.amount ?? 0;
   const queuedOrder = getQueuedOrderAmount(struct, id);
   const activeOrder = getActiveOrderAmount(struct, id);
+  const safetyStock: number = getSafetyStock(struct, id, primaryId);
 
   const isCommonId = commonComponentIds.find((next) => next === id);
   return {
     [DispositionTableRowName.ARTICLE_ID]: id,
     [DispositionTableRowName.SALES_REQUEST]: sellWish,
-    [DispositionTableRowName.STOCK_SAFETY]: 0,
+    [DispositionTableRowName.STOCK_SAFETY]: safetyStock,
     [DispositionTableRowName.STOCK_OLD]: isCommonId
       ? Math.trunc(oldStock / 3)
       : oldStock,
@@ -168,6 +182,18 @@ function getActiveOrderAmount(struct: DataStructure, id: number): number {
     .filter((value) => value.id === id)
     .map((value) => value.amount ?? 0)
     .reduce((sum, amount) => sum + amount, 0);
+}
+
+function getSafetyStock(
+  struct: DataStructure,
+  id: number,
+  primaryId: number
+): number {
+  const dispoKey: keyof Disposition = getDispositionKey(primaryId + 1)!;
+  const oldDispoItem: DispoItem | undefined = struct.disposition[dispoKey].find(
+    (item) => item.articleId === id.toString()
+  );
+  return oldDispoItem ? oldDispoItem.safetyStock : 0;
 }
 
 function getRowById(
