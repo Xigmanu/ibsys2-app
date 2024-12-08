@@ -615,4 +615,58 @@ export class DataService {
     }
     this.data.output.productionList.productions.push(newItem)
   }
+
+  mergeProductionListArticles(index: number): void {
+    const productions = this.data.output.productionList.productions;
+  
+    if (index < 0 || index >= productions.length) {
+      return;
+    }
+  
+    const currentProduction = productions[index];
+    let totalQuantity = currentProduction.quantity;
+    let startIndex = index;
+    
+    let j = index - 1;
+    while (j >= 0 && productions[j].article === currentProduction.article) {
+      totalQuantity += productions[j].quantity;
+      startIndex = j;
+      j--;
+    }
+    
+    let i = index + 1;
+    while (i < productions.length && productions[i].article === currentProduction.article) {
+      totalQuantity += productions[i].quantity;
+      i++;
+    }
+    
+    productions[startIndex].quantity = totalQuantity;
+    
+    productions.splice(startIndex + 1, i - startIndex - 1);
+}
+
+  splitProductionListArticle(index: number, splitQuantity: number): void {
+    const productions = this.data.output.productionList.productions;
+  
+    if (index < 0 || index >= productions.length) {
+      return; 
+    }
+  
+    const production = productions[index];
+    const originalQuantity = production.quantity;
+  
+    if (splitQuantity <= 0 || splitQuantity >= originalQuantity) {
+      return;
+    }
+  
+    production.quantity = splitQuantity;
+  
+    const remainingQuantity = originalQuantity - splitQuantity;
+    const newProduction: Production = {
+      article: production.article,
+      quantity: remainingQuantity,
+    };
+  
+    productions.splice(index + 1, 0, newProduction);
+  }
 }

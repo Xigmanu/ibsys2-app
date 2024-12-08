@@ -94,5 +94,25 @@
     "bezeichnung10": "Rahmen und Räder",
     "bezeichnung11": "Fahrrad ohne Pedale",
     "bezeichnung12": "Fahrrad komplett (cpl)"
+  },
+  "lotsize": {
+    "table": {
+      "article": "Artikel",
+      "quantity": "Menge",
+      "actions": "Aktionen"
+    },
+    "button": {
+      "split": "Teilen",
+      "merge": "Zusammenführen",
+      "confirm": "Bestätigen",
+      "cancel": "Abbrechen"
+    },
+    "modal": {
+      "splitTitle": "Menge teilen",
+      "mergeTitle": "Artikel zusammenführen",
+      "splitMessage": "Wählen Sie die zu teilende Menge:",
+      "mergeMessage": "Möchten Sie wirklich zusammenführen?",
+      "splitLabel": "Geteilte Menge"
+    }
   }
 }

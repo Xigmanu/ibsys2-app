@@ -1,14 +1,50 @@
 <table class="table">
-    <thead>
+  <thead>
     <tr>
-        <th>Article</th>
-        <th>Quantity</th>
+      <th>{{ 'lotsize.table.article' | translate }}</th>
+      <th>{{ 'lotsize.table.quantity' | translate }}</th>
+      <th>{{ 'lotsize.table.actions' | translate }}</th>
     </tr>
-    </thead>
-    <tbody cdkDropList (cdkDropListDropped)="drop($event)">
-    <tr *ngFor="let production of productionList" cdkDrag>
-        <td>{{ production.article }}</td>
-        <td>{{ production.quantity }}</td>
+  </thead>
+  <tbody cdkDropList (cdkDropListDropped)="drop($event)">
+    <tr *ngFor="let production of productionList; let i = index" cdkDrag>
+      <td>{{ production.article }}</td>
+      <td>{{ production.quantity }}</td>
+      <td>
+        <button clrButton (click)="openConfirmModal('split', i)" class="btn btn-primary">
+          {{ 'lotsize.button.split' | translate }}
+        </button>
+        <button clrButton (click)="openConfirmModal('merge', i)" class="btn btn-primary">
+          {{ 'lotsize.button.merge' | translate }}
+        </button>
+      </td>
     </tr>
-    </tbody>
+  </tbody>
 </table>
+
+<clr-modal [(clrModalOpen)]="isModalOpen">
+  <h3 class="modal-title">{{ modalTitle | translate }}</h3>
+  <div class="modal-body">
+    <p>{{ modalMessage | translate }}</p>
+    <div *ngIf="currentAction === 'split'" class="split-container">
+      <label for="splitSlider">
+        {{ 'lotsize.modal.splitLabel' | translate }}: {{ splitQuantity }}
+      </label>
+      <input
+        type="range"
+        id="splitSlider"
+        min="1"
+        [max]="getSelectedProduction()?.quantity"
+        [(ngModel)]="splitQuantity"
+      />
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button clrButton (click)="confirmAction()" class="btn btn-primary">
+      {{ 'lotsize.button.confirm' | translate }}
+    </button>
+    <button clrButton (click)="closeConfirmModal()" class="btn btn-link">
+      {{ 'lotsize.button.cancel' | translate }}
+    </button>
+  </div>
+</clr-modal>

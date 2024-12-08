@@ -112,5 +112,25 @@
     "bezeichnung10": "Frame and Wheels",
     "bezeichnung11": "Bicycle without Pedals",
     "bezeichnung12": "Bicycle Complete (cpl)"
+  },
+  "lotsize": {
+    "table": {
+      "article": "Article",
+      "quantity": "Quantity",
+      "actions": "Actions"
+    },
+    "button": {
+      "split": "Split",
+      "merge": "Merge",
+      "confirm": "Confirm",
+      "cancel": "Cancel"
+    },
+    "modal": {
+      "splitTitle": "Split Quantity",
+      "mergeTitle": "Merge Items",
+      "splitMessage": "Select the quantity to split:",
+      "mergeMessage": "Are you sure you want to merge?",
+      "splitLabel": "Split Quantity"
+    }
   }
 }
