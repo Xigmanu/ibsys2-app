@@ -4,7 +4,7 @@ import {
   FutureInwardStockMovementOrder,
   MetaData, Output, ProductionInput, SellWishItem,
 } from '../data.service';
-export enum KauftelidispoArt {
+export enum KaufteildispoArt {
   KAUFTEIL = 'kaufteil',
   FRIST = 'frist',
   ABWEICHUNG = 'abweichung',
@@ -35,37 +35,47 @@ export enum ForecastArt {
 export function Uebernehmen(formGroup: FormGroup): void {
 }
 
-export function mapDataToFormControls(jsonData: any, dataService: DataService, dispoForm: FormGroup, forecastForm: FormGroup, metaData: MetaData, output: Output): any {
+export function mapDataToFormControls(jsonData: any, dataService: DataService, dispoForm: FormGroup, metaData: MetaData, output: Output): any {
   const mappedData: any = {};
-  const productionQuantities: any = {};
   const primaryArticleIds: number[] = [1, 2, 3];
-
+  const futureInwardStockMovement = dataService.getData().input.futureInwardStockMovement || [];
+  const warehouseStock = dataService.getData().input.warehouseStock || [];
+  console.log("warehouseStock", warehouseStock, "futureInwardStockMovement", futureInwardStockMovement);
 
   // Map JSON data
   for (const key in jsonData) {
     if (jsonData.hasOwnProperty(key)) {
       const item = jsonData[key];
-      const verbrauchPrognose = calculateVerbrauchForPeriods(item.usedIn, dataService);
       if (item.Typ === 'K') {
+        if (!item.usedIn) {
+          console.error(`Missing usedIn for item: ${key}`);
+          continue;
+        }
+        const verbrauchPrognose = calculateVerbrauchForPeriods(item.usedIn, dataService);
+        const verbrauchAktuell = calculateVerbrauchProg(item.usedIn, dataService);
+        const verbrauchPrognoseGesamt = verbrauchAktuell + verbrauchPrognose.period2 + verbrauchPrognose.period3 + verbrauchPrognose.period4;
+        const incomingDelivery = futureInwardStockMovement.find((order: any) => order.article === item.Nr)?.amount || 0;
+
+        const stockItem = warehouseStock.find((stock: any) => stock.id === item.Nr);
+        const bestandAktuell = stockItem ? stockItem.amount : 0;
+        console.log("stockItem", stockItem);
+        console.log("bestandAktuell", bestandAktuell);
+        console.log("incomingDelivery", incomingDelivery);
         mappedData[key] = {
-          [KauftelidispoArt.KAUFTEIL]: item.Nr,
-          [KauftelidispoArt.FRIST]: item.Lieferzeit,
-          [KauftelidispoArt.ABWEICHUNG]: item.Lieferzeitabweichung,
-          [KauftelidispoArt.BESTELLUNG_LIEFERTERMIN]: getBestellLiefertermin(
-            metaData,
-            item.Lieferzeit,
-            dispoForm
-              .get('tableRows')
-              ?.get(KauftelidispoArt.BESTELLTYP)
-              ?.value),
-          [KauftelidispoArt.VERBRAUCH_AKTUELL]: calculateVerbrauchProg(item.usedIn,dataService),
-          [KauftelidispoArt.VERBRAUCH_PROGNOSE_1]: verbrauchPrognose.period2,
-          [KauftelidispoArt.VERBRAUCH_PROGNOSE_2]: verbrauchPrognose.period3,
-          [KauftelidispoArt.VERBRAUCH_PROGNOSE_3]: verbrauchPrognose.period4,
+          [KaufteildispoArt.KAUFTEIL]: item.Nr,
+          [KaufteildispoArt.FRIST]: item.Lieferzeit,
+          [KaufteildispoArt.ABWEICHUNG]: item.Lieferzeitabweichung,
+          [KaufteildispoArt.VERBRAUCH_AKTUELL]: verbrauchAktuell,
+          [KaufteildispoArt.VERBRAUCH_PROGNOSE_1]: verbrauchPrognose.period2,
+          [KaufteildispoArt.VERBRAUCH_PROGNOSE_2]: verbrauchPrognose.period3,
+          [KaufteildispoArt.VERBRAUCH_PROGNOSE_3]: verbrauchPrognose.period4,
+          [KaufteildispoArt.VERBRAUCH_PROGNOSE_GES]: verbrauchPrognoseGesamt,
+          [KaufteildispoArt.BESTELLUNG_LIEFERTERMIN]: getBestellLiefertermin(metaData, item.Lieferzeit, dispoForm.get('tableRows')?.get(KaufteildispoArt.BESTELLTYP)?.value),
         };
       }
     }
   }
+
   const serviceData = dataService.getData();
   if (serviceData && serviceData.input && serviceData.input.futureInwardStockMovement) {
     serviceData.input.futureInwardStockMovement.forEach((order: any) => {
@@ -75,13 +85,13 @@ export function mapDataToFormControls(jsonData: any, dataService: DataService, d
       }
       mappedData[order.article] = {
         ...mappedData[order.article],
-        [KauftelidispoArt.KAUFTEIL]: order.article,
-        [KauftelidispoArt.DISKONTMENGE]: order.article,
-        [KauftelidispoArt.EINGEHENDELIEFERUNG]: order.amount,
-        [KauftelidispoArt.ANKUNFTSZEIT_EINGEHEND]: getEingehendeLieferung(order, frist,
+        [KaufteildispoArt.KAUFTEIL]: order.article,
+        [KaufteildispoArt.DISKONTMENGE]: order.article,
+        [KaufteildispoArt.EINGEHENDELIEFERUNG]: order.amount,
+        [KaufteildispoArt.ANKUNFTSZEIT_EINGEHEND]: getEingehendeLieferung(order, frist,
           dispoForm
             .get('tableRows')
-            ?.get(KauftelidispoArt.BESTELLTYP)
+            ?.get(KaufteildispoArt.BESTELLTYP)
             ?.value),
         inwardStockMovement: order
       };
@@ -92,17 +102,14 @@ export function mapDataToFormControls(jsonData: any, dataService: DataService, d
       if (mappedData.hasOwnProperty(stock.id)) {
         mappedData[stock.id] = {
           ...mappedData[stock.id],
-          [KauftelidispoArt.BESTAND_AKTUELL]: stock.amount,
+          [KaufteildispoArt.BESTAND_AKTUELL]: stock.amount,
         };
       }
     });
   }
-  if (serviceData.output && serviceData.output.sellWish) {
 
-  }
   return mappedData;
 }
-
 export function getEingehendeLieferung(inwardStock: FutureInwardStockMovementOrder, frist: string, bestelltyp: string): string {
   const periodDays = 5;
   const fristNumber = parseFloat(frist.replace(',', '.'));
@@ -127,27 +134,15 @@ export function getBestellLiefertermin(metaData: MetaData, frist: string, bestel
   return date;
 }
 
-export function getSellwishItem(id: number, output: Output): SellWishItem | undefined {
-  return output?.sellWish?.items?.find((item) => item.article === id);
-}
-
-function calculateVerbrauch(usedIn: { P1: number, P2: number, P3: number }, output: Output): number {
-  const sellwish_P1 = getSellwishItem(1, output)?.quantity ?? 0;
-  const sellwish_P2 = getSellwishItem(2, output)?.quantity ?? 0;
-  const sellwish_P3 = getSellwishItem(3, output)?.quantity ?? 0;
-  return (usedIn.P1 * sellwish_P1) +
-    (usedIn.P2 * sellwish_P2) +
-    (usedIn.P3 * sellwish_P3);
-}
-
 function calculateVerbrauchProg(usedIn: { P1: number, P2: number, P3: number },dataService: DataService): number {
   let totalVerbrauch = 0;
-    const forecastP1 = dataService.getProductionListArticle(1) ?? 0;
-    const forecastP2 =  dataService.getProductionListArticle(2 ) ?? 0;
-    const forecastP3 =  dataService.getProductionListArticle(3) ?? 0;
-    totalVerbrauch += (usedIn.P1 * forecastP1) + (usedIn.P2 * forecastP2) + (usedIn.P3 * forecastP3);
+    const productionP1 = dataService.getProductionListArticle(1) ?? 0;
+    const productionP2 =  dataService.getProductionListArticle(2 ) ?? 0;
+    const productionP3 =  dataService.getProductionListArticle(3) ?? 0;
+    totalVerbrauch += (usedIn.P1 * productionP1) + (usedIn.P2 * productionP2) + (usedIn.P3 * productionP3);
   return totalVerbrauch;
 }
+
 function calculateVerbrauchForPeriods(usedIn: { P1: number, P2: number, P3: number }, dataService: DataService): { period2: number, period3: number, period4: number } {
   const periods = ['period2', 'period3', 'period4'] as const;
   const result = {
@@ -162,18 +157,38 @@ function calculateVerbrauchForPeriods(usedIn: { P1: number, P2: number, P3: numb
   }
 
   periods.forEach(period => {
-    const forecastP1 = dataService.getDecisionProduction(1)[period]?.p1 ?? 0;
-    const forecastP2 = dataService.getDecisionProduction(2)[period]?.p2 ?? 0;
-    const forecastP3 = dataService.getDecisionProduction(3)[period]?.p3 ?? 0;
-
-    console.log(`usedIn for ${period}:`, usedIn);
-    console.log(`forecastP1 for ${period}:`, forecastP1);
-    console.log(`forecastP2 for ${period}:`, forecastP2);
-    console.log(`forecastP3 for ${period}:`, forecastP3);
-
-    result[period] = (usedIn.P1 * forecastP1) + (usedIn.P2 * forecastP2) + (usedIn.P3 * forecastP3);
+    const productionP1 = dataService.getDecisionProduction(1)[period]?.p1 ?? 0;
+    const productionP2 = dataService.getDecisionProduction(2)[period]?.p2 ?? 0;
+    const productionP3 = dataService.getDecisionProduction(3)[period]?.p3 ?? 0;
+    result[period] = (usedIn.P1 * productionP1) + (usedIn.P2 * productionP2) + (usedIn.P3 * productionP3);
   });
 
-  console.log("result", result);
   return result;
+}
+export function calculateBenoetigteMenge(verbrauchGesamt: number, bestandAktuell: number, eingehendeLieferung: number): number {
+  const validVerbrauchGesamt = isNaN(verbrauchGesamt) ? 0 : verbrauchGesamt;
+  const validBestandAktuell = isNaN(bestandAktuell) ? 0 : bestandAktuell;
+  const validEingehendeLieferung = isNaN(eingehendeLieferung) ? 0 : eingehendeLieferung;
+
+  const result = validVerbrauchGesamt - validBestandAktuell - validEingehendeLieferung;
+  return result < 0 ? 0 : result;
+}
+export function findExceedingPeriod(verbrauchPrognose: { period2: number, period3: number, period4: number }, bestandAktuell: number, eingehendeLieferung: number, ankunftszeitEingehend: string | undefined): string | null {
+  if (!ankunftszeitEingehend) {
+    console.error('ankunftszeitEingehend is undefined');
+    return null;
+  }
+
+  const periods = ['period2', 'period3', 'period4'] as const;
+  let cumulativeDemand = 0;
+  let deliveryPeriod = parseInt(ankunftszeitEingehend.split('_')[0]);
+
+  for (const period of periods) {
+    cumulativeDemand += verbrauchPrognose[period];
+    if (cumulativeDemand > (bestandAktuell + (deliveryPeriod <= periods.indexOf(period) + 2 ? eingehendeLieferung : 0))) {
+      return period;
+    }
+  }
+
+  return null;
 }

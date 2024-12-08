@@ -9,11 +9,10 @@ import {
 } from '@angular/forms';
 import {CommonModule, NgIf} from '@angular/common';
 import {
-  getSellwishItem,
-  ForecastArt,
   getBestellLiefertermin,
-  KauftelidispoArt,
-  mapDataToFormControls
+  KaufteildispoArt,
+  mapDataToFormControls,
+  calculateBenoetigteMenge, findExceedingPeriod,
 } from './kaufteildispo.util';
 import {ClarityModule} from '@clr/angular';
 import * as data from '../../assets/SortedData.json';
@@ -32,63 +31,63 @@ import { TranslateModule } from '@ngx-translate/core';
 export class KaufteildispoComponent implements OnInit {
   private jsonData = data;
   public dispoForm: FormGroup;
-  public forecastForm: FormGroup;
   public dataServiceData: any;
   private mappedData: any;
   protected readonly data = data;
-  protected readonly KauftelidispoArt = KauftelidispoArt;
+  protected readonly KauftelidispoArt = KaufteildispoArt;
   constructor(private fb: FormBuilder,
               private dataService: DataService) {
     this.dispoForm = this.fb.group({
       tableRows: this.fb.array([], [Validators.required]),
     });
-    this.forecastForm = this.fb.group({
-      forecastRows: this.fb.array([], [Validators.required]),
-    });
   }
 
   ngOnInit(): void {
     this.dataServiceData = this.dataService.getData();
-    this.initializeTable();
-    this.mappedData = mapDataToFormControls(this.jsonData, this.dataService, this.dispoForm, this.forecastForm, this.dataServiceData.input.metaData, this.dataServiceData.output);
+    this.mappedData = mapDataToFormControls(this.jsonData, this.dataService, this.dispoForm, this.dataServiceData.input.metaData, this.dataServiceData.output);
     const formArray = this.dispoForm.get('tableRows') as FormArray;
-    const forecastArray = this.forecastForm.get('forecastRows') as FormArray;
-    this.populateFormArrays(this.mappedData, this.dispoForm, this.forecastForm);
+    this.populateFormArrays(this.mappedData, this.dispoForm);
     this.subscribeToFormChanges();
     console.log("!!!!!",this.mappedData);
     console.log("!!!!!",this.dispoForm);
   }
-  initializeTable() {
-    const products = [1, 2, 3];
-    products.forEach((product) => {
-      this.addForeCastRow(product);
-    });
-  }
-  addForeCastRow(product: number) {
-    const row = this.fb.group({
-      [ForecastArt.PRODUKT]: [product],
-      [ForecastArt.PERIODE_0]: [getSellwishItem(product,this.dataServiceData?.output)?.quantity ?? '0', Validators.required],
-      [ForecastArt.PERIODE_1]: ['0'],
-      [ForecastArt.PERIODE_2]: ['0'],
-      [ForecastArt.PERIODE_3]: ['0'],
-    });
-    this.forecastRows.push(row);
-  }
 
-  createDispoFormGrp(): FormGroup {
+  createDispoFormGrp(mappedItem:any): FormGroup {
+    const benoetigteMenge = calculateBenoetigteMenge(
+      mappedItem[KaufteildispoArt.VERBRAUCH_PROGNOSE_GES],
+      mappedItem[KaufteildispoArt.BESTAND_AKTUELL],
+      mappedItem[KaufteildispoArt.EINGEHENDELIEFERUNG]
+    );
+
+    const exceedingPeriod = findExceedingPeriod(
+      {
+        period2: mappedItem[KaufteildispoArt.VERBRAUCH_PROGNOSE_1],
+        period3: mappedItem[KaufteildispoArt.VERBRAUCH_PROGNOSE_2],
+        period4: mappedItem[KaufteildispoArt.VERBRAUCH_PROGNOSE_3]
+      },
+      mappedItem[KaufteildispoArt.BESTAND_AKTUELL],
+      mappedItem[KaufteildispoArt.EINGEHENDELIEFERUNG],
+      mappedItem[KaufteildispoArt.ANKUNFTSZEIT_EINGEHEND]
+    );
+    console.log(`Exceeding period for item ${mappedItem[KaufteildispoArt.KAUFTEIL]}: ${exceedingPeriod}`);
+
     return this.fb.group({
-      [KauftelidispoArt.KAUFTEIL]: [],
-      [KauftelidispoArt.FRIST]: [''],
-      [KauftelidispoArt.ABWEICHUNG]: [''],
-      [KauftelidispoArt.DISKONTMENGE]: [''],
-      [KauftelidispoArt.VERBRAUCH_AKTUELL]: [''],
-      [KauftelidispoArt.BESTAND_AKTUELL]: [''],
-      [KauftelidispoArt.EINGEHENDELIEFERUNG]: [''],
-      [KauftelidispoArt.ANKUNFTSZEIT_EINGEHEND]: [''],
-      [KauftelidispoArt.BENOETIGTE_MENGE]: [''],
-      [KauftelidispoArt.BESTELLUNG_LIEFERTERMIN]: [''],
-      [KauftelidispoArt.BESTELLMENGE]: [''],
-      [KauftelidispoArt.BESTELLTYP]: ['', [Validators.pattern('^[0-9]+$')]],
+      [KaufteildispoArt.KAUFTEIL]: [],
+      [KaufteildispoArt.FRIST]: [''],
+      [KaufteildispoArt.ABWEICHUNG]: [''],
+      [KaufteildispoArt.DISKONTMENGE]: [''],
+      [KaufteildispoArt.VERBRAUCH_AKTUELL]: [''],
+      [KaufteildispoArt.VERBRAUCH_PROGNOSE_1]: [''],
+      [KaufteildispoArt.VERBRAUCH_PROGNOSE_2]: [''],
+      [KaufteildispoArt.VERBRAUCH_PROGNOSE_3]: [''],
+      [KaufteildispoArt.VERBRAUCH_PROGNOSE_GES]: [''],
+      [KaufteildispoArt.BESTAND_AKTUELL]: [''],
+      [KaufteildispoArt.EINGEHENDELIEFERUNG]: [''],
+      [KaufteildispoArt.ANKUNFTSZEIT_EINGEHEND]: [''],
+      [KaufteildispoArt.BENOETIGTE_MENGE]: [benoetigteMenge],
+      [KaufteildispoArt.BESTELLUNG_LIEFERTERMIN]: [''],
+      [KaufteildispoArt.BESTELLMENGE]: ['',[Validators.pattern('^[0-9]+$')]],
+      [KaufteildispoArt.BESTELLTYP]: ['', [Validators.pattern('^[A-Z]+$')]],
     }, {validators: bestellmengeValidator()});
   }
 
@@ -96,63 +95,28 @@ export class KaufteildispoComponent implements OnInit {
     const control = this.dispoForm.get('tableRows') as FormArray;
     return control;
   }
-  get getForecastControls() {
-    const control = this.forecastForm.get('forecastRows') as FormArray;
-    return control;
-  }
-
-  addRow() {
-    const control = this.dispoForm.get('tableRows') as FormArray;
-    control.push(this.createDispoFormGrp());
-  }
-
-  setFormGroup(formGroup: FormGroup): void {
-    this.dispoForm = formGroup;
-  }
-
-  getFormGroup(): FormGroup {
-    return this.dispoForm;
-  }
-  get rows(): FormArray {
-    return this.dispoForm.get('tableRows') as FormArray;
-  }
-  get forecastRows(): FormArray {
-    return this.forecastForm.get('forecastRows') as FormArray;
-  }
 
   private subscribeToFormChanges(): void {
     const formArray = this.dispoForm.get('tableRows') as FormArray;
-    const forecastArray = this.forecastForm.get('forecastRows') as FormArray;
     formArray.controls.forEach((control: AbstractControl) => {
       const group = control as FormGroup;
-      group.get(KauftelidispoArt.BESTELLTYP)?.valueChanges.subscribe(() => {
-        console.log('Bestelltyp changed' + group.get(KauftelidispoArt.BESTELLTYP)?.value);
-        const bestelltyp = group.get(KauftelidispoArt.BESTELLTYP)?.value;
-        console.log('Bestelltyp changed' + bestelltyp);
-        const frist = group.get(KauftelidispoArt.FRIST)?.value;
-        const kaufteil = group.get(KauftelidispoArt.KAUFTEIL)?.value;
-        group.get(KauftelidispoArt.BESTELLUNG_LIEFERTERMIN)?.setValue(
+      group.get(KaufteildispoArt.BESTELLTYP)?.valueChanges.subscribe(() => {
+        const bestelltyp = group.get(KaufteildispoArt.BESTELLTYP)?.value;
+        const frist = group.get(KaufteildispoArt.FRIST)?.value;
+        group.get(KaufteildispoArt.BESTELLUNG_LIEFERTERMIN)?.setValue(
           getBestellLiefertermin(this.dataServiceData.input.metaData, frist, bestelltyp),
-          {emitEvent: false});
-        this.saveData();
-        this.populateFormArrays(this.mappedData, this.dispoForm, this.forecastForm);
-      });
-    });
-    forecastArray.controls.forEach((control: AbstractControl) => {
-      const group = control as FormGroup;
-      group.get(ForecastArt.PERIODE_1)?.valueChanges.subscribe(() => {
-        this.mappedData = mapDataToFormControls(this.jsonData, this.dataService, this.dispoForm, this.forecastForm, this.dataServiceData.input.metaData, this.dataServiceData.output)
-        console.log('Forecast changed' + group.get(ForecastArt.PERIODE_0)?.value);
+          {emitEvent: false}
+        );
         this.saveData();
       });
     });
   }
-  private populateFormArrays(mappedData: any, dispoForm: FormGroup, forecastForm: FormGroup): void {
+private populateFormArrays(mappedData: any, dispoForm: FormGroup): void {
     const formArray = dispoForm.get('tableRows') as FormArray;
-    const forecastArray = forecastForm.get('forecastRows') as FormArray;
+    formArray.clear(); // Clear the existing form array
     for (const key in mappedData) {
       if (mappedData.hasOwnProperty(key)) {
-        const formGroup = this.createDispoFormGrp();
+        const formGroup = this.createDispoFormGrp(mappedData[key]);
         formGroup.patchValue(mappedData[key]);
         formArray.push(formGroup);
       }
@@ -160,12 +124,12 @@ export class KaufteildispoComponent implements OnInit {
   }
   saveData() {
     const formArray = this.dispoForm.get('tableRows') as FormArray;
-    const dataToSave = formArray.controls.map((control: AbstractControl) => {
+    const outputDataToSave = formArray.controls.map((control: AbstractControl) => {
       const group = control as FormGroup;
       return {
-        article: group.get(KauftelidispoArt.KAUFTEIL)?.value,
-        quantity: group.get(KauftelidispoArt.BESTELLMENGE)?.value,
-        modus: group.get(KauftelidispoArt.BESTELLTYP)?.value,
+        article: group.get(KaufteildispoArt.KAUFTEIL)?.value,
+        quantity: group.get(KaufteildispoArt.BESTELLMENGE)?.value,
+        modus: group.get(KaufteildispoArt.BESTELLTYP)?.value,
       };
     });
 
@@ -173,21 +137,20 @@ export class KaufteildispoComponent implements OnInit {
       ...this.dataService.getData(),
       output: {
         ...this.dataService.getData().output,
-        orderList: {orders: dataToSave}
+        orderList: {orders: outputDataToSave}
       }
     });
 
     console.log('Data saved to DataService:', this.dataService.getData());
   }
 
-  protected readonly ForecastArt = ForecastArt;
 }
 
 export function bestellmengeValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const group = control as FormGroup;
-    const modus = group.get(KauftelidispoArt.BESTELLTYP)?.value;
-    const bestellmenge = group.get(KauftelidispoArt.BESTELLMENGE)?.value;
+    const modus = group.get(KaufteildispoArt.BESTELLTYP)?.value;
+    const bestellmenge = group.get(KaufteildispoArt.BESTELLMENGE)?.value;
     return modus && !bestellmenge ? {bestellmengeRequired: true} : null;
   };
 }
