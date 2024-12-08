@@ -26,8 +26,14 @@
     <tbody>
       <!-- Data Rows -->
       <tr *ngFor="let row of productionArray">
-        <td *ngFor="let cell of row">{{ cell ? (cell | translate) : '' }}</td>
-      </tr>
+        <td *ngFor="let cell of row; let i = index">
+          <ng-container *ngIf="i < 3">
+            {{ cell ? (cell | translate) : '' }}
+          </ng-container>
+          <ng-container *ngIf="i >= 3">
+            {{ cell || '0' }}
+          </ng-container>
+        </td>      </tr>
       <!-- Puffer Row -->
       <tr>
         <td>{{ 'capacityPlan.pufferProWoche' | translate }}</td>
