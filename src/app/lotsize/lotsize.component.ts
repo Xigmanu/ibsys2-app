@@ -68,7 +68,9 @@ export class LotsizeComponent implements OnInit {
     // If action is 'split', initialize splitQuantity based on the selected production
     if (action === 'split' && this.selectedIndex !== null) {
       const selectedProduction = this.getSelectedProduction();
-      this.splitQuantity = selectedProduction ? Math.floor(selectedProduction.quantity / 2) : 1;
+      this.splitQuantity = selectedProduction
+        ? Math.floor(selectedProduction.quantity / 2)
+        : 1;
     }
   }
 
@@ -150,17 +152,20 @@ export class LotsizeComponent implements OnInit {
    * @returns True if merge is possible, otherwise false.
    */
   canMerge(index: number): boolean {
-    const productions = this.dataService.getData().output.productionList.productions;
+    const productions =
+      this.dataService.getData().output.productionList.productions;
     if (index < 0 || index >= productions.length) {
       return false;
     }
-    
+
     const currentArticle = productions[index].article;
-    
+
     // Count how many times this article appears in the list
-    const articleCount = productions.filter(p => p.article === currentArticle).length;
-    
+    const articleCount = productions.filter(
+      (p) => p.article === currentArticle
+    ).length;
+
     // Can merge if there's more than one instance of this article
     return articleCount > 1;
-}
+  }
 }

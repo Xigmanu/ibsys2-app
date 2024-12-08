@@ -115,6 +115,7 @@
   },
   "lotsize": {
     "table": {
+      "order": "Order",
       "article": "Article",
       "quantity": "Quantity",
       "actions": "Actions"

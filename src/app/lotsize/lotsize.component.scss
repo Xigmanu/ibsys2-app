@@ -1,6 +1,17 @@
 .centered-cell {
-    text-align: center;
-    font-size: 1.2rem;
-    padding: 0.75rem;
-    vertical-align: middle;
-  }
+  text-align: center;
+  font-size: 1.2rem;
+  padding: 0.75rem;
+  vertical-align: middle;
+}
+
+.left-cell {
+  text-align: left;
+  font-size: 0.8rem;
+  padding: 0.75rem;
+  vertical-align: middle;
+}
+
+.left-header {
+    text-align: left;
+}

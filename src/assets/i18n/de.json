@@ -97,6 +97,7 @@
   },
   "lotsize": {
     "table": {
+      "order": "Reihenfolge",
       "article": "Artikel",
       "quantity": "Menge",
       "actions": "Aktionen"

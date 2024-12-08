@@ -1,21 +1,32 @@
 <table class="table">
   <thead>
     <tr>
-      <th>{{ 'lotsize.table.article' | translate }}</th>
-      <th>{{ 'lotsize.table.quantity' | translate }}</th>
-      <th>{{ 'lotsize.table.actions' | translate }}</th>
+      <th class="left-header">{{ "lotsize.table.order" | translate }}</th>
+      <th>{{ "lotsize.table.article" | translate }}</th>
+      <th>{{ "lotsize.table.quantity" | translate }}</th>
+      <th>{{ "lotsize.table.actions" | translate }}</th>
     </tr>
   </thead>
   <tbody cdkDropList (cdkDropListDropped)="drop($event)">
     <tr *ngFor="let production of productionList; let i = index" cdkDrag>
-    <td class="centered-cell">{{ production.article }}</td>
-    <td class="centered-cell">{{ production.quantity }}</td>
+      <td class="left-cell">{{ i + 1 }}.</td>
+      <td class="centered-cell">{{ production.article }}</td>
+      <td class="centered-cell">{{ production.quantity }}</td>
       <td>
-        <button clrButton (click)="openConfirmModal('split', i)" class="btn btn-primary">
-          {{ 'lotsize.button.split' | translate }}
+        <button
+          clrButton
+          (click)="openConfirmModal('split', i)"
+          class="btn btn-primary btn-sm"
+        >
+          {{ "lotsize.button.split" | translate }}
         </button>
-        <button *ngIf="canMerge(i) "clrButton (click)="openConfirmModal('merge', i)" class="btn btn-primary">
-          {{ 'lotsize.button.merge' | translate }}
+        <button
+          *ngIf="canMerge(i)"
+          clrButton
+          (click)="openConfirmModal('merge', i)"
+          class="btn btn-primary btn-sm"
+        >
+          {{ "lotsize.button.merge" | translate }}
         </button>
       </td>
     </tr>
@@ -28,7 +39,7 @@
     <p>{{ modalMessage | translate }}</p>
     <div *ngIf="currentAction === 'split'" class="split-container">
       <label for="splitSlider">
-        {{ 'lotsize.modal.splitLabel' | translate }}: {{ splitQuantity }}
+        {{ "lotsize.modal.splitLabel" | translate }}: {{ splitQuantity }}
       </label>
       <input
         type="range"
@@ -41,10 +52,10 @@
   </div>
   <div class="modal-footer">
     <button clrButton (click)="confirmAction()" class="btn btn-primary">
-      {{ 'lotsize.button.confirm' | translate }}
+      {{ "lotsize.button.confirm" | translate }}
     </button>
     <button clrButton (click)="closeConfirmModal()" class="btn btn-link">
-      {{ 'lotsize.button.cancel' | translate }}
+      {{ "lotsize.button.cancel" | translate }}
     </button>
   </div>
 </clr-modal>
