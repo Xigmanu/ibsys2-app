@@ -624,25 +624,31 @@ export class DataService {
     }
   
     const currentProduction = productions[index];
-    let totalQuantity = currentProduction.quantity;
-    let startIndex = index;
+    const targetArticle = currentProduction.article;
+    let totalQuantity = 0;
     
-    let j = index - 1;
-    while (j >= 0 && productions[j].article === currentProduction.article) {
-      totalQuantity += productions[j].quantity;
-      startIndex = j;
-      j--;
+    // Calculate total quantity and find indices to remove
+    const indicesToRemove: number[] = [];
+    for (let i = 0; i < productions.length; i++) {
+      if (productions[i].article === targetArticle) {
+        totalQuantity += productions[i].quantity;
+        if (i !== index) {
+          indicesToRemove.push(i);
+        }
+      }
     }
     
-    let i = index + 1;
-    while (i < productions.length && productions[i].article === currentProduction.article) {
-      totalQuantity += productions[i].quantity;
-      i++;
+    // Calculate how many elements before our target index will be removed
+    const shiftsBeforeTarget = indicesToRemove.filter(i => i < index).length;
+    
+    // Remove from highest index to lowest
+    for (let i = indicesToRemove.length - 1; i >= 0; i--) {
+      productions.splice(indicesToRemove[i], 1);
     }
     
-    productions[startIndex].quantity = totalQuantity;
-    
-    productions.splice(startIndex + 1, i - startIndex - 1);
+    // Update quantity at adjusted position
+    const adjustedIndex = index - shiftsBeforeTarget;
+    productions[adjustedIndex].quantity = totalQuantity;
 }
 
   splitProductionListArticle(index: number, splitQuantity: number): void {
