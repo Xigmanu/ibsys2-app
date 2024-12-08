@@ -1,5 +1,17 @@
 {
-  "global": {},
+  "global": {
+    "productionPlan": "Production Plan"
+  },
+  "nav": {
+    "setup": "Setup",
+    "input": "Input",
+    "sellwish": "Sellwish",
+    "disposition": "BOM explosion",
+    "capacityplan": "Capacity Plan",
+    "orders": "Where-used list",
+    "lotsize": "Lot Size",
+    "export": "Export"
+  },
   "setup": {
     "title": "Setup",
     "titleNextSteps": "Next Steps",
@@ -24,7 +36,9 @@
     "price": "Price per Unit",
     "penalty": "Penalty",
     "saveButton": "Save",
-    "error": "Required Field"
+    "error": "Required Field",
+    "plan": "Production Plan",
+    "forecast": "Forecast"
   },
   "export": {
     "title": "Export",

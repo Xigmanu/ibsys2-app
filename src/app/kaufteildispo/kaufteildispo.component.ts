@@ -18,11 +18,12 @@ import {
 import {ClarityModule} from '@clr/angular';
 import * as data from '../../assets/SortedData.json';
 import {DataService, Output, SellWishItem} from '../data.service';
+import {ProduktionsplanComponent} from '../produktionsplan/produktionsplan.component';
 
 @Component({
   selector: 'app-kaufteildispo',
   standalone: true,
-  imports: [ReactiveFormsModule, NgIf, ClarityModule, CommonModule,],
+  imports: [ReactiveFormsModule, NgIf, ClarityModule, CommonModule, ProduktionsplanComponent,],
   templateUrl: './kaufteildispo.component.html',
   styleUrl: './kaufteildispo.component.scss',
 })
@@ -34,7 +35,6 @@ export class KaufteildispoComponent implements OnInit {
   private mappedData: any;
   protected readonly data = data;
   protected readonly KauftelidispoArt = KauftelidispoArt;
-
   constructor(private fb: FormBuilder,
               private dataService: DataService) {
     this.dispoForm = this.fb.group({
@@ -53,6 +53,8 @@ export class KaufteildispoComponent implements OnInit {
     const forecastArray = this.forecastForm.get('forecastRows') as FormArray;
     this.populateFormArrays(this.mappedData, this.dispoForm, this.forecastForm);
     this.subscribeToFormChanges();
+    console.log("!!!!!",this.mappedData);
+    console.log("!!!!!",this.dispoForm);
   }
   initializeTable() {
     const products = [1, 2, 3];
@@ -70,8 +72,6 @@ export class KaufteildispoComponent implements OnInit {
     });
     this.forecastRows.push(row);
   }
-
-
 
   createDispoFormGrp(): FormGroup {
     return this.fb.group({

@@ -2,9 +2,8 @@ import {AbstractControl, FormArray, FormGroup} from '@angular/forms';
 import {
   DataService,
   FutureInwardStockMovementOrder,
-  MetaData, Output, SellWishItem,
+  MetaData, Output, ProductionInput, SellWishItem,
 } from '../data.service';
-
 export enum KauftelidispoArt {
   KAUFTEIL = 'kaufteil',
   FRIST = 'frist',
@@ -25,18 +24,18 @@ export enum KauftelidispoArt {
 }
 
 export enum ForecastArt {
-  PRODUKT = 'produkt',
-  PERIODE_0 = 'periode 0',
-  PERIODE_1 = 'periode 1',
-  PERIODE_2 = 'periode 2',
-  PERIODE_3 = 'periode 3',
+  PRODUKT = 'Product',
+  PERIODE_0 = 'Sellwish',
+  PERIODE_1 = 'Periode 1',
+  PERIODE_2 = 'Periode 2',
+  PERIODE_3 = 'Periode 3',
 }
 
 
 export function Uebernehmen(formGroup: FormGroup): void {
 }
 
-export function mapDataToFormControls(jsonData: any, dataService: DataService, dispoForm: FormGroup,forecastForm:FormGroup, metaData: MetaData, output: Output): any {
+export function mapDataToFormControls(jsonData: any, dataService: DataService, dispoForm: FormGroup, forecastForm: FormGroup, metaData: MetaData, output: Output): any {
   const mappedData: any = {};
   const productionQuantities: any = {};
   const primaryArticleIds: number[] = [1, 2, 3];
@@ -46,6 +45,7 @@ export function mapDataToFormControls(jsonData: any, dataService: DataService, d
   for (const key in jsonData) {
     if (jsonData.hasOwnProperty(key)) {
       const item = jsonData[key];
+      const verbrauchPrognose = calculateVerbrauchForPeriods(item.usedIn, dataService);
       if (item.Typ === 'K') {
         mappedData[key] = {
           [KauftelidispoArt.KAUFTEIL]: item.Nr,
@@ -58,8 +58,10 @@ export function mapDataToFormControls(jsonData: any, dataService: DataService, d
               .get('tableRows')
               ?.get(KauftelidispoArt.BESTELLTYP)
               ?.value),
-          [KauftelidispoArt.VERBRAUCH_AKTUELL]: calculateVerbrauch(item.usedIn, output),
-          [KauftelidispoArt.VERBRAUCH_PROGNOSE_1]: calculateVerbrauchProg(item.usedIn, forecastForm ),
+          [KauftelidispoArt.VERBRAUCH_AKTUELL]: calculateVerbrauchProg(item.usedIn,dataService),
+          [KauftelidispoArt.VERBRAUCH_PROGNOSE_1]: verbrauchPrognose.period2,
+          [KauftelidispoArt.VERBRAUCH_PROGNOSE_2]: verbrauchPrognose.period3,
+          [KauftelidispoArt.VERBRAUCH_PROGNOSE_3]: verbrauchPrognose.period4,
         };
       }
     }
@@ -102,7 +104,6 @@ export function mapDataToFormControls(jsonData: any, dataService: DataService, d
 }
 
 export function getEingehendeLieferung(inwardStock: FutureInwardStockMovementOrder, frist: string, bestelltyp: string): string {
-
   const periodDays = 5;
   const fristNumber = parseFloat(frist.replace(',', '.'));
   let totalDays = Math.round(fristNumber * periodDays);
@@ -138,18 +139,41 @@ function calculateVerbrauch(usedIn: { P1: number, P2: number, P3: number }, outp
     (usedIn.P2 * sellwish_P2) +
     (usedIn.P3 * sellwish_P3);
 }
-function calculateVerbrauchProg(usedIn: { P1: number, P2: number, P3: number }, formGroup: FormGroup): number {
-  const forecastRows = formGroup.get('forecastRows') as FormArray;
+
+function calculateVerbrauchProg(usedIn: { P1: number, P2: number, P3: number },dataService: DataService): number {
   let totalVerbrauch = 0;
-
-  forecastRows.controls.forEach((group: AbstractControl) => {
-    const forecastP1 = group.get(ForecastArt.PERIODE_0)?.value ?? 0;
-    const forecastP2 = group.get(ForecastArt.PERIODE_1)?.value ?? 0;
-    const forecastP3 = group.get(ForecastArt.PERIODE_2)?.value ?? 0;
-
+    const forecastP1 = dataService.getProductionListArticle(1) ?? 0;
+    const forecastP2 =  dataService.getProductionListArticle(2 ) ?? 0;
+    const forecastP3 =  dataService.getProductionListArticle(3) ?? 0;
     totalVerbrauch += (usedIn.P1 * forecastP1) + (usedIn.P2 * forecastP2) + (usedIn.P3 * forecastP3);
-  });
-
   return totalVerbrauch;
 }
+function calculateVerbrauchForPeriods(usedIn: { P1: number, P2: number, P3: number }, dataService: DataService): { period2: number, period3: number, period4: number } {
+  const periods = ['period2', 'period3', 'period4'] as const;
+  const result = {
+    period2: 0,
+    period3: 0,
+    period4: 0
+  };
 
+  if (!usedIn || typeof usedIn.P1 !== 'number' || typeof usedIn.P2 !== 'number' || typeof usedIn.P3 !== 'number') {
+    console.error('Invalid usedIn object:', usedIn);
+    return result;
+  }
+
+  periods.forEach(period => {
+    const forecastP1 = dataService.getDecisionProduction(1)[period]?.p1 ?? 0;
+    const forecastP2 = dataService.getDecisionProduction(2)[period]?.p2 ?? 0;
+    const forecastP3 = dataService.getDecisionProduction(3)[period]?.p3 ?? 0;
+
+    console.log(`usedIn for ${period}:`, usedIn);
+    console.log(`forecastP1 for ${period}:`, forecastP1);
+    console.log(`forecastP2 for ${period}:`, forecastP2);
+    console.log(`forecastP3 for ${period}:`, forecastP3);
+
+    result[period] = (usedIn.P1 * forecastP1) + (usedIn.P2 * forecastP2) + (usedIn.P3 * forecastP3);
+  });
+
+  console.log("result", result);
+  return result;
+}

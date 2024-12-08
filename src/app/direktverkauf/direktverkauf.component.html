@@ -1,95 +1,118 @@
 <div class="component">
-  <div class="vertriebswunsch">
-    <p class="title">{{ "sellWish.sellWish" | translate }}</p>
-    <form [formGroup]="tableForm">
-      <table class="table">
-        <thead>
+  <div class="clr-row">
+    <div class="clr-col">
+      <p class="title">{{ "sellWish.plan" | translate }}</p>
+      <app-produktionsplan></app-produktionsplan>
+      <form [formGroup]="forecastForm">
+        <table class="table table-border">
+          <thead class="text-nowrap">
+          <th colspan="5">{{ "sellWish.forecast" | translate }}</th>
           <tr>
-            <th>{{ "sellWish.product" | translate }}</th>
-            <th>{{ "sellWish.quantity" | translate }}</th>
+            <th>{{ ForecastArt.PRODUKT }}</th>
+            <th>{{ ForecastArt.PERIODE_0 }}</th>
+            <th>{{ ForecastArt.PERIODE_1 }}</th>
+            <th>{{ ForecastArt.PERIODE_2 }}</th>
+            <th>{{ ForecastArt.PERIODE_3 }}</th>
           </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>P1</td>
+          </thead>
+          <tbody formArrayName="forecastRows">
+          <tr *ngFor="let group of getForecastControls.controls; let i = index" [formGroupName]="i">
+            <td>{{ group.get(ForecastArt.PRODUKT)?.value }}</td>
             <td>
-              <clr-input-container class="no-margin">
-                <input clrInput formControlName="vertriebswunschP1" />
+              <clr-input-container class="no-margin custom-margin">
+                <input clrInput type="text" id="Sellwish" formControlName="Sellwish" size="5" />
               </clr-input-container>
-              <div *ngIf="tableForm.get('vertriebswunschP1')?.invalid && tableForm.get('vertriebswunschP1')?.touched" class="error">
-                {{ "sellWish.error" | translate }}
+              <div
+                *ngIf="group.get(ForecastArt.PERIODE_0)?.invalid && (group.get(ForecastArt.PERIODE_0)?.dirty || group.get(ForecastArt.PERIODE_0)?.touched)">
+                <div *ngIf="group.get(ForecastArt.PERIODE_0)?.errors?.['pattern']">
+                  Forecast must be a whole number.
+                </div>
+              </div>
+            </td>
+            <td>
+              <clr-input-container class="no-margin custom-margin">
+                <input clrInput type="text" id="Periode 1" formControlName="Periode 1" size="5" />
+              </clr-input-container>
+              <div
+                *ngIf="group.get(ForecastArt.PERIODE_1)?.invalid && (group.get(ForecastArt.PERIODE_1)?.dirty || group.get(ForecastArt.PERIODE_1)?.touched)">
+                <div *ngIf="group.get(ForecastArt.PERIODE_1)?.errors?.['pattern']">
+                  Forecast must be a whole number.
+                </div>
+              </div>
+            </td>
+            <td>
+              <clr-input-container class="no-margin custom-margin">
+                <input clrInput type="text" id="Periode 2" formControlName="Periode 2" size="5" />
+              </clr-input-container>
+              <div
+                *ngIf="group.get(ForecastArt.PERIODE_2)?.invalid && (group.get(ForecastArt.PERIODE_2)?.dirty || group.get(ForecastArt.PERIODE_2)?.touched)">
+                <div *ngIf="group.get(ForecastArt.PERIODE_2)?.errors?.['pattern']">
+                  Forecast must be a whole number.
+                </div>
+              </div>
+            </td>
+            <td>
+              <clr-input-container class="no-margin custom-margin">
+                <input clrInput type="text" id="Periode 3" formControlName="Periode 3" size="5" />
+              </clr-input-container>
+              <div
+                *ngIf="group.get(ForecastArt.PERIODE_3)?.invalid && (group.get(ForecastArt.PERIODE_3)?.dirty || group.get(ForecastArt.PERIODE_3)?.touched)">
+                <div *ngIf="group.get(ForecastArt.PERIODE_3)?.errors?.['pattern']">
+                  Forecast must be a whole number.
+                </div>
               </div>
             </td>
           </tr>
-          <tr>
-            <td>P2</td>
-            <td>
-              <clr-input-container class="no-margin">
-                <input clrInput formControlName="vertriebswunschP2" />
-              </clr-input-container>
-              <div *ngIf="tableForm.get('vertriebswunschP2')?.invalid && tableForm.get('vertriebswunschP2')?.touched" class="error">
-                {{ "sellWish.error" | translate }}
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td>P3</td>
-            <td>
-              <clr-input-container class="no-margin">
-                <input clrInput formControlName="vertriebswunschP3" />
-              </clr-input-container>
-              <div *ngIf="tableForm.get('vertriebswunschP3')?.invalid && tableForm.get('vertriebswunschP3')?.touched" class="error">
-                {{ "sellWish.error" | translate }}
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </form>
-  </div>
-<div class="direktverkauf">
-  <p class="title">{{ "sellWish.directSell" | translate }}</p>
-  <form [formGroup]="tableForm">
-    <table class="table">
-      <thead>
-        <tr>
-          <th>{{ "sellWish.product" | translate }}</th>
-          <th>{{ "sellWish.quantity" | translate }}</th>
-          <th>{{ "sellWish.price" | translate }}</th>
-          <th>{{ "sellWish.penalty" | translate }}</th>
-        </tr>
-      </thead>
-      <tbody formArrayName="rows">
-        <tr *ngFor="let row of rows.controls; let i = index" [formGroupName]="i">
-          <td>{{ row.get('product')?.value }}</td>
-          <td>
-            <clr-input-container class="no-margin">
-              <input clrInput formControlName="menge" />
-            </clr-input-container>
-            <div *ngIf="row.get('menge')?.invalid && row.get('menge')?.touched" class="error">
-              {{ "sellWish.error" | translate }}
-            </div>
-          </td>
-          <td>
-            <clr-input-container class="no-margin">
-              <input clrInput formControlName="preisProEinheit" />
-            </clr-input-container>
-            <div *ngIf="row.get('preisProEinheit')?.invalid && row.get('preisProEinheit')?.touched" class="error">
-              {{ "sellWish.error" | translate }}
-            </div>
-          </td>
-          <td>
-            <clr-input-container class="no-margin">
-              <input clrInput formControlName="konventionalStrafe" />
-            </clr-input-container>
+          </tbody>
+        </table>
+      </form>
+    </div>
+    <div class="clr-col">
+      <div class="direktverkauf">
+        <p class="title">{{ "sellWish.directSell" | translate }}</p>
+        <form [formGroup]="tableForm">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>{{ "sellWish.product" | translate }}</th>
+                <th>{{ "sellWish.quantity" | translate }}</th>
+                <th>{{ "sellWish.price" | translate }}</th>
+                <th>{{ "sellWish.penalty" | translate }}</th>
+              </tr>
+            </thead>
+            <tbody formArrayName="rows">
+              <tr *ngFor="let row of rows.controls; let i = index" [formGroupName]="i">
+                <td>{{ row.get('product')?.value }}</td>
+                <td>
+                  <clr-input-container class="no-margin">
+                    <input clrInput formControlName="menge" size="5" />
+                  </clr-input-container>
+                  <div *ngIf="row.get('menge')?.invalid && row.get('menge')?.touched" class="error">
+                    {{ "sellWish.error" | translate }}
+                  </div>
+                </td>
+                <td>
+                  <clr-input-container class="no-margin">
+                    <input clrInput formControlName="preisProEinheit" size="5" />
+                  </clr-input-container>
+                  <div *ngIf="row.get('preisProEinheit')?.invalid && row.get('preisProEinheit')?.touched" class="error">
+                    {{ "sellWish.error" | translate }}
+                  </div>
+                </td>
+                <td>
+                  <clr-input-container class="no-margin">
+                    <input clrInput formControlName="konventionalStrafe" size="5" />
+                  </clr-input-container>
 
-            <div *ngIf="row.get('konventionalStrafe')?.invalid && row.get('konventionalStrafe')?.touched" class="error">
-              {{ "sellWish.error" | translate }}
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </form>
-</div>
+                  <div *ngIf="row.get('konventionalStrafe')?.invalid && row.get('konventionalStrafe')?.touched" class="error">
+                    {{ "sellWish.error" | translate }}
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>

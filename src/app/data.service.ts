@@ -509,7 +509,7 @@ export class DataService {
     }
     return target;
   }
-  
+
 
   generateInputSampleData(): void {
     this.http.get('/assets/debug/sample_input.json').subscribe((response: any) => {
@@ -561,5 +561,58 @@ export class DataService {
 
   getDispoAllStock(production: keyof Disposition): DispoItem[] {
     return this.data.disposition[production];
+  }
+
+  getProductionListArticle(articleId: number): number{
+    let output = 0;
+    if(this.data.output.productionList.productions.length === 0) {
+      return output;
+    }
+    for ( var item of this.data.output.productionList.productions ) {
+      if (item.article == articleId) {
+        output += item.quantity;
+      }
+    }
+    return output;
+  }
+  getDecisionProduction(articleId:number){
+    let output = 0;
+    return this.data.decisions.production;
+  }
+
+  // Destructive function. Forces a merge of the article orders and places the new summarized order at first known position or at the end.
+  // Use this when setting a new order.
+  setProductionListArticle(articleId: number, quantity: number): void{
+    //Erase previous entries for this article.
+    let position = -1;
+    for ( let i = 0; i < this.data.output.productionList.productions.length; i++ ) {
+      var item: Production = this.data.output.productionList.productions[i];
+      if (item.article == articleId) {
+        position = i;
+        this.data.output.productionList.productions.splice(position, 1);
+      }
+    }
+    //Insert new Element at start
+    let newItem: Production = {
+      article: articleId,
+      quantity: quantity,
+    }
+    if (position > -1) {
+      this.data.output.productionList.productions.splice(position, 0, newItem);
+    }
+    else {
+      this.data.output.productionList.productions.push(newItem);
+    }
+
+  }
+
+  //Simply adds a new production order at the end of the array.
+  addProductionListArticle(articleId: number, quantity: number): void{
+    //Insert new Element
+    let newItem: Production = {
+      article: articleId,
+      quantity: quantity,
+    }
+    this.data.output.productionList.productions.push(newItem)
   }
 }

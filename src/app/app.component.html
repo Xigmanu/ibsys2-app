@@ -4,6 +4,7 @@
       <a routerLink="/" class="nav-link">
         <cds-icon shape="factory"></cds-icon>
         <span class="title">IBSYS 2 Planspiel</span>
+        <span class="title" *ngIf="this.globalState.dataInitialized">{{ this.getMetadata() }}</span>
       </a>
     </div>
     <div class="header-actions">
@@ -42,37 +43,70 @@
     <clr-vertical-nav>
       <a clrVerticalNavLink routerLink="./setup" routerLinkActive="active">
         <cds-icon clrVerticalNavIcon shape="install"></cds-icon>
-        Setup
+        {{ "nav.setup" | translate }}
       </a>
-      <a *ngIf="this.globalState.dataInitialized"
-      clrVerticalNavLink routerLink="./input" routerLinkActive="active">
+      <a
+        *ngIf="this.globalState.dataInitialized"
+        clrVerticalNavLink
+        routerLink="./input"
+        routerLinkActive="active"
+      >
+        <cds-icon clrVerticalNavIcon shape="details"></cds-icon>
+        {{ "nav.input" | translate }}
+      </a>
+      <a
+        *ngIf="this.globalState.dataInitialized"
+        clrVerticalNavLink
+        routerLink="./sellwish"
+        routerLinkActive="active"
+      >
         <cds-icon clrVerticalNavIcon shape="dollar-bill"></cds-icon>
-        Input
+        {{ "nav.sellwish" | translate }}
       </a>
-      <a *ngIf="this.globalState.dataInitialized"
-      clrVerticalNavLink routerLink="./sellwish" routerLinkActive="active">
-        <cds-icon clrVerticalNavIcon shape="dollar-bill"></cds-icon>
-        Sellwish
+      <a
+        *ngIf="this.globalState.dataInitialized"
+        clrVerticalNavLink
+        routerLink="./disposition"
+        routerLinkActive="active"
+      >
+        <cds-icon clrVerticalNavIcon shape="tree-view"></cds-icon>
+        {{ "nav.disposition" | translate }}
       </a>
-      <a *ngIf="this.globalState.dataInitialized"
-      clrVerticalNavLink routerLink="./capacity-plan" routerLinkActive="active">
-        <cds-icon clrVerticalNavIcon shape="house"></cds-icon>
-        capacity-plan
+      <a
+        *ngIf="this.globalState.dataInitialized"
+        clrVerticalNavLink
+        routerLink="./capacity-plan"
+        routerLinkActive="active"
+      >
+        <cds-icon clrVerticalNavIcon shape="factory"></cds-icon>
+        {{ "nav.capacityplan" | translate }}
       </a>
-      <a *ngIf="this.globalState.dataInitialized"
-      clrVerticalNavLink routerLink="./disposition" routerLinkActive="active">
-        <cds-icon clrVerticalNavIcon shape="view-columns"></cds-icon>
-        Disposition
+      <a
+        *ngIf="this.globalState.dataInitialized"
+        clrVerticalNavLink
+        routerLink="./kaufteilDispo"
+        routerLinkActive="active"
+      >
+        <cds-icon clrVerticalNavIcon shape="inbox"></cds-icon>
+        {{ "nav.orders" | translate }}
       </a>
-      <a *ngIf="this.globalState.dataInitialized"
-      clrVerticalNavLink routerLink="./kaufteilDispo" routerLinkActive="active">
+      <a
+        *ngIf="this.globalState.dataInitialized"
+        clrVerticalNavLink
+        routerLink="./lotsize"
+        routerLinkActive="active"
+      >
+        <cds-icon clrVerticalNavIcon shape="list"></cds-icon>
+        {{ "nav.lotsize" | translate }}
+      </a>
+      <a
+        *ngIf="this.globalState.dataInitialized"
+        clrVerticalNavLink
+        routerLink="./export"
+        routerLinkActive="active"
+      >
         <cds-icon clrVerticalNavIcon shape="export"></cds-icon>
-        Kaufteil Dispo
-      </a>
-      <a *ngIf="this.globalState.dataInitialized"
-      clrVerticalNavLink routerLink="./export" routerLinkActive="active">
-        <cds-icon clrVerticalNavIcon shape="export"></cds-icon>
-        Export
+        {{ "nav.export" | translate }}
       </a>
     </clr-vertical-nav>
     <div class="content-area">

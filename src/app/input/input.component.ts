@@ -15,16 +15,5 @@ import { CommonModule } from '@angular/common';
   styleUrl: './input.component.scss'
 })
 export class InputComponent {
-  productionList: { article: number; quantity: number }[] = [];
 
-  constructor(private dataService: DataService) {}
-
-  ngOnInit() {
-    // Fetch production list from the DataService
-    this.productionList = this.dataService.getData().output.productionList.productions;
-  }
-
-  drop(event: CdkDragDrop<{ article: number; quantity: number }[]>) {
-    moveItemInArray(this.productionList, event.previousIndex, event.currentIndex);
-  }
 }

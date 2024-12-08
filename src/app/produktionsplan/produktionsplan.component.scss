@@ -1,0 +1,17 @@
+.custom-margin {
+  margin: 0px;
+}
+.custom-select-margin {
+  margin: 0px;
+  padding: 0px;
+  display: inline-block;
+  vertical-align: middle;
+}
+.parent-container {
+  display: flex;
+  align-items: center; /* Align items vertically in the center */
+}
+
+input {
+  text-align: center;
+}

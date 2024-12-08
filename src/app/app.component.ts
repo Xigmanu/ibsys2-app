@@ -15,10 +15,15 @@ import {
   languageIcon,
   installIcon, dollarBillIcon,
   exportIcon,
+  detailsIcon,
+  treeViewIcon,
+  formIcon,
+  listIcon,
+  inboxIcon,
 } from '@cds/core/icon';
-import { DataService } from './data.service';
+import { DataService, MetaData } from './data.service';
 import { DataStructure } from './data.service';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { GlobalStateService } from './shared/global-state.service';
 
 @Component({
@@ -32,6 +37,7 @@ import { GlobalStateService } from './shared/global-state.service';
     ReactiveFormsModule,
     ClrVerticalNavModule,
     RouterModule,
+    TranslateModule
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
@@ -87,6 +93,10 @@ export class AppComponent {
     this.dataService.generateOutputSampleData();
     this.globalState.dataInitialized = true;
   }
+
+  getMetadata(): string {
+    return "- Gruppe " + this.dataService.getData().input.metaData.group + " - Periode " + this.dataService.getData().input.metaData.period;
+  }
 }
 
-ClarityIcons.addIcons(factoryIcon, languageIcon, installIcon, exportIcon, dollarBillIcon);
+ClarityIcons.addIcons(factoryIcon, languageIcon, installIcon, exportIcon, dollarBillIcon, detailsIcon, treeViewIcon, formIcon, factoryIcon, listIcon, inboxIcon);
