@@ -34,16 +34,17 @@
         <td></td>
         <td></td>
         <td></td>
-        <td *ngFor="let cell of puffer; let cellIndex = index">
+        <td *ngFor="let value of puffer; let i = index; trackBy: trackByIndex">
           <clr-input-container class="no-margin" >
             <input
-            [(ngModel)]="puffer[cellIndex]"
-            name="puffer{{cellIndex}}"
+            [(ngModel)]="puffer[i]"
+            name="puffer{{i}}"
             clrInput
             placeholder="0"
             class="small-input"
             (ngModelChange)="updatePuffer()"
             size="5"
+            type="number"
           />
           </clr-input-container>
         </td>
@@ -54,5 +55,4 @@
       </tr>
     </tbody>
   </table>
-  <button type="button" (click)="printProductionArray()">Print Production Array</button>
 </form>

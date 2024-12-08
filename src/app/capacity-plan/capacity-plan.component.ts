@@ -271,55 +271,69 @@ export class CapacityPlanComponent implements OnInit {
     this.productionArray.push(this.gesamtKapazitaet);
   }
 
+  // Add this function to your component to track items by their index
+  trackByIndex(index: number, item: any): number {
+    return index;
+  }
+
+  // Debounce or optimize updatePuffer
+  private pufferTimeout: any;
+
   updatePuffer() {
-    let workingTimes = [];
-
-    for (let i = 4; i < this.gesamtKapazitaetPuffer.length; i++) {
-      this.gesamtKapazitaetPuffer[i] =
-        this.gesamtKapazitaet[i] + this.puffer[i - 4];
-
-      let schichten = 0;
-      let ueberstunden = 0;
-      let totalCapacity = this.gesamtKapazitaetPuffer[i];
-
-      if (totalCapacity <= 3600) {
-        schichten = 1;
-        ueberstunden = (totalCapacity - 2400) / 5;
-      } else if (totalCapacity <= 6000) {
-        schichten = 2;
-        ueberstunden = (totalCapacity - 4800) / 5;
-      } else {
-        schichten = 3;
-        ueberstunden = (totalCapacity - 7200) / 5;
-      }
-      this.schichten[i] = schichten;
-      this.ueberstunden[i] = ueberstunden;
-
-      this.productionArray2[0][i] = this.gesamtKapazitaetPuffer[i];
-      this.productionArray2[1][i] = this.schichten[i];
-      this.productionArray2[2][i] = this.ueberstunden[i];
-
-      if (i < 9) {
-        workingTimes.push({
-          station: i - 3,
-          shift: this.schichten[i],
-          overtime: this.formatOvertime(this.ueberstunden[i]),
-        });
-      } else {
-        workingTimes.push({
-          station: i - 2,
-          shift: this.schichten[i],
-          overtime: this.formatOvertime(this.ueberstunden[i]),
-        });
-      }
+    if (this.pufferTimeout) {
+      clearTimeout(this.pufferTimeout);
     }
-    this.dataService.setData({
-      ...this.dataService.getData(),
-      output: {
-        ...this.dataService.getData().output,
-        workingTimeList: { workingTimes: workingTimes },
-      },
-    });
+    this.pufferTimeout = setTimeout(() => {
+      let workingTimes = [];
+
+      for (let i = 4; i < this.gesamtKapazitaetPuffer.length; i++) {
+        this.gesamtKapazitaetPuffer[i] =
+          this.gesamtKapazitaet[i] + this.puffer[i - 4];
+
+        let schichten = 0;
+        let ueberstunden = 0;
+        let totalCapacity = this.gesamtKapazitaetPuffer[i];
+
+        if (totalCapacity <= 3600) {
+          schichten = 1;
+          ueberstunden = (totalCapacity - 2400) / 5;
+        } else if (totalCapacity <= 6000) {
+          schichten = 2;
+          ueberstunden = (totalCapacity - 4800) / 5;
+        } else {
+          schichten = 3;
+          ueberstunden = (totalCapacity - 7200) / 5;
+        }
+        this.schichten[i] = schichten;
+        this.ueberstunden[i] = ueberstunden;
+
+        this.productionArray2[0][i] = this.gesamtKapazitaetPuffer[i];
+        this.productionArray2[1][i] = this.schichten[i];
+        this.productionArray2[2][i] = this.ueberstunden[i];
+
+        if (i < 9) {
+          workingTimes.push({
+            station: i - 3,
+            shift: this.schichten[i],
+            overtime: this.formatOvertime(this.ueberstunden[i]),
+          });
+        } else {
+          workingTimes.push({
+            station: i - 2,
+            shift: this.schichten[i],
+            overtime: this.formatOvertime(this.ueberstunden[i]),
+          });
+        }
+      }
+      this.dataService.setData({
+        ...this.dataService.getData(),
+        output: {
+          ...this.dataService.getData().output,
+          workingTimeList: { workingTimes: workingTimes },
+        },
+      });
+      console.log('Puffer updated:', this.puffer);
+    }, 300); // Debounce for 300ms
   }
 
   formatOvertime(value: number): number {
