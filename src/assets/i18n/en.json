@@ -79,5 +79,35 @@
     "orders_prod": "Production Orders",
     "button_save": "Save",
     "tableRowInput_error": "Value must be greater than or equal to zero"
+  },
+  "capacityPlan": {
+    "bezeichnung": "Description",
+    "verwendung": "Usage",
+    "artikel": "Article",
+    "auftragsmenge": "Order Quantity",
+    "kapazitaetsbedarfNeu": "New Capacity Demand",
+    "ruestzeitNeu": "New Setup Time",
+    "kapazitaetsbedarfAlt": "Old Capacity Demand",
+    "ruestzeitAlt": "Old Setup Time",
+    "gesamtKapazitaet": "Total Capacity",
+    "schichten": "Shifts",
+    "ueberstunden": "Overtime per Day",
+    "gesamtKapazitaetPuffer": "Total Capacity with Buffer",
+    "pufferProWoche": "Buffer per Week",
+    "noData": "No data found",
+    "printButton": "Print Production Array",
+    
+    "bezeichnung1": "Rear Wheel",
+    "bezeichnung2": "Front Wheel",
+    "bezeichnung3": "Rear Mudguard",
+    "bezeichnung4": "Front Mudguard",
+    "bezeichnung5": "Handlebar",
+    "bezeichnung6": "Saddle",
+    "bezeichnung7": "Frame",
+    "bezeichnung8": "Pedals",
+    "bezeichnung9": "Front Wheel Complete (cpl)",
+    "bezeichnung10": "Frame and Wheels",
+    "bezeichnung11": "Bicycle without Pedals",
+    "bezeichnung12": "Bicycle Complete (cpl)"
   }
 }

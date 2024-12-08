@@ -1,0 +1,17 @@
+/* Add left border to every datagrid-cell that follows another datagrid-cell */
+.datagrid-cell + .datagrid-cell {
+    border-left: 1px solid #6a7a81;
+  }
+  
+//   .datagrid-cell {
+//     padding: 0.75rem;
+//   }
+  
+//   /* Optional: Add bottom border to each row */
+//   .datagrid-row {
+//     border-bottom: 1px solid #ebeef2;
+//   }
+.small-input {
+  width: 100%;
+  height: 100%;
+}

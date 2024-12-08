@@ -1,9 +1,9 @@
 <form clrForm clrLayout="compact">
   <clr-datagrid>
-    <clr-dg-column>Bezeichnung</clr-dg-column>
-    <clr-dg-column>Verwendung</clr-dg-column>
-    <clr-dg-column>Artikel</clr-dg-column>
-    <clr-dg-column>Auftragsmenge</clr-dg-column>
+    <clr-dg-column>{{ 'capacityPlan.bezeichnung' | translate }}</clr-dg-column>
+    <clr-dg-column>{{ 'capacityPlan.verwendung' | translate }}</clr-dg-column>
+    <clr-dg-column>{{ 'capacityPlan.artikel' | translate }}</clr-dg-column>
+    <clr-dg-column>{{ 'capacityPlan.auftragsmenge' | translate }}</clr-dg-column>
     <clr-dg-column>1</clr-dg-column>
     <clr-dg-column>2</clr-dg-column>
     <clr-dg-column>3</clr-dg-column>
@@ -19,9 +19,31 @@
     <clr-dg-column>14</clr-dg-column>
     <clr-dg-column>15</clr-dg-column>
 
-    <clr-dg-placeholder>No data found</clr-dg-placeholder>
-    <clr-dg-row *ngFor="let row of this.productionArray">
-      <clr-dg-cell *ngFor="let cell of row">{{ cell }}</clr-dg-cell>
+    <clr-dg-placeholder>{{ 'capacityPlan.noData' | translate }}</clr-dg-placeholder>
+    <clr-dg-row *ngFor="let row of productionArray">
+      <clr-dg-cell *ngFor="let cell of row">{{ cell ? (cell | translate) : '' }}</clr-dg-cell>
+    </clr-dg-row>
+    <clr-dg-row>
+      <clr-dg-cell>{{ 'capacityPlan.pufferProWoche' | translate }}</clr-dg-cell>
+      <clr-dg-cell></clr-dg-cell>
+      <clr-dg-cell></clr-dg-cell>
+      <clr-dg-cell></clr-dg-cell>
+
+      <clr-dg-cell *ngFor="let cell of puffer; let cellIndex = index">
+        <input
+          type="number"
+          [(ngModel)]="puffer[cellIndex]"
+          name="puffer{{cellIndex}}"
+          clrInput
+          placeholder="0"
+          class="small-input"
+          (ngModelChange)="updatePuffer()"
+
+        />
+      </clr-dg-cell>    </clr-dg-row>
+    <clr-dg-row *ngFor="let row of productionArray2">
+      <clr-dg-cell *ngFor="let cell of row">        {{ cell ? (cell | translate) : '' }}
+      </clr-dg-cell>
     </clr-dg-row>
   </clr-datagrid>
   <button type="button" (click)="printProductionArray()">Print Production Array</button>

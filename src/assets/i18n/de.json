@@ -64,5 +64,35 @@
     "orders_prod": "Produktionsaufträge",
     "button_save": "Speichern",
     "tableRowInput_error": "Der Wert muss größer oder gleich Null sein"
+  },
+  "capacityPlan": {
+    "bezeichnung": "Bezeichnung",
+    "verwendung": "Verwendung",
+    "artikel": "Artikel",
+    "auftragsmenge": "Auftragsmenge",
+    "kapazitaetsbedarfNeu": "Kapazitätsbedarf Neu",
+    "ruestzeitNeu": "Rüstzeit Neu",
+    "kapazitaetsbedarfAlt": "Kapazitätsbedarf Alt",
+    "ruestzeitAlt": "Rüstzeit Alt",
+    "gesamtKapazitaet": "Gesamtkapazität",
+    "schichten": "Schichten",
+    "ueberstunden": "Überstunden pro Tag",
+    "gesamtKapazitaetPuffer": "Gesamtkapazität mit Puffer",
+    "pufferProWoche": "Puffer pro Woche",
+    "noData": "Keine Daten gefunden",
+    "printButton": "Produktionsarray Drucken",
+    
+    "bezeichnung1": "Hinterrad",
+    "bezeichnung2": "Vorderrad",
+    "bezeichnung3": "Schutzblech hinten",
+    "bezeichnung4": "Schutzblech vorne",
+    "bezeichnung5": "Lenker",
+    "bezeichnung6": "Sattel",
+    "bezeichnung7": "Rahmen",
+    "bezeichnung8": "Pedale",
+    "bezeichnung9": "Vorderrad komplett (cpl)",
+    "bezeichnung10": "Rahmen und Räder",
+    "bezeichnung11": "Fahrrad ohne Pedale",
+    "bezeichnung12": "Fahrrad komplett (cpl)"
   }
 }
