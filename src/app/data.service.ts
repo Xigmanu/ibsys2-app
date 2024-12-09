@@ -618,15 +618,15 @@ export class DataService {
 
   mergeProductionListArticles(index: number): void {
     const productions = this.data.output.productionList.productions;
-  
+
     if (index < 0 || index >= productions.length) {
       return;
     }
-  
+
     const currentProduction = productions[index];
     const targetArticle = currentProduction.article;
     let totalQuantity = 0;
-    
+
     // Calculate total quantity and find indices to remove
     const indicesToRemove: number[] = [];
     for (let i = 0; i < productions.length; i++) {
@@ -637,15 +637,15 @@ export class DataService {
         }
       }
     }
-    
+
     // Calculate how many elements before our target index will be removed
     const shiftsBeforeTarget = indicesToRemove.filter(i => i < index).length;
-    
+
     // Remove from highest index to lowest
     for (let i = indicesToRemove.length - 1; i >= 0; i--) {
       productions.splice(indicesToRemove[i], 1);
     }
-    
+
     // Update quantity at adjusted position
     const adjustedIndex = index - shiftsBeforeTarget;
     productions[adjustedIndex].quantity = totalQuantity;
@@ -653,26 +653,32 @@ export class DataService {
 
   splitProductionListArticle(index: number, splitQuantity: number): void {
     const productions = this.data.output.productionList.productions;
-  
+
     if (index < 0 || index >= productions.length) {
-      return; 
+      return;
     }
-  
+
     const production = productions[index];
     const originalQuantity = production.quantity;
-  
+
     if (splitQuantity <= 0 || splitQuantity >= originalQuantity) {
       return;
     }
-  
+
     production.quantity = splitQuantity;
-  
+
     const remainingQuantity = originalQuantity - splitQuantity;
     const newProduction: Production = {
       article: production.article,
       quantity: remainingQuantity,
     };
-  
+
     productions.splice(index + 1, 0, newProduction);
   }
+
+  private modusMap: Map<string, number> = new Map([
+    ['N', 5],
+    ['E', 1]
+  ]);
+
 }

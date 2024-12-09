@@ -46,13 +46,15 @@ export class KaufteildispoComponent implements OnInit {
     this.dataServiceData = this.dataService.getData();
     this.mappedData = mapDataToFormControls(this.jsonData, this.dataService, this.dispoForm, this.dataServiceData.input.metaData, this.dataServiceData.output);
     const formArray = this.dispoForm.get('tableRows') as FormArray;
-    this.populateFormArrays(this.mappedData, this.dispoForm);
+    this.populateFormArrays(this.mappedData, this.dispoForm, this.dataService);
     this.subscribeToFormChanges();
     console.log("!!!!!",this.mappedData);
     console.log("!!!!!",this.dispoForm);
   }
-
-  createDispoFormGrp(mappedItem:any): FormGroup {
+  ngOnDestroy(): void {
+    this.saveData();
+  }
+  createDispoFormGrp(mappedItem:any, modus: string, bestellmenge: number): FormGroup {
     const benoetigteMenge = calculateBenoetigteMenge(
       mappedItem[KaufteildispoArt.VERBRAUCH_PROGNOSE_GES],
       mappedItem[KaufteildispoArt.BESTAND_AKTUELL],
@@ -86,8 +88,8 @@ export class KaufteildispoComponent implements OnInit {
       [KaufteildispoArt.ANKUNFTSZEIT_EINGEHEND]: [''],
       [KaufteildispoArt.BENOETIGTE_MENGE]: [benoetigteMenge],
       [KaufteildispoArt.BESTELLUNG_LIEFERTERMIN]: [''],
-      [KaufteildispoArt.BESTELLMENGE]: ['',[Validators.pattern('^[0-9]+$')]],
-      [KaufteildispoArt.BESTELLTYP]: ['', [Validators.pattern('^[A-Z]+$')]],
+      [KaufteildispoArt.BESTELLMENGE]: [bestellmenge,[Validators.pattern('^[0-9]+$')]],
+      [KaufteildispoArt.BESTELLTYP]: [modus, [Validators.pattern('^[A-Z]+$')]],
     }, {validators: bestellmengeValidator()});
   }
 
@@ -111,12 +113,20 @@ export class KaufteildispoComponent implements OnInit {
       });
     });
   }
-private populateFormArrays(mappedData: any, dispoForm: FormGroup): void {
+private populateFormArrays(mappedData: any, dispoForm: FormGroup, dataService: DataService): void {
     const formArray = dispoForm.get('tableRows') as FormArray;
-    formArray.clear(); // Clear the existing form array
+    formArray.clear();
     for (const key in mappedData) {
       if (mappedData.hasOwnProperty(key)) {
-        const formGroup = this.createDispoFormGrp(mappedData[key]);
+        const order = dataService.getData().output.orderList.orders.find((order: any) => order.article === key);
+        let modus = '';
+        if (order?.modus === 5) {
+          modus = 'N';
+        } else if (order?.modus === 1) {
+          modus = 'E';
+        }
+        const formGroup = this.createDispoFormGrp(
+          mappedData[key], modus, order?.quantity||0);
         formGroup.patchValue(mappedData[key]);
         formArray.push(formGroup);
       }
@@ -126,10 +136,18 @@ private populateFormArrays(mappedData: any, dispoForm: FormGroup): void {
     const formArray = this.dispoForm.get('tableRows') as FormArray;
     const outputDataToSave = formArray.controls.map((control: AbstractControl) => {
       const group = control as FormGroup;
+      const modus = group.get(KaufteildispoArt.BESTELLTYP)?.value;
+      let modusValue = modus;
+
+      if (modus === 'N') {
+        modusValue = 5;
+      } else if (modus === 'E') {
+        modusValue = 1;
+      }
       return {
         article: group.get(KaufteildispoArt.KAUFTEIL)?.value,
         quantity: group.get(KaufteildispoArt.BESTELLMENGE)?.value,
-        modus: group.get(KaufteildispoArt.BESTELLTYP)?.value,
+        modus: modusValue,
       };
     });
 

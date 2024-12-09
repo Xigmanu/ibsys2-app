@@ -34,7 +34,9 @@ export enum ForecastArt {
 
 export function Uebernehmen(formGroup: FormGroup): void {
 }
-
+const diskontmengen: number[] = [
+  300, 300, 300, 6100, 3600, 0, 1800, 4500, 0, 0, 0, 2700, 900, 22000, 3600, 900, 900, 300, 1800, 900, 900, 1800, 2700, 900, 900, 900, 900, 1800, 0,0,0, 600, 22000,0, 0, 0, 600,22000, 1800
+];
 export function mapDataToFormControls(jsonData: any, dataService: DataService, dispoForm: FormGroup, metaData: MetaData, output: Output): any {
   const mappedData: any = {};
   const primaryArticleIds: number[] = [1, 2, 3];
@@ -55,9 +57,9 @@ export function mapDataToFormControls(jsonData: any, dataService: DataService, d
         const verbrauchAktuell = calculateVerbrauchProg(item.usedIn, dataService);
         const verbrauchPrognoseGesamt = verbrauchAktuell + verbrauchPrognose.period2 + verbrauchPrognose.period3 + verbrauchPrognose.period4;
         const incomingDelivery = futureInwardStockMovement.find((order: any) => order.article === item.Nr)?.amount || 0;
-
         const stockItem = warehouseStock.find((stock: any) => stock.id === item.Nr);
         const bestandAktuell = stockItem ? stockItem.amount : 0;
+        const diskontmenge = diskontmengen[parseInt(item.Nr) - 21] || 0;
         console.log("stockItem", stockItem);
         console.log("bestandAktuell", bestandAktuell);
         console.log("incomingDelivery", incomingDelivery);
@@ -65,6 +67,7 @@ export function mapDataToFormControls(jsonData: any, dataService: DataService, d
           [KaufteildispoArt.KAUFTEIL]: item.Nr,
           [KaufteildispoArt.FRIST]: item.Lieferzeit,
           [KaufteildispoArt.ABWEICHUNG]: item.Lieferzeitabweichung,
+          [KaufteildispoArt.DISKONTMENGE]: diskontmenge,
           [KaufteildispoArt.VERBRAUCH_AKTUELL]: verbrauchAktuell,
           [KaufteildispoArt.VERBRAUCH_PROGNOSE_1]: verbrauchPrognose.period2,
           [KaufteildispoArt.VERBRAUCH_PROGNOSE_2]: verbrauchPrognose.period3,
@@ -86,7 +89,6 @@ export function mapDataToFormControls(jsonData: any, dataService: DataService, d
       mappedData[order.article] = {
         ...mappedData[order.article],
         [KaufteildispoArt.KAUFTEIL]: order.article,
-        [KaufteildispoArt.DISKONTMENGE]: order.article,
         [KaufteildispoArt.EINGEHENDELIEFERUNG]: order.amount,
         [KaufteildispoArt.ANKUNFTSZEIT_EINGEHEND]: getEingehendeLieferung(order, frist,
           dispoForm
