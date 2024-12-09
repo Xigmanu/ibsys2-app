@@ -78,11 +78,7 @@ export function createTableRows(
   }
   const initialRows: DispositionTableRow[] = map
     .reduce((merged, arr) => merged.concat(arr))
-    .map((id) => {
-      const foo = createRowForArticle(dataStruct, id, articleIdx);
-      console.log(foo);
-      return foo;
-    });
+    .map((id) =>  createRowForArticle(dataStruct, id, articleIdx));
   updateRowsData(initialRows, map);
   return initialRows;
 }
