@@ -1,1 +1,63 @@
-<p>Hello world!</p>
+<h2>Input</h2>
+<div class="clr-row">
+  <div class="clr-col-lg-3 clr-col-12">
+    <div class="card">
+      <div class="card-block">
+        <div class="card-title">Metadata</div>
+        <p class="card-text">
+          Spiel: {{ metadata.game }}<br />
+          Gruppe: {{ metadata.group }}<br />
+          Periode: {{ metadata.period }}
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="clr-col-lg-3 clr-col-12">
+    <div class="card">
+      <div class="card-block">
+        <div class="card-title">Card 2</div>
+        <p class="card-text">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+          aliquip ex ea commodo consequat.
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="clr-col-lg-3 clr-col-12">
+    <div class="card">
+      <div class="card-block">
+        <div class="card-title">Card 3</div>
+        <p class="card-text">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+          aliquip ex ea commodo consequat.
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="clr-col-lg-3 clr-col-12">
+    <div class="card">
+      <div class="card-block">
+        <div class="card-title">Card 4</div>
+        <p class="card-text">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+          aliquip ex ea commodo consequat.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="btn-group btn-primary bottom-right">
+  <button class="btn btn-info-outline" disabled>
+    {{ "global.prevPage" | translate }}
+  </button>
+  <button class="btn btn-primary" routerLink="/sellwish">
+    {{ "global.nextPage" | translate }}
+  </button>
+</div>

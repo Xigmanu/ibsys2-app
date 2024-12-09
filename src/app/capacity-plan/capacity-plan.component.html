@@ -1,29 +1,75 @@
-<form clrForm clrLayout="compact">
-  <clr-datagrid>
-    <clr-dg-column>Bezeichnung</clr-dg-column>
-    <clr-dg-column>Verwendung</clr-dg-column>
-    <clr-dg-column>Artikel</clr-dg-column>
-    <clr-dg-column>Auftragsmenge</clr-dg-column>
-    <clr-dg-column>1</clr-dg-column>
-    <clr-dg-column>2</clr-dg-column>
-    <clr-dg-column>3</clr-dg-column>
-    <clr-dg-column>4</clr-dg-column>
-    <clr-dg-column>6</clr-dg-column>
-    <clr-dg-column>7</clr-dg-column>
-    <clr-dg-column>8</clr-dg-column>
-    <clr-dg-column>9</clr-dg-column>
-    <clr-dg-column>10</clr-dg-column>
-    <clr-dg-column>11</clr-dg-column>
-    <clr-dg-column>12</clr-dg-column>
-    <clr-dg-column>13</clr-dg-column>
-    <clr-dg-column>14</clr-dg-column>
-    <clr-dg-column>15</clr-dg-column>
-
-    <clr-dg-placeholder>No data found</clr-dg-placeholder>
-    <clr-dg-row *ngFor="let row of this.productionArray">
-      <clr-dg-cell *ngFor="let cell of row">{{ cell }}</clr-dg-cell>
-    </clr-dg-row>
-  </clr-datagrid>
-  <button type="button" (click)="printProductionArray()">Print Production Array</button>
-
+<h2>{{ "capacityPlan.title" | translate }}</h2>
+<form>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>{{ 'capacityPlan.bezeichnung' | translate }}</th>
+        <th>{{ 'capacityPlan.verwendung' | translate }}</th>
+        <th>{{ 'capacityPlan.artikel' | translate }}</th>
+        <th>{{ 'capacityPlan.auftragsmenge' | translate }}</th>
+        <th>1</th>
+        <th>2</th>
+        <th>3</th>
+        <th>4</th>
+        <th>6</th>
+        <th>7</th>
+        <th>8</th>
+        <th>9</th>
+        <th>10</th>
+        <th>11</th>
+        <th>12</th>
+        <th>13</th>
+        <th>14</th>
+        <th>15</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Data Rows -->
+      <tr *ngFor="let row of productionArray">
+        <td *ngFor="let cell of row; let i = index">
+          <ng-container *ngIf="i < 3">
+            {{ cell ? (cell | translate) : '' }}
+          </ng-container>
+          <ng-container *ngIf="i >= 3">
+            {{ cell || '0' }}
+          </ng-container>
+        </td>      </tr>
+      <!-- Puffer Row -->
+      <tr>
+        <td>{{ 'capacityPlan.pufferProWoche' | translate }}</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td *ngFor="let value of puffer; let i = index; trackBy: trackByIndex">
+          <clr-input-container class="no-margin" >
+            <input
+            [(ngModel)]="puffer[i]"
+            name="puffer{{i}}"
+            clrInput
+            placeholder="0"
+            class="small-input"
+            (ngModelChange)="updatePuffer()"
+            size="5"
+            type="number"
+          />
+          </clr-input-container>
+        </td>
+      </tr>
+      <!-- Second Data Array -->
+      <tr *ngFor="let row of productionArray2">
+        <td *ngFor="let cell of row">{{ cell ? (cell | translate) : '' }}</td>
+      </tr>
+    </tbody>
+  </table>
 </form>
+
+<br><br><br>
+
+<div class="btn-group btn-primary bottom-right">
+  <button class="btn btn-primary" routerLink="/disposition">
+    {{ "global.prevPage" | translate }}
+  </button>
+  <button class="btn btn-primary" routerLink="/kaufteilDispo">
+    {{ "global.nextPage" | translate }}
+  </button>
+</div>

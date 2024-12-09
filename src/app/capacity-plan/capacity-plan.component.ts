@@ -1,9 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormControl,
+  FormsModule,
+} from '@angular/forms';
 import { DataService, DataStructure, Production } from '../data.service';
 import { ClarityModule } from '@clr/angular';
 import { CommonModule } from '@angular/common';
 import capacityDataJson from '../../assets/CapacityData.json';
+import { TranslateModule } from '@ngx-translate/core';
+import { Router, RouterModule } from '@angular/router';
 
 interface Arbeitsplatz {
   Bearbeitungszeit: number | null;
@@ -28,7 +35,7 @@ interface CapacityEntry {
   templateUrl: './capacity-plan.component.html',
   styleUrls: ['./capacity-plan.component.scss'],
   standalone: true,
-  imports: [ClarityModule, CommonModule],
+  imports: [ClarityModule, CommonModule, FormsModule, TranslateModule, RouterModule],
 })
 export class CapacityPlanComponent implements OnInit {
   constructor(private fb: FormBuilder, private dataService: DataService) {}
@@ -66,34 +73,34 @@ export class CapacityPlanComponent implements OnInit {
     'P3',
   ];
   bezeichnungen = [
-    'Hinterrad',
+    'capacityPlan.bezeichnung1',
     '',
     '',
-    'Vorderrad',
+    'capacityPlan.bezeichnung2',
     '',
     '',
-    'Schutzblech hinten',
+    'capacityPlan.bezeichnung3',
     '',
     '',
-    'Schutzblech vorne',
+    'capacityPlan.bezeichnung4',
     '',
     '',
-    'Lenker',
-    'Sattel',
-    'Rahmen',
+    'capacityPlan.bezeichnung5',
+    'capacityPlan.bezeichnung6',
+    'capacityPlan.bezeichnung7',
     '',
     '',
-    'Pedale',
-    'Vorderrad komplett (cpl)',
+    'capacityPlan.bezeichnung8',
+    'capacityPlan.bezeichnung9',
     '',
     '',
-    'Rahmen und Räder',
+    'capacityPlan.bezeichnung10',
     '',
     '',
-    'Fahrrad ohne Pedale',
+    'capacityPlan.bezeichnung11',
     '',
     '',
-    'Fahrrad komplett (cpl)',
+    'capacityPlan.bezeichnung12',
     '',
     '',
   ];
@@ -134,10 +141,13 @@ export class CapacityPlanComponent implements OnInit {
   kapazitaetsbedarfAlt: any[] = [];
   ruestzeitAlt: any[] = [];
   gesamtKapazitaet: any[] = [];
+  puffer: number[] = [];
+  gesamtKapazitaetPuffer: any[] = [];
   schichten: any[] = [];
   ueberstunden: any[] = [];
 
   productionArray: string[][] = [];
+  productionArray2: any[][] = [];
   productionForm: FormGroup = new FormGroup({});
   capacityData: Record<string, CapacityEntry> = capacityDataJson;
 
@@ -176,7 +186,7 @@ export class CapacityPlanComponent implements OnInit {
     this.calculateKapazitaetsbedarfAlt(data);
     this.calculateRuestzeitAlt(data);
     this.calculateGesamtKapazitaet();
-    this.calculateSchichtenUeberstunden();
+    this.updatePuffer();
   }
 
   updateRow(row: any[], production: Production): any[] {
@@ -184,9 +194,8 @@ export class CapacityPlanComponent implements OnInit {
     for (let i: number = 1; i < 15; i++) {
       if (i < 5) {
         row[i] += this.calculateWorkingStations(production, i);
-      }
-      else {
-        row[i] += this.calculateWorkingStations(production, i+1);
+      } else {
+        row[i] += this.calculateWorkingStations(production, i + 1);
       }
     }
 
@@ -199,11 +208,11 @@ export class CapacityPlanComponent implements OnInit {
       const arbeitsplatz = articleData.Arbeitsplatz[station];
       const bearbeitungszeit = arbeitsplatz.Bearbeitungszeit ?? 0;
       const rüstzeit = arbeitsplatz.Rüstzeit ?? 0;
-      
+
       if (station < 5) {
-        this.ruestzeitNeu[station+3] += rüstzeit;
+        this.ruestzeitNeu[station + 3] += rüstzeit;
       } else {
-        this.ruestzeitNeu[station+2] += rüstzeit;
+        this.ruestzeitNeu[station + 2] += rüstzeit;
       }
       return bearbeitungszeit * production.quantity;
     }
@@ -237,14 +246,14 @@ export class CapacityPlanComponent implements OnInit {
 
   calculateRuestzeitAlt(data: DataStructure) {
     for (let i = 4; i < this.ruestzeitAlt.length; i++) {
-      const waitinglist = data.input.waitingListWorkstations[i - 4].waitingList
+      const waitinglist = data.input.waitingListWorkstations[i - 4].waitingList;
       const station = data.input.waitingListWorkstations[i - 4].id;
 
       if (waitinglist != undefined) {
-        waitinglist.forEach(waitingListitem  => {
-          const articleData = this.capacityData[waitingListitem.item];          
-          this.ruestzeitAlt[i] += articleData.Arbeitsplatz[station].Rüstzeit; 
-        })
+        waitinglist.forEach((waitingListitem) => {
+          const articleData = this.capacityData[waitingListitem.item];
+          this.ruestzeitAlt[i] += articleData.Arbeitsplatz[station].Rüstzeit;
+        });
       } else {
         this.ruestzeitAlt[i] = 0;
       }
@@ -263,35 +272,93 @@ export class CapacityPlanComponent implements OnInit {
     this.productionArray.push(this.gesamtKapazitaet);
   }
 
-  calculateSchichtenUeberstunden() {
+  // Add this function to your component to track items by their index
+  trackByIndex(index: number, item: any): number {
+    return index;
+  }
 
-    for (let i = 4; i < this.gesamtKapazitaet.length; i++) {
-      let schichten = 0;
-      let ueberstunden = 0;
-      let totalCapacity = this.gesamtKapazitaet[i];
-  
-  
-    if (totalCapacity <= 3600) {
-      schichten = 1;
-      ueberstunden = (totalCapacity - 2400) / 5;
-    } else if (totalCapacity <= 6000) {
-      schichten = 2;
-      ueberstunden = (totalCapacity - 4800) / 5;
-    } else {
-      schichten = 3;
-      ueberstunden = (totalCapacity - 7200) / 5;
-    }   
-    this.schichten[i] = schichten;
-    this.ueberstunden[i] = ueberstunden;
+  // Debounce or optimize updatePuffer
+  private pufferTimeout: any;
+
+  updatePuffer() {
+    if (this.pufferTimeout) {
+      clearTimeout(this.pufferTimeout);
     }
-    this.productionArray.push(this.schichten);
-    this.productionArray.push(this.ueberstunden);
+    this.pufferTimeout = setTimeout(() => {
+      let workingTimes = [];
+
+      for (let i = 4; i < this.gesamtKapazitaetPuffer.length; i++) {
+        this.gesamtKapazitaetPuffer[i] =
+          this.gesamtKapazitaet[i] + this.puffer[i - 4];
+
+        let schichten = 0;
+        let ueberstunden = 0;
+        let totalCapacity = this.gesamtKapazitaetPuffer[i];
+
+        if (totalCapacity <= 3600) {
+          schichten = 1;
+          ueberstunden = (totalCapacity - 2400) / 5;
+        } else if (totalCapacity <= 6000) {
+          schichten = 2;
+          ueberstunden = (totalCapacity - 4800) / 5;
+        } else {
+          schichten = 3;
+          ueberstunden = (totalCapacity - 7200) / 5;
+        }
+        this.schichten[i] = schichten;
+        this.ueberstunden[i] = ueberstunden;
+
+        this.productionArray2[0][i] = this.gesamtKapazitaetPuffer[i];
+        this.productionArray2[1][i] = this.schichten[i];
+        this.productionArray2[2][i] = this.ueberstunden[i];
+
+        if (i < 9) {
+          workingTimes.push({
+            station: i - 3,
+            shift: this.schichten[i],
+            overtime: this.formatOvertime(this.ueberstunden[i]),
+          });
+        } else {
+          workingTimes.push({
+            station: i - 2,
+            shift: this.schichten[i],
+            overtime: this.formatOvertime(this.ueberstunden[i]),
+          });
+        }
+      }
+      this.dataService.setData({
+        ...this.dataService.getData(),
+        output: {
+          ...this.dataService.getData().output,
+          workingTimeList: { workingTimes: workingTimes },
+        },
+      });
+      console.log('Puffer updated:', this.puffer);
+    }, 300); // Debounce for 300ms
+  }
+
+  formatOvertime(value: number): number {
+    if (value > 0) {
+      return Math.ceil(value);
+    }
+    return 0;
   }
 
   resetTable() {
     this.productionArray = [];
+    this.productionArray2 = [];
+
+    this.kapazitaetsbedarfNeu = Array(18).fill(0);
+    this.ruestzeitNeu = Array(18).fill(0);
+    this.kapazitaetsbedarfAlt = Array(18).fill(0);
+    this.ruestzeitAlt = Array(18).fill(0);
+    this.gesamtKapazitaet = Array(18).fill(0);
+    this.schichten = Array(18).fill(0);
+    this.ueberstunden = Array(18).fill(0);
+    this.puffer = Array(14).fill(0);
+
     this.kapazitaetsbedarfNeu = [
-      'Kapatitätsbedarf Neu',
+      'capacityPlan.kapazitaetsbedarfNeu',
       ,
       ,
       ,
@@ -311,7 +378,7 @@ export class CapacityPlanComponent implements OnInit {
       0,
     ];
     this.ruestzeitNeu = [
-      'Rüstzeit Neu',
+      'capacityPlan.ruestzeitNeu',
       ,
       ,
       ,
@@ -331,7 +398,7 @@ export class CapacityPlanComponent implements OnInit {
       0,
     ];
     this.kapazitaetsbedarfAlt = [
-      'Kap.bed. Warteschl.',
+      'capacityPlan.kapazitaetsbedarfAlt',
       ,
       ,
       ,
@@ -351,7 +418,7 @@ export class CapacityPlanComponent implements OnInit {
       0,
     ]; //Rückstand Vorperiode
     this.ruestzeitAlt = [
-      'Rüs. Warteschl.',
+      'capacityPlan.ruestzeitAlt',
       ,
       ,
       ,
@@ -371,7 +438,7 @@ export class CapacityPlanComponent implements OnInit {
       0,
     ]; //Rückstand Vorperiode
     this.gesamtKapazitaet = [
-      'Gesamtkapazität',
+      'capacityPlan.gesamtKapazitaet',
       ,
       ,
       ,
@@ -391,7 +458,7 @@ export class CapacityPlanComponent implements OnInit {
       0,
     ];
     this.schichten = [
-      'Schichten',
+      'capacityPlan.schichten',
       ,
       ,
       ,
@@ -411,7 +478,7 @@ export class CapacityPlanComponent implements OnInit {
       0,
     ];
     this.ueberstunden = [
-      'Überstunden pro Tag',
+      'capacityPlan.ueberstunden',
       ,
       ,
       ,
@@ -430,9 +497,35 @@ export class CapacityPlanComponent implements OnInit {
       0,
       0,
     ];
+    this.puffer = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    this.gesamtKapazitaetPuffer = [
+      'capacityPlan.gesamtKapazitaetPuffer',
+      ,
+      ,
+      ,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+    ];
+    this.productionArray2 = [
+      [...this.gesamtKapazitaetPuffer],
+      [...this.schichten],
+      [...this.ueberstunden],
+    ];
   }
 
   printProductionArray() {
-    console.log(this.capacityData);
+    console.log(this.productionArray2);
   }
 }

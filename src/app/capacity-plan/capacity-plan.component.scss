@@ -1,0 +1,58 @@
+.datagrid-cell + .datagrid-cell {
+    border-left: 1px solid #6a7a81;
+  }
+
+table {
+  width: 100%;
+  min-width: 800px; /* Adjust this value based on your table's desired minimum size */
+}
+
+.small-input {
+  min-width: 40px; /* Ensures input fields maintain a reasonable size */
+  width: 100%; /* Makes the input field stretch to fit the cell */
+  padding: 4px;
+  box-sizing: border-box; /* Ensures padding doesn't affect width */
+  text-align: center;
+}
+
+th, td {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.input-column {
+  display: flex;
+  justify-content: center;
+}
+
+.output-col {
+  font-weight: bold;
+}
+
+table td + td { border-left:1px solid #6a7a81; }
+
+/* Remove spinner arrows in Chrome, Edge, and Safari */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Remove spinner arrows in Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* Optional: Style to ensure consistency */
+input[type="number"] {
+  padding: 4px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.bottom-right {
+  position: fixed;
+  bottom: 16px; /* Distance from the bottom */
+  right: 16px; /* Distance from the right */
+  z-index: 1000; /* Ensures the button stays above other content */
+}

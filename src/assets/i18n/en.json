@@ -1,11 +1,13 @@
 {
   "global": {
-    "productionPlan": "Production Plan"
+    "productionPlan": "Production Plan",
+    "nextPage": "Next Page",
+    "prevPage": "Previous Page"
   },
   "nav": {
     "setup": "Setup",
     "input": "Input",
-    "sellwish": "Sellwish",
+    "sellwish": "Production Plan",
     "disposition": "BOM explosion",
     "capacityplan": "Capacity Plan",
     "orders": "Where-used list",
@@ -79,5 +81,57 @@
     "orders_prod": "Production Orders",
     "button_save": "Save",
     "tableRowInput_error": "Value must be greater than or equal to zero"
+  },
+  "capacityPlan": {
+    "title": "Capacity Plan",
+    "bezeichnung": "Description",
+    "verwendung": "Usage",
+    "artikel": "Article",
+    "auftragsmenge": "Order Quantity",
+    "kapazitaetsbedarfNeu": "New Capacity Demand",
+    "ruestzeitNeu": "New Setup Time",
+    "kapazitaetsbedarfAlt": "Old Capacity Demand",
+    "ruestzeitAlt": "Old Setup Time",
+    "gesamtKapazitaet": "Total Capacity",
+    "schichten": "Shifts",
+    "ueberstunden": "Overtime per Day",
+    "gesamtKapazitaetPuffer": "Total Capacity with Buffer",
+    "pufferProWoche": "Buffer per Week",
+    "noData": "No data found",
+    "printButton": "Print Production Array",
+    
+    "bezeichnung1": "Rear Wheel",
+    "bezeichnung2": "Front Wheel",
+    "bezeichnung3": "Rear Mudguard",
+    "bezeichnung4": "Front Mudguard",
+    "bezeichnung5": "Handlebar",
+    "bezeichnung6": "Saddle",
+    "bezeichnung7": "Frame",
+    "bezeichnung8": "Pedals",
+    "bezeichnung9": "Front Wheel Complete (cpl)",
+    "bezeichnung10": "Frame and Wheels",
+    "bezeichnung11": "Bicycle without Pedals",
+    "bezeichnung12": "Bicycle Complete (cpl)"
+  },
+  "lotsize": {
+    "table": {
+      "order": "Order",
+      "article": "Article",
+      "quantity": "Quantity",
+      "actions": "Actions"
+    },
+    "button": {
+      "split": "Split",
+      "merge": "Merge",
+      "confirm": "Confirm",
+      "cancel": "Cancel"
+    },
+    "modal": {
+      "splitTitle": "Split Quantity",
+      "mergeTitle": "Merge Items",
+      "splitMessage": "Select the quantity to split:",
+      "mergeMessage": "Are you sure you want to merge?",
+      "splitLabel": "Split Quantity"
+    }
   }
 }
