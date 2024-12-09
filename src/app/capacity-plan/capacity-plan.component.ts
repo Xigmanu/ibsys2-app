@@ -347,7 +347,6 @@ export class CapacityPlanComponent implements OnInit {
           workingTimeList: { workingTimes: workingTimes },
         },
       });
-      console.log('Puffer updated:', this.puffer);
       if (this.chart) {
         this.chart.destroy();
       }
@@ -542,10 +541,6 @@ export class CapacityPlanComponent implements OnInit {
       [...this.schichten],
       [...this.ueberstunden],
     ];
-  }
-
-  printProductionArray() {
-    console.log(this.productionArray2);
   }
 
   createCapacityChart() {
