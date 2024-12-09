@@ -1,16 +1,6 @@
 <div class="dispoContainer">
   <h2>{{ "disposition.title" | translate }}</h2>
-  <div>
-    <br />
-    <button
-      class="saveButton"
-      class="btn btn-outline"
-      (click)="onSave()"
-      [clrLoading]="saveBtnState"
-    >
-      {{ "disposition.button_save" | translate }}
-    </button>
-  </div>
+  <br />
 </div>
 <h2>
   <clr-tabs>
@@ -18,7 +8,7 @@
       <button class="tabButton" clrTabLink>P1</button>
       <clr-tab-content *clrIfActive>
         <p cds-text="body" cds-layout="m-t:md">
-          <dispo-table [dataRef]="rowsP1"></dispo-table>
+          <dispo-table [rows]="rowsP1"></dispo-table>
         </p>
       </clr-tab-content>
     </clr-tab>
@@ -26,7 +16,7 @@
       <button class="tabButton" clrTabLink>P2</button>
       <clr-tab-content *clrIfActive>
         <p cds-text="body" cds-layout="m-t:md">
-          <dispo-table [dataRef]="rowsP2"></dispo-table>
+          <dispo-table [rows]="rowsP2"></dispo-table>
         </p>
       </clr-tab-content>
     </clr-tab>
@@ -34,7 +24,7 @@
       <button class="tabButton" clrTabLink>P3</button>
       <clr-tab-content *clrIfActive>
         <p cds-text="body" cds-layout="m-t:md">
-          <dispo-table [dataRef]="rowsP3"></dispo-table>
+          <dispo-table [rows]="rowsP3"></dispo-table>
         </p>
       </clr-tab-content>
     </clr-tab>
