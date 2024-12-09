@@ -41,7 +41,7 @@ export class ProduktionsplanComponent implements OnInit, OnDestroy {
     const productionList = this.getProductList().find(item=> item.article===product);
     const row = this.fb.group({
       [ProduktionsArt.PRODUKT]: [product],
-      [ProduktionsArt.PERIODE_0]: [productionList?.quantity ?? '0'],
+      [ProduktionsArt.PERIODE_0]: [this.data?.output?.productionList?.productions[product-1]?.quantity ?? '0'],
       [ProduktionsArt.PERIODE_1]: [this.data?.decisions?.production?.period2[`p${product}` as keyof ProductionValues] ?? '0'],
       [ProduktionsArt.PERIODE_2]: [this.data?.decisions?.production?.period3[`p${product}` as keyof ProductionValues] ?? '0'],
       [ProduktionsArt.PERIODE_3]: [this.data?.decisions?.production?.period4[`p${product}` as keyof ProductionValues] ?? '0'],
@@ -53,9 +53,9 @@ export class ProduktionsplanComponent implements OnInit, OnDestroy {
   }
   saveData() {
     const productionList = [
-      { article: 1, quantity: this.dataService.getProductionListArticle(1) ?? 0 },
-      { article: 2, quantity: this.dataService.getProductionListArticle(2) ?? 0 },
-      { article: 3, quantity: this.dataService.getProductionListArticle(3) ?? 0 },
+      { article: 1, quantity: this.tableForm.get('rows')?.value[0][ProduktionsArt.PERIODE_0] },
+      { article: 2, quantity: this.tableForm.get('rows')?.value[1][ProduktionsArt.PERIODE_0] },
+      { article: 3, quantity: this.tableForm.get('rows')?.value[2][ProduktionsArt.PERIODE_0] },
     ];
     const forecastProduction = this.extractProductionValues();
     this.dataService.setData({
@@ -64,13 +64,19 @@ export class ProduktionsplanComponent implements OnInit, OnDestroy {
         ...this.dataService.getData()?.decisions,
         production: forecastProduction,
       },
-    });
-    productionList.forEach(item => {
+      output: {
+        ...this.dataService.getData()?.output,
+        productionList: {
+          ...this.dataService.getData()?.output.productionList,
+          productions: productionList,
+      }
+    }
+    /*productionList.forEach(item => {
       if (item.article !== undefined) {
         this.dataService.setProductionListArticle(item.article, item.quantity);
       }
-    });
-  }
+    });*/
+  });}
   extractProductionValues(): ProductionInput {
     const rows = this.tableForm.get('rows') as FormArray;
 
