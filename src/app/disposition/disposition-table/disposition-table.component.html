@@ -1,5 +1,13 @@
-<form clrForm clrLayout="vertical" [formGroup]="form">
-  <table class="table" *ngFor="let arr of sliceFormArray(); let i = index">
+<form
+  clrForm
+  clrLayout="vertical"
+  [formGroup]="form"
+  *ngIf="sliceFormArray() as slicedArr"
+>
+  <table
+    class="table"
+    *ngFor="let arr of slicedArr; let i = index; trackBy: trackByFn"
+  >
     <thead *ngIf="i === 0">
       <th>{{ "export.article" | translate }}</th>
       <th>{{ "disposition.sales_request" | translate }}</th>
@@ -10,7 +18,10 @@
       <th>{{ "disposition.orders_prod" | translate }}</th>
     </thead>
     <tbody formArrayName="rows">
-      <tr *ngFor="let row of arr; let j = index" [formGroupName]="j">
+      <tr
+        *ngFor="let row of arr; let j = index"
+        [formGroupName]="getArrElemIdx(slicedArr, i, j)"
+      >
         <td>{{ row.get(rowNameEnum.ARTICLE_ID)?.value }}</td>
         <td>{{ row.get(rowNameEnum.SALES_REQUEST)?.value }}</td>
         <td>
@@ -22,8 +33,7 @@
                 type="number"
                 min="0"
                 [formControlName]="rowNameEnum.STOCK_SAFETY"
-                [value]="row.get(rowNameEnum.STOCK_SAFETY)?.value"
-                (change)="onChange(i)"
+                (change)="onChange(getArrElemIdx(slicedArr, i, j))"
               />
               <clr-control-error>{{
                 "disposition.tableRowInput_error" | translate

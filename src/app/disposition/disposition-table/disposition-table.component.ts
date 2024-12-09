@@ -57,6 +57,14 @@ export class DispositionTableComponent implements OnInit {
       .forEach((group) => this.formArray.push(group));
   }
 
+  getArrElemIdx(
+    slice: AbstractControl<any, any>[][],
+    i: number,
+    j: number
+  ): number {
+    return slice.slice(0, i).reduce((sum, row) => sum + row.length, 0) + j;
+  }
+
   onChange(idx: number) {
     const rowControl: AbstractControl<any, any> = this.formArray.at(idx);
     this.rows[idx][DispositionTableRowName.STOCK_SAFETY] = rowControl.get(
@@ -66,20 +74,20 @@ export class DispositionTableComponent implements OnInit {
     this.rows.forEach((ref, i) => this.formArray.at(i).setValue(ref));
 
     this.updateGlobalState();
-    console.log(this.dataSvc.getData());
   }
 
   sliceFormArray(): AbstractControl<any, any>[][] {
-    const res: AbstractControl<any, any>[][] = [[]];
-    const controls: AbstractControl<any, any>[] = this.formArray.controls;
+    return [
+      this.formArray.controls.slice(0, 1),
+      this.formArray.controls.slice(1, 3),
+      this.formArray.controls.slice(3, 6),
+      this.formArray.controls.slice(6, 9),
+      this.formArray.controls.slice(9, 12),
+    ];
+  }
 
-    res.push([controls.at(0)]);
-    res.push([...controls.slice(1, 3)]);
-    res.push([...controls.slice(3, 6)]);
-    res.push([...controls.slice(6, 9)]);
-    res.push([...controls.slice(9, 12)]);
-
-    return res;
+  trackByFn(index: number, item: any): any {
+    return item.id || index;
   }
 
   private updateGlobalState(): void {
