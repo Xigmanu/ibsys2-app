@@ -43,7 +43,7 @@ export class DispositionTableComponent implements OnInit {
     });
   }
 
-  get formArr(): FormArray<any> {
+  get formArray(): FormArray<any> {
     return this.form.get('rows') as FormArray;
   }
 
@@ -54,19 +54,32 @@ export class DispositionTableComponent implements OnInit {
     }
     this.rows
       .map((row) => createFormGroupFromRow(this.fb, row))
-      .forEach((group) => this.formArr.push(group));
+      .forEach((group) => this.formArray.push(group));
   }
 
   onChange(idx: number) {
-    const rowControl: AbstractControl<any, any> = this.formArr.at(idx);
+    const rowControl: AbstractControl<any, any> = this.formArray.at(idx);
     this.rows[idx][DispositionTableRowName.STOCK_SAFETY] = rowControl.get(
       DispositionTableRowName.STOCK_SAFETY
     )?.value;
     updateTableRows(this.rows);
-    this.rows.forEach((ref, i) => this.formArr.at(i).setValue(ref));
+    this.rows.forEach((ref, i) => this.formArray.at(i).setValue(ref));
 
     this.updateGlobalState();
     console.log(this.dataSvc.getData());
+  }
+
+  sliceFormArray(): AbstractControl<any, any>[][] {
+    const res: AbstractControl<any, any>[][] = [[]];
+    const controls: AbstractControl<any, any>[] = this.formArray.controls;
+
+    res.push([controls.at(0)]);
+    res.push([...controls.slice(1, 3)]);
+    res.push([...controls.slice(3, 6)]);
+    res.push([...controls.slice(6, 9)]);
+    res.push([...controls.slice(9, 12)]);
+
+    return res;
   }
 
   private updateGlobalState(): void {

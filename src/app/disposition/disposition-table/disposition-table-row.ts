@@ -102,20 +102,26 @@ export function getPrimaryArticleId(rows: DispositionTableRow[]): number {
 
 function updateRowsData(rows: DispositionTableRow[], map: number[][]): void {
   let offset: number = 0;
+
   for (let i = 0; i < map.length; i++) {
     if (i == 0) {
       calculateProdOrderForRow(rows[i]);
       offset += map[i].length;
       continue;
     }
-    const row: DispositionTableRow = getRowById(rows, map[i - 1].at(-1));
+
+    const prevLastRow: DispositionTableRow = getRowById(
+      rows,
+      map[i - 1].at(-1)
+    );
     for (let j = 0; j < map[i].length; j++) {
       const currentRow = rows[j + offset];
       currentRow[DispositionTableRowName.SALES_REQUEST] =
-        row[DispositionTableRowName.ORDERS_PROD];
+        prevLastRow[DispositionTableRowName.ORDERS_PROD];
+
       calculateProdOrderForRow(
         currentRow,
-        row[DispositionTableRowName.ORDERS_QUEUED]
+        prevLastRow[DispositionTableRowName.ORDERS_QUEUED]
       );
     }
     offset += map[i].length;
@@ -136,8 +142,8 @@ function createRowForArticle(
   const queuedOrder = getQueuedOrderAmount(struct, id);
   const activeOrder = getActiveOrderAmount(struct, id);
   const safetyStock: number = getSafetyStock(struct, id, primaryId);
-
   const isCommonId = commonComponentIds.find((next) => next === id);
+
   return {
     [DispositionTableRowName.ARTICLE_ID]: id,
     [DispositionTableRowName.SALES_REQUEST]: sellWish,
