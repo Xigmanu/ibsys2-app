@@ -208,7 +208,7 @@ export class SetupComponent implements OnInit{
         metaData: {
           game: jsonData.results.$.game,
           group: jsonData.results.$.group,
-          period: jsonData.results.$.period + 1,
+          period: String(Number(jsonData.results.$.period) + 1),
           forecast: {
             p1: Number(jsonData.results.forecast.$.p1),
             p2: Number(jsonData.results.forecast.$.p2),
