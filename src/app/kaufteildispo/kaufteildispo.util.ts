@@ -88,7 +88,6 @@ export function mapDataToFormControls(jsonData: any, dataService: DataService, d
       }
       mappedData[order.article] = {
         ...mappedData[order.article],
-        [KaufteildispoArt.KAUFTEIL]: order.article,
         [KaufteildispoArt.EINGEHENDELIEFERUNG]: order.amount,
         [KaufteildispoArt.ANKUNFTSZEIT_EINGEHEND]: getEingehendeLieferung(order, frist,
           dispoForm
