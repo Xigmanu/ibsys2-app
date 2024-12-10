@@ -45,13 +45,13 @@ export class KaufteildispoComponent implements OnInit {
   ngOnInit(): void {
     this.dataServiceData = this.dataService.getData();
     this.mappedData = mapDataToFormControls(this.jsonData, this.dataService, this.dispoForm, this.dataServiceData.input.metaData, this.dataServiceData.output);
-    const formArray = this.dispoForm.get('tableRows') as FormArray;
     this.populateFormArrays(this.mappedData, this.dispoForm, this.dataService);
     this.subscribeToFormChanges();
     console.log(this.mappedData)
   }
   ngOnDestroy(): void {
     this.saveData();
+
   }
   createDispoFormGrp(mappedItem:any, modus: number, bestellmenge: number): FormGroup {
     const benoetigteMenge = calculateBenoetigteMenge(
@@ -129,7 +129,7 @@ export class KaufteildispoComponent implements OnInit {
   }
   saveData() {
     const formArray = this.dispoForm.get('tableRows') as FormArray;
-    const outputDataToSave = formArray.controls.map((control: AbstractControl) => {
+    let outputDataToSave = formArray.controls.map((control: AbstractControl) => {
       const group = control as FormGroup;
       return {
         article: group.get(KaufteildispoArt.KAUFTEIL)?.value,
@@ -137,6 +137,7 @@ export class KaufteildispoComponent implements OnInit {
         modus: group.get(KaufteildispoArt.BESTELLTYP)?.value,
       };
     });
+    outputDataToSave= outputDataToSave.filter((order: any) => order.quantity > 0);
 
     this.dataService.setData({
       ...this.dataService.getData(),
