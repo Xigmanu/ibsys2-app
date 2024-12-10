@@ -326,7 +326,7 @@ export class CapacityPlanComponent implements OnInit {
         this.productionArray2[1][i] = this.schichten[i];
         this.productionArray2[2][i] = this.ueberstunden[i];
 
-        if (i < 9) {
+        if (i < 8) {
           workingTimes.push({
             station: i - 3,
             shift: this.schichten[i],
