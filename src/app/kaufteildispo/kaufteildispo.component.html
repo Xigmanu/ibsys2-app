@@ -4,26 +4,25 @@
     <thead class="text-nowrap">
 
     <tr>
-      <th>{{ KauftelidispoArt.KAUFTEIL }}</th>
-      <th>{{ KauftelidispoArt.FRIST }}</th>
-      <th>{{ KauftelidispoArt.ABWEICHUNG }}</th>
-      <th>{{ KauftelidispoArt.DISKONTMENGE }}</th>
-      <th colspan="5" scope="colgroup">Bruttobedarf in Periode N</th>
-      <th>{{ KauftelidispoArt.BESTAND_AKTUELL }}</th>
-      <th>{{ KauftelidispoArt.EINGEHENDELIEFERUNG }}</th>
-      <th>{{ KauftelidispoArt.ANKUNFTSZEIT_EINGEHEND }}</th>
-      <th>{{ KauftelidispoArt.BENOETIGTE_MENGE }}</th>
-      <th>{{ KauftelidispoArt.BESTELLUNG_LIEFERTERMIN }}</th>
-      <th>{{ KauftelidispoArt.BESTELLMENGE }}</th>
-      <th>{{ KauftelidispoArt.BESTELLTYP }}</th>
+      <th>{{ "KaufteildispoArt.kaufteil" | translate }}</th>
+      <th>{{ "KaufteildispoArt.frist" | translate }}</th>
+      <th>{{ "KaufteildispoArt.abweichung" | translate }}</th>
+      <th>{{ "KaufteildispoArt.Diskontmenge" | translate }}</th>
+      <th colspan="5" scope="colgroup">{{ "Bruttobedarf in Periode N" | translate }}</th>
+      <th>{{ "KaufteildispoArt.bestand Aktuell" | translate }}</th>
+      <th>{{ "KaufteildispoArt.eingehende Lieferung" | translate }}</th>
+      <th>{{ "KaufteildispoArt.ankunftszeit eingehend" | translate }}</th>
+      <th>{{ "KaufteildispoArt.benoetigte Menge" | translate }}</th>
+      <th>{{ "KaufteildispoArt.bestellung Liefertermin" | translate }}</th>
+      <th>{{ "KaufteildispoArt.bestellmenge" | translate }}</th>
+      <th>{{ "KaufteildispoArt.bestelltyp" | translate }}</th>
     </tr>
     <th colspan="4" scope="colgroup"></th>
     <th>{{ KauftelidispoArt.VERBRAUCH_AKTUELL }}</th>
     <th>{{ KauftelidispoArt.VERBRAUCH_PROGNOSE_1 }}</th>
     <th>{{ KauftelidispoArt.VERBRAUCH_PROGNOSE_2 }}</th>
     <th>{{ KauftelidispoArt.VERBRAUCH_PROGNOSE_3 }}</th>
-    <th>{{ KauftelidispoArt.VERBRAUCH_PROGNOSE_GES }}</th>
-    <th colspan="7" scope="colgroup"></th>
+    <th>{{ "KaufteildispoArt.Summe Bedarf" | translate }}</th>    <th colspan="7" scope="colgroup"></th>
     </thead>
     <tbody formArrayName="tableRows">
     <tr *ngFor="let group of getFormControls.controls; let i = index" [formGroupName]="i">

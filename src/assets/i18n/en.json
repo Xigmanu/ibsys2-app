@@ -99,7 +99,7 @@
     "pufferProWoche": "Buffer per Week",
     "noData": "No data found",
     "printButton": "Print Production Array",
-    
+
     "bezeichnung1": "Rear Wheel",
     "bezeichnung2": "Front Wheel",
     "bezeichnung3": "Rear Mudguard",
@@ -153,5 +153,25 @@
       "mergeMessage": "Are you sure you want to merge?",
       "splitLabel": "Split Quantity"
     }
+  },
+  "KaufteildispoArt": {
+    "kaufteil": "Purchase Part",
+    "frist": "Deadline",
+    "abweichung": "Deviation",
+    "Diskontmenge": "Discount Quantity",
+    "N": "Current Consumption",
+    "N+1": "Forecast Period 1",
+    "N+2": "Forecast Period 2",
+    "N+3": "Forecast Period 3",
+    "Summe Bedarf": "Total Demand",
+    "bestand Aktuell": "Current Stock",
+    "eingehende Lieferung": "Incoming Delivery",
+    "ankunftszeit eingehend": "Arrival Time Incoming",
+    "benoetigte Menge": "Required Quantity",
+    "bestellung Liefertermin": "Order Delivery Date",
+    "bestellmenge": "Order Quantity",
+    "bestelltyp": "Order Type"
   }
 }
+
+
