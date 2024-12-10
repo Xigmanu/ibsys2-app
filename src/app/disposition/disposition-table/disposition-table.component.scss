@@ -9,6 +9,26 @@ th {
   font-size: 14px;
 }
 
+table {
+  table-layout: fixed;
+}
+
+table td + td {
+  border-left: 1px solid #6a7a81;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  padding: 12px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
 .input-column {
   display: flex;
   justify-content: center;
