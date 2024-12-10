@@ -3,8 +3,9 @@
     <div class="branding">
       <a routerLink="/" class="nav-link">
         <cds-icon shape="factory"></cds-icon>
-        <span class="title">IBSYS 2 Planspiel</span>
-        <span class="title" *ngIf="this.globalState.dataInitialized">{{ this.getMetadata() }}</span>
+        <span class="title">{{ "global.title" | translate }}</span>
+        <span class="title" *ngIf="this.globalState.dataInitialized">- {{ "global.group" | translate }} {{ this.getMetadata()[0] }} 
+          - {{ "global.period" | translate }} {{ this.getMetadata()[1] }}</span>
       </a>
     </div>
     <div class="header-actions">
@@ -47,7 +48,8 @@
         <cds-icon clrVerticalNavIcon shape="install"></cds-icon>
         {{ "nav.setup" | translate }}
       </a>
-      <a
+      <!--
+            <a
         *ngIf="this.globalState.dataInitialized"
         clrVerticalNavLink
         routerLink="./input"
@@ -55,7 +57,8 @@
       >
         <cds-icon clrVerticalNavIcon shape="details"></cds-icon>
         {{ "nav.input" | translate }}
-      </a>
+      </a>  
+      -->
       <a
         *ngIf="this.globalState.dataInitialized"
         clrVerticalNavLink

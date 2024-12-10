@@ -2,7 +2,10 @@
   "global": {
     "productionPlan": "生産計画",
     "nextPage": "次のページ",
-    "prevPage": "前のページ"
+    "prevPage": "前のページ",
+    "title": "IBSYS 2 シミュレーションゲーム",
+    "group": "グループ",
+    "period": "期間"
   },
   "nav": {
     "setup": "セットアップ",
@@ -23,7 +26,7 @@
     "selectXmlButton_success": "XMLファイルが読み込まれました！",
     "selectXmlButton_error": "ファイルは.xml形式でなければなりません！",
     "loadDataButton": "データを読み込む",
-    "nextPageButton": "入力内容を確認",
+    "nextPageButton": "続ける",
     "xmlAlertDanger": "XMLを読み込むことができませんでした。ファイル名が「...result.xml」であること、必要なデータが含まれていることを確認してください。",
     "xmlAlertSuccess": "XMLがシステムに正常に読み込まれました。",
     "inspectData": "データを確認",
