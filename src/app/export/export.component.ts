@@ -40,11 +40,17 @@ export class ExportComponent implements OnInit {
       this.orderListItems = data.output.orderList.orders;
       this.productionListItems = data.output.productionList.productions;
       this.workingTimeListItems = data.output.workingTimeList.workingTimes;
+
+      this.filterItems();
     } else {
       console.error('Data is null or not available.');
     }
   }
 
+  filterItems(): void {
+    this.orderListItems = this.orderListItems.filter(order => order.quantity > 0);
+    this.productionListItems = this.productionListItems.filter(production => production.quantity > 0);
+  }
   downloadOutputAsXML(): void {
     const output = this.dataService.getData()?.output;
 
