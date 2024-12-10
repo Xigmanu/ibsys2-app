@@ -280,7 +280,7 @@ export class SetupComponent implements OnInit{
                 : undefined,
             })
           ),
-        waitingListStock: jsonData.results.waitingliststock.missingpart.map(
+        waitingListStock: jsonData.results.waitingliststock.missingpart ? jsonData.results.waitingliststock.missingpart.map(
           (part: any): MissingPart => ({
             id: Number(part.$.id),
             waitingList: Array.isArray(part.waitinglist)
@@ -294,7 +294,7 @@ export class SetupComponent implements OnInit{
                 }))
               : [],
           })
-        ),
+        ) : null,
         ordersInWork: jsonData.results.ordersinwork.workplace.map(
           (workplace: any): OrderInWork => ({
             id: Number(workplace.$.id),
@@ -395,7 +395,6 @@ export class SetupComponent implements OnInit{
                       4
                     ),
             },
-
             productiveTime: {
               current: Number(
                 jsonData.results.result.general.productivetime.$.current
