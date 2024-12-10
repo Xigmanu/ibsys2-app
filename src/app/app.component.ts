@@ -51,7 +51,10 @@ export class AppComponent {
 
   languages = [
     { code: 'en', name: 'English' },
-    { code: 'de', name: 'Deutsch' }, // Add more languages as needed
+    { code: 'de', name: 'Deutsch' },
+    { code: 'vt', name: 'Tiếng Việt' },
+    { code: 'gr', name: 'Ελληνικά' },
+    { code: 'jp', name: '日本語' },
   ];
   currentLang = 'en'; // Default language
 

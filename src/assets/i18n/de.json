@@ -1,8 +1,8 @@
 {
   "global": {
-    "productionPlan": "Production Plan",
-    "nextPage": "Next Page",
-    "prevPage": "Previous Page"
+    "productionPlan": "Produktionsplan",
+    "nextPage": "Nächste Seite",
+    "prevPage": "Vorherige Seite"
   },
   "nav": {
     "setup": "Setup",
@@ -16,16 +16,19 @@
   },
   "setup": {
     "title": "Einrichtung",
+    "titleNextSteps": "Nächste Schritte",
     "description": "Wählen Sie eine XML-Datei aus, die die Daten Ihrer vorherigen Geschäftsperiode enthält. Sie wird mit \"result\" enden. Z. B.: \"179_7_result.xml\"",
     "selectXmlButton": "XML auswählen",
     "selectXmlButton_loadtip": "Laden Sie eine XML-Datei.",
     "selectXmlButton_success": "XML-Datei erfolgreich geladen!",
     "selectXmlButton_error": "Die Datei muss vom Typ .xml sein!",
     "loadDataButton": "Daten laden",
+    "nextPageButton": "Eingabedaten überprüfen",
     "xmlAlertDanger": "Die XML-Datei konnte nicht geladen werden. Bitte stellen Sie sicher, dass ihr Name \"...result.xml\" lautet und die erforderlichen Daten enthält.",
     "xmlAlertSuccess": "Die XML-Datei wurde erfolgreich in das System geladen.",
     "inspectData": "Daten überprüfen",
-    "xmlData": "XML-Daten"
+    "xmlData": "XML-Daten",
+    "msgNextPage": "Ihre Daten wurden im System gespeichert. Klicken Sie auf die Schaltfläche unten, um zur nächsten Seite zu wechseln, oder wählen Sie eine Option aus der Seitenleiste."
   },
   "sellWish": {
     "sellWish": "Vertriebswunsch",
@@ -37,7 +40,11 @@
     "saveButton": "Speichern",
     "error": "Pflichtfeld",
     "plan": "Produktionsplan",
-    "forecast": "Prognose"
+    "forecast": "Prognose",
+    "p0": "Diese Periode",
+    "p1": "Periode N+1",
+    "p2": "Periode N+2",
+    "p3": "Periode N+3"
   },
   "export": {
     "title": "Export",
@@ -66,6 +73,12 @@
   "homepage": {
     "title": "Willkommen bei Sisyphus",
     "description": "Professionelle Produktionsmanagement-Software von G8-Softworks.",
+    "descriptionA": "Sisyphus ist Ihr unverzichtbares Werkzeug, um Herausforderungen im Produktionsmanagement zu meistern. Entwickelt für die Supply Chain Simulation, bietet es ein vereinfachtes Produktionsmodell, bei dem Sie Entscheidungen treffen zu:",
+    "bulletA": "Bestellaufgabe",
+    "bulletB": "Produktionsplanung",
+    "bulletC": "Kapazitätsplanung",
+    "descriptionB": "Richten Sie die Produktion an den Marktanforderungen aus und erreichen Sie wichtige Ziele wie verbesserte Lieferzuverlässigkeit, optimierte Ressourcennutzung und reduzierte Fertigungskosten. Experimentieren Sie sicher mit Strategien, erhalten Sie sofortiges Feedback und verfeinern Sie Ihre Fähigkeiten für den realen Erfolg.",
+    "descriptionC": "Bereit, bessere Entscheidungen zu treffen? Beginnen Sie noch heute mit Sisyphus!",
     "getStarted": "Loslegen"
   },
   "disposition": {
@@ -80,6 +93,7 @@
     "tableRowInput_error": "Der Wert muss größer oder gleich Null sein"
   },
   "capacityPlan": {
+    "title": "Kapazitätsplan",
     "bezeichnung": "Bezeichnung",
     "verwendung": "Verwendung",
     "artikel": "Artikel",
@@ -107,7 +121,6 @@
     "bezeichnung10": "Rahmen und Räder",
     "bezeichnung11": "Fahrrad ohne Pedale",
     "bezeichnung12": "Fahrrad komplett (cpl)",
-
     "station": "Arbeitsplatz {{num}}",
     "warning": {
       "maxCapacity": "Maximale Kapazität (7200 Minuten) überschritten in {{stations}}!"
@@ -148,5 +161,30 @@
       "mergeMessage": "Möchten Sie wirklich zusammenführen?",
       "splitLabel": "Geteilte Menge"
     }
+  },
+  "KaufteildispoArt": {
+    "kaufteil": "Kaufteil",
+    "frist": "Frist",
+    "abweichung": "Abweichung",
+    "Diskontmenge": "Diskontmenge",
+    "N": "Aktueller Verbrauch",
+    "N+1": "Prognose Periode 1",
+    "N+2": "Prognose Periode 2",
+    "N+3": "Prognose Periode 3",
+    "Summe Bedarf": "Gesamtbedarf",
+    "bestand Aktuell": "Aktueller Bestand",
+    "eingehende Lieferung": "Eingehende Lieferung",
+    "ankunftszeit eingehend": "Ankunftszeit Eingehend",
+    "benoetigte Menge": "Benötigte Menge",
+    "bestellung Liefertermin": "Bestell-Liefertermin",
+    "bestellmenge": "Bestellmenge",
+    "bestelltyp": "Bestelltyp"
+  },
+  "productionPlan": {
+    "product": "Produkt",
+    "p0": "Diese Periode",
+    "p1": "Periode N+1",
+    "p2": "Periode N+2",
+    "p3": "Periode N+3"
   }
 }

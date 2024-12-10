@@ -1,0 +1,22 @@
+.homepage-container {
+    display: flex;
+    justify-content: space-between; /* Text on the left, image on the right */
+    align-items: flex-start; /* Align items to the top */
+    gap: 2rem; /* Add space between the text and the image */
+  }
+  
+  .homepage-content {
+    flex: 1; /* Take up the remaining space on the left */
+  }
+  
+  .homepage-image {
+    flex: 0 0 30%; /* Restrict the image container to 30% of the width */
+    text-align: right; /* Align image to the right if needed */
+  }
+  
+  .homepage-image img {
+    width: 100%; /* Make the image fill its container */
+    height: auto; /* Maintain aspect ratio */
+    display: block; /* Prevent inline element spacing issues */
+  }
+  

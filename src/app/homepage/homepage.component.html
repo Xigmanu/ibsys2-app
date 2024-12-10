@@ -1,6 +1,24 @@
-<h1>{{ "homepage.title" | translate }}</h1>
-<p>{{ "homepage.description" | translate }}</p>
-<br />
-<button routerLink="/setup" class="btn btn-primary">
-  {{ "homepage.getStarted" | translate }}
-</button>
+<div class="homepage-container">
+  <div class="homepage-content">
+    <h1>{{ "homepage.title" | translate }}</h1>
+    <h3>{{ "homepage.description" | translate }}</h3>
+    <p>{{ "homepage.descriptionA" | translate }}</p>
+    <br>
+    <ul>
+      <li><strong>{{ "homepage.bulletA" | translate }}</strong></li>
+      <li><strong>{{ "homepage.bulletB" | translate }}</strong></li>
+      <li><strong>{{ "homepage.bulletC" | translate }}</strong></li>
+    </ul>
+    <p>{{ "homepage.descriptionB" | translate }}</p>
+    <p>
+      <strong>{{ "homepage.descriptionC" | translate }}</strong>
+    </p>
+    <br>
+    <button routerLink="/setup" class="btn btn-primary">
+      {{ "homepage.getStarted" | translate }}
+    </button>
+  </div>
+  <div class="homepage-image">
+    <img src="assets/images/Punishment_sisyph.jpg" alt="Punishment Sisyphus" />
+  </div>
+</div>
