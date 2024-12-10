@@ -67,13 +67,13 @@ export class DispositionTableComponent implements OnInit {
 
   onChange(idx: number) {
     const rowControl: AbstractControl<any, any> = this.formArray.at(idx);
-    this.rows[idx][DispositionTableRowName.STOCK_SAFETY] = rowControl.get(
-      DispositionTableRowName.STOCK_SAFETY
-    )?.value;
-    updateTableRows(this.rows);
-    this.rows.forEach((ref, i) => this.formArray.at(i).setValue(ref));
-
-    this.updateGlobalState();
+    const value = rowControl.get(DispositionTableRowName.STOCK_SAFETY)?.value;
+    if (value && value >= 0) {
+      this.rows[idx][DispositionTableRowName.STOCK_SAFETY] = value;
+      updateTableRows(this.rows);
+      this.rows.forEach((ref, i) => this.formArray.at(i).setValue(ref));
+      this.updateGlobalState();
+    }
   }
 
   sliceFormArray(): AbstractControl<any, any>[][] {

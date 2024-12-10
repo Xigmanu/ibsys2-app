@@ -25,12 +25,15 @@
     </thead>
     <tbody>
       <!-- Data Rows -->
-      <tr *ngFor="let row of productionArray">
+      <tr *ngFor="let row of productionArray; let j = index">
         <td *ngFor="let cell of row; let i = index">
           <ng-container *ngIf="i < 3">
             {{ cell ? (cell | translate) : '' }}
           </ng-container>
-          <ng-container *ngIf="i >= 3">
+          <ng-container *ngIf="i >= 4">
+            {{ cell || '0' }}
+          </ng-container>
+          <ng-container *ngIf="i == 3 && j<30">
             {{ cell || '0' }}
           </ng-container>
         </td>      </tr>
@@ -57,11 +60,20 @@
       </tr>
       <!-- Second Data Array -->
       <tr *ngFor="let row of productionArray2">
-        <td *ngFor="let cell of row">{{ cell ? (cell | translate) : '' }}</td>
+        <td *ngFor="let cell of row; let i = index"><ng-container *ngIf="i < 4">
+          {{ cell ? (cell | translate) : '' }}
+        </ng-container>
+        <ng-container *ngIf="i >= 4">
+          {{ cell || '0' }}
+        </ng-container></td>
       </tr>
     </tbody>
   </table>
 </form>
+
+<div class="chart-container">
+  <canvas id="capacityChart"></canvas>
+</div>
 
 <br><br><br>
 

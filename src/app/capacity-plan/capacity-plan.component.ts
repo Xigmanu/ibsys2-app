@@ -10,7 +10,13 @@ import { ClarityModule } from '@clr/angular';
 import { CommonModule } from '@angular/common';
 import capacityDataJson from '../../assets/CapacityData.json';
 import { TranslateModule } from '@ngx-translate/core';
-import { Router, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
+import { Chart, registerables } from 'chart.js';
+import { TranslateService } from '@ngx-translate/core';
+import annotationPlugin from 'chartjs-plugin-annotation';
+
+Chart.register(...registerables);
+Chart.register(annotationPlugin);
 
 interface Arbeitsplatz {
   Bearbeitungszeit: number | null;
@@ -35,10 +41,19 @@ interface CapacityEntry {
   templateUrl: './capacity-plan.component.html',
   styleUrls: ['./capacity-plan.component.scss'],
   standalone: true,
-  imports: [ClarityModule, CommonModule, FormsModule, TranslateModule, RouterModule],
+  imports: [
+    ClarityModule,
+    CommonModule,
+    FormsModule,
+    TranslateModule,
+    RouterModule,
+  ],
 })
 export class CapacityPlanComponent implements OnInit {
-  constructor(private fb: FormBuilder, private dataService: DataService) {}
+  chart?: Chart;
+  constructor(private dataService: DataService, private translateService: TranslateService) {}
+  private hasCapacityWarning = false;
+  
 
   items = [
     'E4',
@@ -148,17 +163,16 @@ export class CapacityPlanComponent implements OnInit {
 
   productionArray: string[][] = [];
   productionArray2: any[][] = [];
-  productionForm: FormGroup = new FormGroup({});
   capacityData: Record<string, CapacityEntry> = capacityDataJson;
 
   ngOnInit() {
-    this.productionForm = this.fb.group({
-      productionlist: new FormControl(''),
-      rustzeit: new FormControl(''),
-      warteschlange: new FormControl(''),
-      summeKapazitaet: new FormControl(''),
-    });
     this.updateProductionArray();
+    this.translateService.onLangChange.subscribe(() => {
+      if (this.chart) {
+        this.chart.destroy();
+      }
+      this.createCapacityChart();
+    });
   }
 
   updateProductionArray() {
@@ -312,7 +326,7 @@ export class CapacityPlanComponent implements OnInit {
         this.productionArray2[1][i] = this.schichten[i];
         this.productionArray2[2][i] = this.ueberstunden[i];
 
-        if (i < 9) {
+        if (i < 8) {
           workingTimes.push({
             station: i - 3,
             shift: this.schichten[i],
@@ -333,8 +347,12 @@ export class CapacityPlanComponent implements OnInit {
           workingTimeList: { workingTimes: workingTimes },
         },
       });
-      console.log('Puffer updated:', this.puffer);
+      if (this.chart) {
+        this.chart.destroy();
+      }
+      this.createCapacityChart();
     }, 300); // Debounce for 300ms
+    // Create new chart
   }
 
   formatOvertime(value: number): number {
@@ -525,7 +543,181 @@ export class CapacityPlanComponent implements OnInit {
     ];
   }
 
-  printProductionArray() {
-    console.log(this.productionArray2);
+  createCapacityChart() {
+    const ctx = document.getElementById('capacityChart') as HTMLCanvasElement;
+    const chartContainer = ctx.parentElement;
+
+    const existingWarning = chartContainer?.querySelector('.capacity-warning');
+    if (existingWarning) {
+        existingWarning.remove();
+    }
+
+    const stationLabels = [1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map(
+      (num) => this.translateService.instant('capacityPlan.station', { num })
+    );
+
+    const adjustStationData = (data: any[]) => {
+      return data.slice(4, 18);
+    };
+
+    const getBarColor = (value: number) => {
+      if (value > 7200) return 'rgba(220, 53, 69, 0.8)'; // Error - exceeds max capacity
+      if (value <= 2400) return 'rgba(54, 162, 235, 0.6)'; // 1 shift
+      if (value <= 3600) return 'rgba(54, 162, 235, 0.8)'; // 1 shift + overtime
+      if (value <= 4800) return 'rgba(255, 206, 86, 0.6)'; // 2 shifts
+      if (value <= 6000) return 'rgba(255, 206, 86, 0.8)'; // 2 shifts + overtime
+      return 'rgba(255, 159, 64, 0.6)'; // 3 shifts
+    };
+
+    const data = adjustStationData(this.gesamtKapazitaetPuffer);
+
+    this.hasCapacityWarning = data.some((value) => value > 7200);
+
+    if (this.hasCapacityWarning) {
+      const warningStations = data
+        .map((value, index) => ({ value, station: index + 1 }))
+        .filter((item) => item.value > 7200)
+        .map(item => this.translateService.instant('capacityPlan.station', { num: item.station }));
+
+      // Add warning banner
+      const chartContainer = ctx.parentElement;
+      if (chartContainer) {
+        const warningDiv = document.createElement('div');
+        warningDiv.className = 'capacity-warning';
+        warningDiv.innerHTML = `
+                <div class="alert alert-danger" role="alert">
+                    <span class="alert-icon-wrapper">
+                        <clr-icon shape="exclamation-circle"></clr-icon>
+                    </span>
+                    <span class="alert-text">
+                    ${this.translateService.instant('capacityPlan.warning.maxCapacity', { stations: warningStations.join(', ') })}
+                    </span>
+                </div>
+            `;
+        chartContainer.insertBefore(warningDiv, ctx);
+      }
+    }
+
+    this.chart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: stationLabels,
+        datasets: [
+          {
+            label: this.translateService.instant('capacityPlan.chart.totalCapacity'),
+            data: data,
+            backgroundColor: data.map((value) => getBarColor(value)),
+            borderWidth: 1,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+                plugins: {
+          tooltip: {
+            callbacks: {
+              label: (context) => {
+                const value = context.parsed.y;
+                const minutes = this.translateService.instant('capacityPlan.chart.minutes', { value });
+                
+                if (value > 7200) {
+                  return `${minutes} (${this.translateService.instant('capacityPlan.chart.error')})`;
+                }
+                if (value <= 2400) {
+                  return `${minutes} (${this.translateService.instant('capacityPlan.chart.oneShift')})`;
+                }
+                if (value <= 3600) {
+                  return `${minutes} (${this.translateService.instant('capacityPlan.chart.oneShiftOvertime')})`;
+                }
+                if (value <= 4800) {
+                  return `${minutes} (${this.translateService.instant('capacityPlan.chart.twoShifts')})`;
+                }
+                if (value <= 6000) {
+                  return `${minutes} (${this.translateService.instant('capacityPlan.chart.twoShiftsOvertime')})`;
+                }
+                return `${minutes} (${this.translateService.instant('capacityPlan.chart.threeShifts')})`;
+              },
+            },
+          },
+          annotation: {
+            annotations: {
+              line1: {
+                type: 'line',
+                yMin: 2400,
+                yMax: 2400,
+                borderColor: 'rgb(54, 162, 235)',
+                borderWidth: 2,
+                label: {
+                  content: this.translateService.instant('capacityPlan.chart.oneShiftLabel', { value: 2400 }),
+                  display: true,
+                },
+              },
+              line1overtime: {
+                type: 'line',
+                yMin: 3600,
+                yMax: 3600,
+                borderColor: 'rgb(54, 162, 235)',
+                borderWidth: 2,
+                borderDash: [6, 6],
+                label: {
+                  content: this.translateService.instant('capacityPlan.chart.oneShiftOvertimeLabel', { value: 3600 }),
+                  display: true,
+                },
+              },
+              line2: {
+                type: 'line',
+                yMin: 4800,
+                yMax: 4800,
+                borderColor: 'rgb(255, 206, 86)',
+                borderWidth: 2,
+                label: {
+                  content: this.translateService.instant('capacityPlan.chart.twoShiftsLabel', { value: 4800 }),
+                  display: true,
+                },
+              },
+              line2overtime: {
+                type: 'line',
+                yMin: 6000,
+                yMax: 6000,
+                borderColor: 'rgb(255, 206, 86)',
+                borderWidth: 2,
+                borderDash: [6, 6],
+                label: {
+                  content: this.translateService.instant('capacityPlan.chart.twoShiftsOvertimeLabel', { value: 6000 }),
+                  display: true,
+                },
+              },
+              line3: {
+                type: 'line',
+                yMin: 7200,
+                yMax: 7200,
+                borderColor: 'rgb(255, 159, 64)',
+                borderWidth: 2,
+                label: {
+                  content: this.translateService.instant('capacityPlan.chart.threeShiftsLabel', { value: 7200 }),
+                  display: true,
+                },
+              },
+            },
+          },
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            grid: {
+              color: (context) => {
+                if (context.tick.value === 2400)
+                  return 'rgba(54, 162, 235, 0.2)';
+                if (context.tick.value === 4800)
+                  return 'rgba(255, 206, 86, 0.2)';
+                if (context.tick.value === 7200)
+                  return 'rgba(255, 159, 64, 0.2)';
+                return 'rgba(0, 0, 0, 0.1)';
+              },
+            },
+          },
+        },
+      },
+    });
   }
 }

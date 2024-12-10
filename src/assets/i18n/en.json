@@ -111,7 +111,27 @@
     "bezeichnung9": "Front Wheel Complete (cpl)",
     "bezeichnung10": "Frame and Wheels",
     "bezeichnung11": "Bicycle without Pedals",
-    "bezeichnung12": "Bicycle Complete (cpl)"
+    "bezeichnung12": "Bicycle Complete (cpl)",
+
+    "station": "Station {{num}}",
+    "warning": {
+      "maxCapacity": "Maximum capacity (7200 minutes) exceeded in {{stations}}!"
+    },
+    "chart": {
+      "totalCapacity": "Total Capacity",
+      "minutes": "{{value}} minutes",
+      "error": "ERROR: Exceeds maximum capacity",
+      "oneShift": "1 shift",
+      "oneShiftOvertime": "1 shift + overtime",
+      "twoShifts": "2 shifts",
+      "twoShiftsOvertime": "2 shifts + overtime",
+      "threeShifts": "3 shifts",
+      "oneShiftLabel": "1 Shift (2400 min)",
+      "oneShiftOvertimeLabel": "1 Shift + Overtime (3600 min)",
+      "twoShiftsLabel": "2 Shifts (4800 min)",
+      "twoShiftsOvertimeLabel": "2 Shifts + Overtime (6000 min)",
+      "threeShiftsLabel": "3 Shifts (7200 min)"
+    }
   },
   "lotsize": {
     "table": {
