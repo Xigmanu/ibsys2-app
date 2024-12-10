@@ -131,7 +131,6 @@ export class KaufteildispoComponent implements OnInit {
     const formArray = this.dispoForm.get('tableRows') as FormArray;
     const outputDataToSave = formArray.controls.map((control: AbstractControl) => {
       const group = control as FormGroup;
-      const modus = group.get(KaufteildispoArt.BESTELLTYP)?.value;
       return {
         article: group.get(KaufteildispoArt.KAUFTEIL)?.value,
         quantity: group.get(KaufteildispoArt.BESTELLMENGE)?.value,

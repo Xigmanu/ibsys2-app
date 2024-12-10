@@ -43,7 +43,7 @@
       <td>{{ group.get(KauftelidispoArt.BESTELLUNG_LIEFERTERMIN)?.value }}</td>
       <td class ='parent-container'>
         <clr-input-container class ='no-margin'>
-          <input clrInput type="text" id="bestellmenge" formControlName="bestellmenge" size="5"/>
+          <input clrInput type="number" id="bestellmenge" formControlName="bestellmenge" size="5"/>
         </clr-input-container>
         <div
           *ngIf="group.get(KauftelidispoArt.BESTELLMENGE)?.invalid && (group.get('bestellmenge')?.dirty || group.get('bestellmenge')?.touched)">
