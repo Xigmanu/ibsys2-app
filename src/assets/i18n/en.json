@@ -26,7 +26,7 @@
     "selectXmlButton_success": "XML File loaded!",
     "selectXmlButton_error": "File must be of type .xml!",
     "loadDataButton": "Load Data",
-    "nextPageButton": "Review Input",
+    "nextPageButton": "Continue",
     "xmlAlertDanger": "XML could not be loaded. Please ensure that it's name is \"...result.xml\" and has the required data within.",
     "xmlAlertSuccess": "XML has been loaded into the system succesfully.",
     "inspectData": "Inspect Data",

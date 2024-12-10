@@ -26,7 +26,7 @@
     "selectXmlButton_success": "Tệp XML đã được tải!",
     "selectXmlButton_error": "Tệp phải có định dạng .xml!",
     "loadDataButton": "Tải Dữ Liệu",
-    "nextPageButton": "Xem Lại Dữ Liệu Nhập",
+    "nextPageButton": "Tiếp tục",
     "xmlAlertDanger": "Không thể tải XML. Vui lòng đảm bảo tệp có tên \"...result.xml\" và chứa dữ liệu cần thiết.",
     "xmlAlertSuccess": "XML đã được tải thành công vào hệ thống.",
     "inspectData": "Kiểm Tra Dữ Liệu",

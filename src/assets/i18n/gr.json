@@ -26,7 +26,7 @@
     "selectXmlButton_success": "Το αρχείο XML φορτώθηκε!",
     "selectXmlButton_error": "Το αρχείο πρέπει να είναι τύπου .xml!",
     "loadDataButton": "Φόρτωση Δεδομένων",
-    "nextPageButton": "Ανασκόπηση Εισαγωγής",
+    "nextPageButton": "Συνέχεια",
     "xmlAlertDanger": "Δεν ήταν δυνατή η φόρτωση του XML. Βεβαιωθείτε ότι το όνομά του είναι \"...result.xml\" και περιέχει τα απαραίτητα δεδομένα.",
     "xmlAlertSuccess": "Το XML φορτώθηκε επιτυχώς στο σύστημα.",
     "inspectData": "Επιθεώρηση Δεδομένων",
