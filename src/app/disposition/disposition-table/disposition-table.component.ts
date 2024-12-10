@@ -96,10 +96,12 @@ export class DispositionTableComponent implements OnInit {
       const production: number = row[DispositionTableRowName.ORDERS_PROD];
       const safetyStock: number | undefined =
         row[DispositionTableRowName.STOCK_SAFETY];
-      if (safetyStock) {
+      if (safetyStock && safetyStock > 0) {
         this.updateGlobalDispoItemArr(articleId.toString(), safetyStock);
       }
-      this.dataSvc.setProductionListArticle(articleId, production);
+      if (production > 0) {
+        this.dataSvc.setProductionListArticle(articleId, production);
+      }
     });
   }
 
