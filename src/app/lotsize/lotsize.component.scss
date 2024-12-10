@@ -22,3 +22,32 @@
   right: 16px; /* Distance from the right */
   z-index: 1000; /* Ensures the button stays above other content */
 }
+
+.split-container input[type="range"] {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.modal-body {
+  overflow-y: auto;
+  padding: 1rem;
+}
+
+.split-container input[type="range"] {
+  margin: 0;
+  padding: 0;
+}
+
+clr-modal .modal-body {
+  max-width: 100%;
+}
+
+.split-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.split-container input[type="range"] {
+  max-width: calc(100% - 20px); /* Adjust if necessary */
+}
