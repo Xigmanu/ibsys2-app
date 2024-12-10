@@ -40,3 +40,11 @@ input[type="number"] {
   width: 100%;
   box-sizing: border-box;
 }
+
+.small-input {
+  min-width: 40px; /* Ensures input fields maintain a reasonable size */
+  width: 100%; /* Makes the input field stretch to fit the cell */
+  padding: 4px;
+  box-sizing: border-box; /* Ensures padding doesn't affect width */
+  text-align: center;
+}
