@@ -50,9 +50,9 @@ export class AppComponent {
   retrievedData: DataStructure | null = null;
 
   languages = [
-    { code: 'en', name: '🇺🇸 English' },
+    { code: 'en', name: '🇬🇧 English' },
     { code: 'de', name: '🇩🇪 Deutsch' },
-    { code: 'vt', name: '🇯🇵 Tiếng Việt' },
+    { code: 'vt', name: '🇻🇳 Tiếng Việt' },
     { code: 'gr', name: '🇬🇷 Ελληνικά' },
     { code: 'jp', name: '🇯🇵 日本語' },
   ];
