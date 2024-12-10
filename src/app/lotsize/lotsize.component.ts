@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
 import { ClarityModule } from '@clr/angular';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-lotsize',
@@ -19,6 +20,7 @@ import { TranslateModule } from '@ngx-translate/core';
     DragDropModule,
     FormsModule,
     TranslateModule,
+    RouterModule
   ],
   templateUrl: './lotsize.component.html',
   styleUrls: ['./lotsize.component.scss'],
