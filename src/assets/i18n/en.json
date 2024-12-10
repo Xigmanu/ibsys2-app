@@ -40,7 +40,11 @@
     "saveButton": "Save",
     "error": "Required Field",
     "plan": "Production Plan",
-    "forecast": "Forecast"
+    "forecast": "Forecast",
+    "p0": "This Period",
+    "p1": "Period N+1",
+    "p2": "Period N+2",
+    "p3": "Period N+3"
   },
   "export": {
     "title": "Export",
@@ -99,7 +103,6 @@
     "pufferProWoche": "Buffer per Week",
     "noData": "No data found",
     "printButton": "Print Production Array",
-
     "bezeichnung1": "Rear Wheel",
     "bezeichnung2": "Front Wheel",
     "bezeichnung3": "Rear Mudguard",
@@ -171,6 +174,13 @@
     "bestellung Liefertermin": "Order Delivery Date",
     "bestellmenge": "Order Quantity",
     "bestelltyp": "Order Type"
+  },
+  "productionPlan": {
+    "product": "Product",
+    "p0": "This Period",
+    "p1": "Period N+1",
+    "p2": "Period N+2",
+    "p3": "Period N+3"
   }
 }
 

@@ -1,5 +1,19 @@
 {
-  "global": {},
+  "global": {
+    "productionPlan": "Production Plan",
+    "nextPage": "Next Page",
+    "prevPage": "Previous Page"
+  },
+  "nav": {
+    "setup": "Setup",
+    "input": "Eingabedaten",
+    "sellwish": "Produktionsplan",
+    "disposition": "Stücklistenauflösung",
+    "capacityplan": "Kapazitätsplan",
+    "orders": "Teileverwendungsnachweis",
+    "lotsize": "Losgrößen",
+    "export": "Export"
+  },
   "setup": {
     "title": "Einrichtung",
     "description": "Wählen Sie eine XML-Datei aus, die die Daten Ihrer vorherigen Geschäftsperiode enthält. Sie wird mit \"result\" enden. Z. B.: \"179_7_result.xml\"",
@@ -81,7 +95,6 @@
     "pufferProWoche": "Puffer pro Woche",
     "noData": "Keine Daten gefunden",
     "printButton": "Produktionsarray Drucken",
-    
     "bezeichnung1": "Hinterrad",
     "bezeichnung2": "Vorderrad",
     "bezeichnung3": "Schutzblech hinten",
