@@ -172,6 +172,7 @@
     "N+1": "Forecast Period 1",
     "N+2": "Forecast Period 2",
     "N+3": "Forecast Period 3",
+    "Bruttobedarf": "Demand in period N",
     "Summe Bedarf": "Total Demand",
     "bestand Aktuell": "Current Stock",
     "eingehende Lieferung": "Incoming Delivery",
