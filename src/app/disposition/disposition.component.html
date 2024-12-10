@@ -2,6 +2,15 @@
   <h2>{{ "disposition.title" | translate }}</h2>
   <br />
 </div>
+<br>
+<clr-accordion>
+  <clr-accordion-panel>
+    <clr-accordion-title>Produktionsplan</clr-accordion-title>
+    <clr-accordion-content *clrIfExpanded>
+      <app-produktionsplan></app-produktionsplan>
+    </clr-accordion-content>
+  </clr-accordion-panel>
+</clr-accordion>
 <h2>
   <clr-tabs>
     <clr-tab>

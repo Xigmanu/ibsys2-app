@@ -8,6 +8,7 @@ import {
   createTableRows,
   DispositionTableRow,
 } from './disposition-table/disposition-table-row';
+import { ProduktionsplanComponent } from '../produktionsplan/produktionsplan.component';
 
 @Component({
   selector: 'app-prod-orders',
@@ -19,6 +20,7 @@ import {
     RouterModule,
     DispositionTableComponent,
     TranslateModule,
+    ProduktionsplanComponent
   ],
 })
 export class DispositionComponent implements OnInit {
