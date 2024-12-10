@@ -1,24 +1,38 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {AbstractControl, FormArray, FormBuilder, FormGroup, ReactiveFormsModule} from '@angular/forms';
-import {CommonModule} from '@angular/common';
-import {ClarityModule} from '@clr/angular';
-import {TranslateModule} from '@ngx-translate/core';
-import {DataService, DataStructure, ForecastInput, ProductionInput, ProductionValues} from '../data.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  AbstractControl,
+  FormArray,
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { ClarityModule } from '@clr/angular';
+import { TranslateModule } from '@ngx-translate/core';
+import {
+  DataService,
+  DataStructure,
+  ForecastInput,
+  ProductionInput,
+  ProductionValues,
+} from '../data.service';
 
 @Component({
   selector: 'app-produktionsplan',
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule, ClarityModule, TranslateModule],
   templateUrl: './produktionsplan.component.html',
-  styleUrl: './produktionsplan.component.scss'
+  styleUrl: './produktionsplan.component.scss',
 })
 export class ProduktionsplanComponent implements OnInit, OnDestroy {
   tableForm: FormGroup;
   data: DataStructure | null = null;
 
   constructor(private fb: FormBuilder, private dataService: DataService) {
-    const forecastProductionValue = this.dataService.getData()?.decisions?.production || [];
-    const productionValues = this.dataService.getData()?.output?.productionList.productions || [];
+    const forecastProductionValue =
+      this.dataService.getData()?.decisions?.production || [];
+    const productionValues =
+      this.dataService.getData()?.output?.productionList.productions || [];
     this.tableForm = this.fb.group({
       rows: this.fb.array([]),
     });
@@ -37,14 +51,31 @@ export class ProduktionsplanComponent implements OnInit, OnDestroy {
       this.addRow(product);
     });
   }
-  addRow(product :number) {
-    const productionList = this.getProductList().find(item=> item.article===product);
+  addRow(product: number) {
+    const productionList = this.getProductList().find(
+      (item) => item.article === product
+    );
     const row = this.fb.group({
       [ProduktionsArt.PRODUKT]: [product],
-      [ProduktionsArt.PERIODE_0]: [productionList?.quantity ?? '0'],
-      [ProduktionsArt.PERIODE_1]: [this.data?.decisions?.production?.period2[`p${product}` as keyof ProductionValues] ?? '0'],
-      [ProduktionsArt.PERIODE_2]: [this.data?.decisions?.production?.period3[`p${product}` as keyof ProductionValues] ?? '0'],
-      [ProduktionsArt.PERIODE_3]: [this.data?.decisions?.production?.period4[`p${product}` as keyof ProductionValues] ?? '0'],
+      [ProduktionsArt.PERIODE_0]: [
+        this.data?.output?.productionList?.productions[product - 1]?.quantity ??
+          '0',
+      ],
+      [ProduktionsArt.PERIODE_1]: [
+        this.data?.decisions?.production?.period2[
+          `p${product}` as keyof ProductionValues
+        ] ?? '0',
+      ],
+      [ProduktionsArt.PERIODE_2]: [
+        this.data?.decisions?.production?.period3[
+          `p${product}` as keyof ProductionValues
+        ] ?? '0',
+      ],
+      [ProduktionsArt.PERIODE_3]: [
+        this.data?.decisions?.production?.period4[
+          `p${product}` as keyof ProductionValues
+        ] ?? '0',
+      ],
     });
     this.Rows.push(row);
   }
@@ -52,11 +83,18 @@ export class ProduktionsplanComponent implements OnInit, OnDestroy {
     return this.tableForm.get('rows') as FormArray;
   }
   saveData() {
-    const productionList = [
-      { article: 1, quantity: this.dataService.getProductionListArticle(1) ?? 0 },
-      { article: 2, quantity: this.dataService.getProductionListArticle(2) ?? 0 },
-      { article: 3, quantity: this.dataService.getProductionListArticle(3) ?? 0 },
-    ];
+    this.dataService.setProductionListArticle(
+      1,
+      this.tableForm.get('rows')?.value[0][ProduktionsArt.PERIODE_0]
+    );
+    this.dataService.setProductionListArticle(
+      2,
+      this.tableForm.get('rows')?.value[1][ProduktionsArt.PERIODE_0]
+    );
+    this.dataService.setProductionListArticle(
+      3,
+      this.tableForm.get('rows')?.value[2][ProduktionsArt.PERIODE_0]
+    );
     const forecastProduction = this.extractProductionValues();
     this.dataService.setData({
       ...this.dataService.getData(),
@@ -64,11 +102,11 @@ export class ProduktionsplanComponent implements OnInit, OnDestroy {
         ...this.dataService.getData()?.decisions,
         production: forecastProduction,
       },
-    });
-    productionList.forEach(item => {
+      /*productionList.forEach(item => {
       if (item.article !== undefined) {
         this.dataService.setProductionListArticle(item.article, item.quantity);
       }
+    });*/
     });
   }
   extractProductionValues(): ProductionInput {
@@ -89,19 +127,23 @@ export class ProduktionsplanComponent implements OnInit, OnDestroy {
       const period2 = +row.get(ProduktionsArt.PERIODE_3)?.value || 0;
 
       if (product === 1 || product === 2 || product === 3) {
-        planningValues.period2[`p${product}` as keyof ProductionValues] += period0;
-        planningValues.period3[`p${product}` as keyof ProductionValues] += period1;
-        planningValues.period4[`p${product}` as keyof ProductionValues] += period2;
+        planningValues.period2[`p${product}` as keyof ProductionValues] +=
+          period0;
+        planningValues.period3[`p${product}` as keyof ProductionValues] +=
+          period1;
+        planningValues.period4[`p${product}` as keyof ProductionValues] +=
+          period2;
       }
     });
 
     return planningValues;
   }
   getProductList() {
-    return this.dataService.getData()?.output?.productionList?.productions || [];
+    return (
+      this.dataService.getData()?.output?.productionList?.productions || []
+    );
   }
   protected readonly ProduktionsArt = ProduktionsArt;
-
 }
 export enum ProduktionsArt {
   PRODUKT = 'Produkt',
@@ -110,5 +152,3 @@ export enum ProduktionsArt {
   PERIODE_2 = 'Periode 2',
   PERIODE_3 = 'Periode 3',
 }
-
-
