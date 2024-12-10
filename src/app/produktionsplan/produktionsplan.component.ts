@@ -148,7 +148,7 @@ export class ProduktionsplanComponent implements OnInit, OnDestroy {
 export enum ProduktionsArt {
   PRODUKT = 'Produkt',
   PERIODE_0 = 'Diese Periode',
-  PERIODE_1 = 'Periode 1',
-  PERIODE_2 = 'Periode 2',
-  PERIODE_3 = 'Periode 3',
+  PERIODE_1 = 'Periode + 1',
+  PERIODE_2 = 'Periode + 2',
+  PERIODE_3 = 'Periode + 3',
 }
