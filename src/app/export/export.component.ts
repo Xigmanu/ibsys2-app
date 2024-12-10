@@ -60,7 +60,7 @@ export class ExportComponent implements OnInit {
       input: {
         qualitycontrol: {
           $: {
-            type: output.qualityControl.type,
+            type: "no",
             losequantity: output.qualityControl.loseQuantity,
             delay: output.qualityControl.delay,
           },
