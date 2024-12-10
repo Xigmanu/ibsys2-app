@@ -10,6 +10,7 @@
       <th>{{ "KaufteildispoArt.Diskontmenge" | translate }}</th>
       <th colspan="5" scope="colgroup">{{ "KaufteildispoArt.Bruttobedarf" | translate }}</th>
       <th>{{ "KaufteildispoArt.bestand Aktuell" | translate }}</th>
+      <th colspan="4" scope="colgroup">{{ "KaufteildispoArt.bestand nach" | translate }}</th>
       <th>{{ "KaufteildispoArt.eingehende Lieferung" | translate }}</th>
       <th>{{ "KaufteildispoArt.ankunftszeit eingehend" | translate }}</th>
       <th>{{ "KaufteildispoArt.benoetigte Menge" | translate }}</th>
@@ -22,13 +23,19 @@
     <th>{{ KauftelidispoArt.VERBRAUCH_PROGNOSE_1 }}</th>
     <th>{{ KauftelidispoArt.VERBRAUCH_PROGNOSE_2 }}</th>
     <th>{{ KauftelidispoArt.VERBRAUCH_PROGNOSE_3 }}</th>
-    <th>{{ "KaufteildispoArt.Summe Bedarf" | translate }}</th>    <th colspan="7" scope="colgroup"></th>
+    <th>{{ "KaufteildispoArt.Summe Bedarf" | translate }}</th>
+    <th colspan="1" scope="colgroup"></th>
+    <th>{{"KaufteildispoArt.bestand1"}}</th>
+    <th>{{"KaufteildispoArt.bestand2"}}</th>
+    <th>{{"KaufteildispoArt.bestand3"}}</th>
+    <th>{{"KaufteildispoArt.bestand4"}}</th>
+    <th colspan="6" scope="colgroup"></th>
     </thead>
     <tbody formArrayName="tableRows">
     <tr *ngFor="let group of getFormControls.controls; let i = index" [formGroupName]="i">
       <td>{{ group.get(KauftelidispoArt.KAUFTEIL)?.value }}</td>
       <td>{{ group.get(KauftelidispoArt.FRIST)?.value }}</td>
-      <td>{{ group.get(KauftelidispoArt.ABWEICHUNG)?.value }}</td>
+      <td>+-{{ group.get(KauftelidispoArt.ABWEICHUNG)?.value }}</td>
       <td>{{ group.get(KauftelidispoArt.DISKONTMENGE)?.value }}</td>
       <td>{{ group.get(KauftelidispoArt.VERBRAUCH_AKTUELL)?.value }}</td>
       <td>{{ group.get(KauftelidispoArt.VERBRAUCH_PROGNOSE_1)?.value }}</td>
@@ -36,6 +43,22 @@
       <td>{{ group.get(KauftelidispoArt.VERBRAUCH_PROGNOSE_3)?.value }}</td>
       <td>{{ group.get(KauftelidispoArt.VERBRAUCH_PROGNOSE_GES)?.value }}</td>
       <td>{{ group.get(KauftelidispoArt.BESTAND_AKTUELL)?.value }}</td>
+      <td>
+        <cds-icon *ngIf="isNegative(group.get(KaufteildispoArt.BESTANDNACH1)?.value)" shape="warning-standard" solid="true" status="danger"></cds-icon>
+        {{group.get(KaufteildispoArt.BESTANDNACH1)?.value}}
+      </td>
+      <td>
+        <cds-icon *ngIf="isNegative(group.get(KaufteildispoArt.BESTANDNACH2)?.value)" shape="warning-standard" solid="true" status="danger"></cds-icon>
+        {{group.get(KaufteildispoArt.BESTANDNACH2)?.value}}
+      </td>
+      <td>
+        <cds-icon *ngIf="isNegative(group.get(KaufteildispoArt.BESTANDNACH3)?.value)" shape="warning-standard" solid="true" status="danger"></cds-icon>
+        {{group.get(KaufteildispoArt.BESTANDNACH3)?.value}}
+      </td>
+      <td>
+        <cds-icon *ngIf="isNegative(group.get(KaufteildispoArt.BESTANDNACH4)?.value)" shape="warning-standard" solid="true" status="danger"></cds-icon>
+        {{group.get(KaufteildispoArt.BESTANDNACH4)?.value}}
+      </td>
       <td>{{ group.get(KauftelidispoArt.EINGEHENDELIEFERUNG)?.value }}</td>
       <td>{{ group.get(KauftelidispoArt.ANKUNFTSZEIT_EINGEHEND)?.value }}</td>
       <td>{{ group.get(KauftelidispoArt.BENOETIGTE_MENGE)?.value }}</td>

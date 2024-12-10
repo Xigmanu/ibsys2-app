@@ -20,7 +20,11 @@ export enum KaufteildispoArt {
   BENOETIGTE_MENGE = 'benoetigte Menge',
   BESTELLUNG_LIEFERTERMIN = 'bestellung Liefertermin',
   BESTELLMENGE = 'bestellmenge',
-  BESTELLTYP = 'bestelltyp'
+  BESTELLTYP = 'bestelltyp',
+  BESTANDNACH1 = 'bestand nach 1',
+  BESTANDNACH2 = 'bestand nach 2',
+  BESTANDNACH3 = 'bestand nach 3',
+  BESTANDNACH4 = 'bestand nach 4',
 }
 
 export enum ForecastArt {
@@ -42,7 +46,6 @@ export function mapDataToFormControls(jsonData: any, dataService: DataService, d
   const primaryArticleIds: number[] = [1, 2, 3];
   const futureInwardStockMovement = dataService.getData().input.futureInwardStockMovement || [];
   const warehouseStock = dataService.getData().input.warehouseStock || [];
-  console.log("warehouseStock", warehouseStock, "futureInwardStockMovement", futureInwardStockMovement);
 
   // Map JSON data
   for (const key in jsonData) {
@@ -60,9 +63,6 @@ export function mapDataToFormControls(jsonData: any, dataService: DataService, d
         const stockItem = warehouseStock.find((stock: any) => stock.id === item.Nr);
         const bestandAktuell = stockItem ? stockItem.amount : 0;
         const diskontmenge = diskontmengen[parseInt(item.Nr) - 21] || 0;
-        console.log("stockItem", stockItem);
-        console.log("bestandAktuell", bestandAktuell);
-        console.log("incomingDelivery", incomingDelivery);
         mappedData[key] = {
           [KaufteildispoArt.KAUFTEIL]: item.Nr,
           [KaufteildispoArt.FRIST]: item.Lieferzeit,
@@ -192,4 +192,38 @@ export function findExceedingPeriod(verbrauchPrognose: { period2: number, period
   }
 
   return null;
+}
+export function calculateStockAfterPeriods(
+  initialStock: number,
+  verbrauchAktuell: number,
+  verbrauchPrognose: { period2: number, period3: number, period4: number },
+  eingehendeLieferung: number,
+  ankunftszeitEingehend: string | undefined,
+  metadata: MetaData
+): { stockAfterPeriod1: number, stockAfterPeriod2: number, stockAfterPeriod3: number, stockAfterPeriod4: number } {
+  if (!ankunftszeitEingehend) {
+    ankunftszeitEingehend='0_0';
+  }
+
+  const periode = parseInt(metadata.period);
+  const periods = ['period2', 'period3', 'period4'] as const;
+  let stock = initialStock - verbrauchAktuell;
+  let [deliveryPeriod, extraDays] = ankunftszeitEingehend.split('_').map(Number);
+
+  const stockAfterPeriods: { [key: string]: number } = {
+    stockAfterPeriod1: stock,
+    stockAfterPeriod2: 0,
+    stockAfterPeriod3: 0,
+    stockAfterPeriod4: 0
+  };
+
+  periods.forEach((period, index) => {
+    stock -= verbrauchPrognose[period];
+    if (periode + index + 1 === deliveryPeriod) {
+      stock += eingehendeLieferung;
+    }
+    stockAfterPeriods[`stockAfterPeriod${index + 2}`] = stock;
+  });
+
+  return stockAfterPeriods as { stockAfterPeriod1: number, stockAfterPeriod2: number, stockAfterPeriod3: number, stockAfterPeriod4: number };
 }

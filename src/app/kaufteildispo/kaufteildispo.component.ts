@@ -12,7 +12,7 @@ import {
   getBestellLiefertermin,
   KaufteildispoArt,
   mapDataToFormControls,
-  calculateBenoetigteMenge, findExceedingPeriod,
+  calculateBenoetigteMenge, calculateStockAfterPeriods,
 } from './kaufteildispo.util';
 import {ClarityModule} from '@clr/angular';
 import * as data from '../../assets/SortedData.json';
@@ -47,7 +47,6 @@ export class KaufteildispoComponent implements OnInit {
     this.mappedData = mapDataToFormControls(this.jsonData, this.dataService, this.dispoForm, this.dataServiceData.input.metaData, this.dataServiceData.output);
     this.populateFormArrays(this.mappedData, this.dispoForm, this.dataService);
     this.subscribeToFormChanges();
-    console.log(this.mappedData)
   }
   ngOnDestroy(): void {
     this.saveData();
@@ -60,17 +59,18 @@ export class KaufteildispoComponent implements OnInit {
       mappedItem[KaufteildispoArt.EINGEHENDELIEFERUNG]
     );
 
-    const exceedingPeriod = findExceedingPeriod(
+    const stockAfterPeriods = calculateStockAfterPeriods(
+      mappedItem[KaufteildispoArt.BESTAND_AKTUELL],
+      mappedItem[KaufteildispoArt.VERBRAUCH_AKTUELL],
       {
         period2: mappedItem[KaufteildispoArt.VERBRAUCH_PROGNOSE_1],
         period3: mappedItem[KaufteildispoArt.VERBRAUCH_PROGNOSE_2],
-        period4: mappedItem[KaufteildispoArt.VERBRAUCH_PROGNOSE_3]
+        period4: mappedItem[KaufteildispoArt.VERBRAUCH_PROGNOSE_3],
       },
-      mappedItem[KaufteildispoArt.BESTAND_AKTUELL],
       mappedItem[KaufteildispoArt.EINGEHENDELIEFERUNG],
-      mappedItem[KaufteildispoArt.ANKUNFTSZEIT_EINGEHEND]
+      mappedItem[KaufteildispoArt.ANKUNFTSZEIT_EINGEHEND],
+      this.dataServiceData.input.metaData
     );
-    console.log(`Exceeding period for item ${mappedItem[KaufteildispoArt.KAUFTEIL]}: ${exceedingPeriod}`);
 
     return this.fb.group({
       [KaufteildispoArt.KAUFTEIL]: [],
@@ -83,6 +83,10 @@ export class KaufteildispoComponent implements OnInit {
       [KaufteildispoArt.VERBRAUCH_PROGNOSE_3]: [''],
       [KaufteildispoArt.VERBRAUCH_PROGNOSE_GES]: [''],
       [KaufteildispoArt.BESTAND_AKTUELL]: [''],
+      [KaufteildispoArt.BESTANDNACH1]: [stockAfterPeriods.stockAfterPeriod1],
+      [KaufteildispoArt.BESTANDNACH2]: [stockAfterPeriods.stockAfterPeriod2],
+      [KaufteildispoArt.BESTANDNACH3]: [stockAfterPeriods.stockAfterPeriod3],
+      [KaufteildispoArt.BESTANDNACH4]: [stockAfterPeriods.stockAfterPeriod4],
       [KaufteildispoArt.EINGEHENDELIEFERUNG]: [''],
       [KaufteildispoArt.ANKUNFTSZEIT_EINGEHEND]: [''],
       [KaufteildispoArt.BENOETIGTE_MENGE]: [benoetigteMenge],
@@ -146,10 +150,11 @@ export class KaufteildispoComponent implements OnInit {
         orderList: {orders: outputDataToSave}
       }
     });
-
-    console.log('Data saved to DataService:', this.dataService.getData());
   }
-
+  isNegative(value: number): boolean {
+    return value < 0;
+  }
+  protected readonly KaufteildispoArt = KaufteildispoArt;
 }
 
 export function bestellmengeValidator(): ValidatorFn {
@@ -160,3 +165,4 @@ export function bestellmengeValidator(): ValidatorFn {
     return modus && !bestellmenge ? {bestellmengeRequired: true} : null;
   };
 }
+
