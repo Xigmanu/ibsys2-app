@@ -50,13 +50,13 @@ export class AppComponent {
   retrievedData: DataStructure | null = null;
 
   languages = [
-    { code: 'en', name: 'English' },
-    { code: 'de', name: 'Deutsch' },
-    { code: 'vt', name: 'Tiếng Việt' },
-    { code: 'gr', name: 'Ελληνικά' },
-    { code: 'jp', name: '日本語' },
+    { code: 'en', name: '🇺🇸 English' },
+    { code: 'de', name: '🇩🇪 Deutsch' },
+    { code: 'vt', name: '🇯🇵 Tiếng Việt' },
+    { code: 'gr', name: '🇬🇷 Ελληνικά' },
+    { code: 'jp', name: '🇯🇵 日本語' },
   ];
-  currentLang = 'en'; // Default language
+  currentLang = 'de'; // Default language
 
   protected readonly form = new FormGroup({
     files: new FormControl<FileList | null>(null),
@@ -69,7 +69,7 @@ export class AppComponent {
   ) {
     // Check localStorage for the last selected language
     const savedLang = localStorage.getItem('language');
-    this.currentLang = savedLang ? savedLang : 'en';
+    this.currentLang = savedLang ? savedLang : 'de';
 
     // Set the default language
     this.translate.setDefaultLang(this.currentLang);
