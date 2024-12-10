@@ -8,13 +8,20 @@
     class="table"
     *ngFor="let arr of slicedArr; let i = index; trackBy: trackByFn"
   >
-    <thead *ngIf="i === 0">
+    <thead class="text-nowrap" *ngIf="i === 0">
       <th>{{ "export.article" | translate }}</th>
       <th>{{ "disposition.sales_request" | translate }}</th>
+      <th class="info-col"></th>
+      <th></th>
+      <th class="info-col"></th>
       <th>{{ "disposition.stock_safety" | translate }}</th>
+      <th class="info-col"></th>
       <th>{{ "disposition.stock_old" | translate }}</th>
+      <th class="info-col"></th>
       <th>{{ "disposition.orders_queued" | translate }}</th>
+      <th class="info-col"></th>
       <th>{{ "disposition.orders_active" | translate }}</th>
+      <th class="info-col"></th>
       <th>{{ "disposition.orders_prod" | translate }}</th>
     </thead>
     <tbody formArrayName="rows">
@@ -24,6 +31,9 @@
       >
         <td>{{ row.get(rowNameEnum.ARTICLE_ID)?.value }}</td>
         <td>{{ row.get(rowNameEnum.SALES_REQUEST)?.value }}</td>
+        <td class="info-col">+</td>
+        <td>{{ row.get(rowNameEnum.HELPER_COL)?.value }}</td>
+        <td class="info-col">+</td>
         <td>
           <div class="input-column">
             <clr-input-container class="input-container no-margin">
@@ -41,9 +51,13 @@
             </clr-input-container>
           </div>
         </td>
+        <td class="info-col">-</td>
         <td>{{ row.get(rowNameEnum.STOCK_OLD)?.value }}</td>
+        <td class="info-col">-</td>
         <td>{{ row.get(rowNameEnum.ORDERS_QUEUED)?.value }}</td>
+        <td class="info-col">-</td>
         <td>{{ row.get(rowNameEnum.ORDERS_ACTIVE)?.value }}</td>
+        <td class="info-col">=</td>
         <td class="output-col">
           {{ row.get(rowNameEnum.ORDERS_PROD)?.value }}
         </td>
