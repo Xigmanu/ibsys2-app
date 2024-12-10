@@ -178,7 +178,8 @@
     "benoetigte Menge": "Benötigte Menge",
     "bestellung Liefertermin": "Bestell-Liefertermin",
     "bestellmenge": "Bestellmenge",
-    "bestelltyp": "Bestelltyp"
+    "bestelltyp": "Bestelltyp",
+    "Bruttobedarf": "Bedarf in Periode N"
   },
   "productionPlan": {
     "product": "Produkt",

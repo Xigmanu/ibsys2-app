@@ -178,7 +178,8 @@
     "benoetigte Menge": "Số Lượng Cần",
     "bestellung Liefertermin": "Ngày Giao Hàng Đặt",
     "bestellmenge": "Số Lượng Đặt",
-    "bestelltyp": "Loại Đặt Hàng"
+    "bestelltyp": "Loại Đặt Hàng",
+    "Bruttobedarf": "Nhu cầu trong giai đoạn N"
   },
   "productionPlan": {
     "product": "Sản Phẩm",

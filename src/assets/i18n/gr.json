@@ -178,7 +178,8 @@
     "benoetigte Menge": "Απαιτούμενη Ποσότητα",
     "bestellung Liefertermin": "Προθεσμία Παραγγελίας",
     "bestellmenge": "Ποσότητα Παραγγελίας",
-    "bestelltyp": "Τύπος Παραγγελίας"
+    "bestelltyp": "Τύπος Παραγγελίας",
+    "Bruttobedarf": "Ζήτηση στην περίοδο N"
   },
   "productionPlan": {
     "product": "Προϊόν",
