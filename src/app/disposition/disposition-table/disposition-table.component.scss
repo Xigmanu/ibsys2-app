@@ -6,11 +6,13 @@ td {
 }
 
 th {
-  font-size: 14px;
+  font-size: 12px;
 }
 
 table {
   table-layout: fixed;
+  width: 100%;
+  min-width: 1200px;
 }
 
 table td + td {
@@ -36,6 +38,10 @@ input[type="number"] {
 
 .output-col {
   font-weight: bold;
+}
+
+.info-col {
+  width: 3%;
 }
 
 table td + td {

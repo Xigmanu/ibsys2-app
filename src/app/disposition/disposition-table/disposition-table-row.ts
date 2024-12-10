@@ -12,6 +12,7 @@ const commonComponentIds: number[] = [26, 16, 17];
 export enum DispositionTableRowName {
   ARTICLE_ID = 'article_id',
   SALES_REQUEST = 'sales_request',
+  HELPER_COL = 'helper_col', // is here just for consistency
   STOCK_SAFETY = 'stock_safety',
   STOCK_OLD = 'stock_old',
   ORDERS_QUEUED = 'orders_queued',
@@ -23,6 +24,7 @@ export interface DispositionTableRow {
   [DispositionTableRowName.ARTICLE_ID]: number;
   [DispositionTableRowName.SALES_REQUEST]: number;
   [DispositionTableRowName.STOCK_SAFETY]: number | undefined;
+  [DispositionTableRowName.HELPER_COL]: number;
   [DispositionTableRowName.STOCK_OLD]: number;
   [DispositionTableRowName.ORDERS_QUEUED]: number;
   [DispositionTableRowName.ORDERS_ACTIVE]: number;
@@ -47,6 +49,9 @@ export function createFormGroupFromRow(
     ],
     [DispositionTableRowName.SALES_REQUEST]: [
       row[DispositionTableRowName.SALES_REQUEST],
+    ],
+    [DispositionTableRowName.HELPER_COL]: [
+      row[DispositionTableRowName.HELPER_COL],
     ],
     [DispositionTableRowName.STOCK_SAFETY]: [
       !row[DispositionTableRowName.STOCK_SAFETY]
@@ -78,7 +83,7 @@ export function createTableRows(
   }
   const initialRows: DispositionTableRow[] = map
     .reduce((merged, arr) => merged.concat(arr))
-    .map((id) =>  createRowForArticle(dataStruct, id, articleIdx));
+    .map((id) => createRowForArticle(dataStruct, id, articleIdx));
   updateRowsData(initialRows, map);
   return initialRows;
 }
@@ -114,11 +119,10 @@ function updateRowsData(rows: DispositionTableRow[], map: number[][]): void {
       const currentRow = rows[j + offset];
       currentRow[DispositionTableRowName.SALES_REQUEST] =
         prevLastRow[DispositionTableRowName.ORDERS_PROD];
+      currentRow[DispositionTableRowName.HELPER_COL] =
+        prevLastRow[DispositionTableRowName.ORDERS_QUEUED];
 
-      calculateProdOrderForRow(
-        currentRow,
-        prevLastRow[DispositionTableRowName.ORDERS_QUEUED]
-      );
+      calculateProdOrderForRow(currentRow);
     }
     offset += map[i].length;
   }
@@ -144,6 +148,7 @@ function createRowForArticle(
     [DispositionTableRowName.ARTICLE_ID]: id,
     [DispositionTableRowName.SALES_REQUEST]: sellWish,
     [DispositionTableRowName.STOCK_SAFETY]: safetyStock,
+    [DispositionTableRowName.HELPER_COL]: 0,
     [DispositionTableRowName.STOCK_OLD]: isCommonId
       ? Math.trunc(oldStock / 3)
       : oldStock,
@@ -205,22 +210,20 @@ function getRowById(
   return rows.find((row) => row[DispositionTableRowName.ARTICLE_ID] == id)!;
 }
 
-function calculateProdOrderForRow(
-  row: DispositionTableRow,
-  prevWaitingListAmount: number | undefined = undefined
-): void {
-  const salesRequest = row[DispositionTableRowName.SALES_REQUEST];
-  const stockSafety = row[DispositionTableRowName.STOCK_SAFETY] ?? 0;
-  const stockOld = row[DispositionTableRowName.STOCK_OLD];
-  const ordersQueued = row[DispositionTableRowName.ORDERS_QUEUED];
-  const ordersActive = row[DispositionTableRowName.ORDERS_ACTIVE];
+function calculateProdOrderForRow(row: DispositionTableRow): void {
+  const salesRequest: number = row[DispositionTableRowName.SALES_REQUEST];
+  const stockSafety: number = row[DispositionTableRowName.STOCK_SAFETY] ?? 0;
+  const stockOld: number = row[DispositionTableRowName.STOCK_OLD];
+  const ordersQueued: number = row[DispositionTableRowName.ORDERS_QUEUED];
+  const ordersActive: number = row[DispositionTableRowName.ORDERS_ACTIVE];
+  const helperCol: number = row[DispositionTableRowName.HELPER_COL] ?? 0;
 
   const prodOrder =
     salesRequest +
+    helperCol +
     stockSafety -
     stockOld -
     ordersQueued -
-    ordersActive +
-    (prevWaitingListAmount ?? 0);
+    ordersActive;
   row[DispositionTableRowName.ORDERS_PROD] = prodOrder < 0 ? 0 : prodOrder;
 }
