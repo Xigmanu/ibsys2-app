@@ -99,8 +99,11 @@ export class AppComponent {
     this.globalState.dataInitialized = true;
   }
 
-  getMetadata(): string {
-    return "- Gruppe " + this.dataService.getData().input.metaData.group + " - Periode " + this.dataService.getData().input.metaData.period;
+  getMetadata(): object {
+    return {
+      "group": this.dataService.getData().input.metaData.group,
+      "period": this.dataService.getData().input.metaData.period
+    }
   }
 }
 

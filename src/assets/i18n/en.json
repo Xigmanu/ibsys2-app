@@ -2,7 +2,10 @@
   "global": {
     "productionPlan": "Production Plan",
     "nextPage": "Next Page",
-    "prevPage": "Previous Page"
+    "prevPage": "Previous Page",
+    "title": "IBSYS 2 Simulation Game",
+    "group": "Group",
+    "period": "Period"
   },
   "nav": {
     "setup": "Setup",

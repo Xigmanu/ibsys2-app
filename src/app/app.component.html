@@ -3,8 +3,9 @@
     <div class="branding">
       <a routerLink="/" class="nav-link">
         <cds-icon shape="factory"></cds-icon>
-        <span class="title">IBSYS 2 Planspiel</span>
-        <span class="title" *ngIf="this.globalState.dataInitialized">{{ this.getMetadata() }}</span>
+        <span class="title">{{ "global.title" | translate }}</span>
+        <span class="title" *ngIf="this.globalState.dataInitialized">- {{ "global.group" | translate }} {{ this.getMetadata().group }} 
+          - {{ "global.period" | translate }} {{ this.getMetadata().period }}</span>
       </a>
     </div>
     <div class="header-actions">

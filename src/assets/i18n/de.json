@@ -2,7 +2,10 @@
   "global": {
     "productionPlan": "Produktionsplan",
     "nextPage": "Nächste Seite",
-    "prevPage": "Vorherige Seite"
+    "prevPage": "Vorherige Seite",
+    "title": "IBSYS 2 Planspiel",
+    "group": "Gruppe",
+    "period": "Periode"
   },
   "nav": {
     "setup": "Setup",

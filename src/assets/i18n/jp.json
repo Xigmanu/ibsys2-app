@@ -2,7 +2,10 @@
   "global": {
     "productionPlan": "生産計画",
     "nextPage": "次のページ",
-    "prevPage": "前のページ"
+    "prevPage": "前のページ",
+    "title": "IBSYS 2 シミュレーションゲーム",
+    "group": "グループ",
+    "period": "期間"
   },
   "nav": {
     "setup": "セットアップ",

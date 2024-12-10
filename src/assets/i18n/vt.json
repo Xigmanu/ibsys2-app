@@ -2,7 +2,10 @@
   "global": {
     "productionPlan": "Kế Hoạch Sản Xuất",
     "nextPage": "Trang Tiếp Theo",
-    "prevPage": "Trang Trước"
+    "prevPage": "Trang Trước",
+    "title": "Trò chơi mô phỏng IBSYS 2",
+    "group": "Nhóm",
+    "period": "Giai đoạn"
   },
   "nav": {
     "setup": "Cài Đặt",
