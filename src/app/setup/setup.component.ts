@@ -261,27 +261,37 @@ export class SetupComponent implements OnInit{
             machineIdleTimeCosts: parseFloat(workplace.$.machineidletimecosts),
           })
         ),
-        waitingListWorkstations:
-          jsonData.results.waitinglistworkstations.workplace.map(
+        waitingListWorkstations: jsonData.results.waitinglistworkstations?.workplace
+        ? jsonData.results.waitinglistworkstations.workplace.map(
             (workplace: any): WaitingListWorkstation => ({
               id: Number(workplace.$.id),
               timeNeed: Number(workplace.$.timeneed),
               waitingList: workplace.waitinglist
-                ? (Array.isArray(workplace.waitinglist)
-                    ? workplace.waitinglist
-                    : [workplace.waitinglist]
-                  ).map((wait: any) => ({
-                    period: Number(wait.$.period),
-                    order: Number(wait.$.order),
-                    firstBatch: Number(wait.$.firstbatch),
-                    lastBatch: Number(wait.$.lastbatch),
-                    item: Number(wait.$.item),
-                    amount: Number(wait.$.amount),
-                    timeNeed: Number(wait.$.timeneed),
-                  }))
-                : undefined,
+                ? Array.isArray(workplace.waitinglist)
+                  ? workplace.waitinglist.map((wait: any) => ({
+                      period: Number(wait.$.period),
+                      order: Number(wait.$.order),
+                      firstBatch: Number(wait.$.firstbatch),
+                      lastBatch: Number(wait.$.lastbatch),
+                      item: Number(wait.$.item),
+                      amount: Number(wait.$.amount),
+                      timeNeed: Number(wait.$.timeneed),
+                    }))
+                  : [
+                      {
+                        period: Number(workplace.waitinglist.$.period),
+                        order: Number(workplace.waitinglist.$.order),
+                        firstBatch: Number(workplace.waitinglist.$.firstbatch),
+                        lastBatch: Number(workplace.waitinglist.$.lastbatch),
+                        item: Number(workplace.waitinglist.$.item),
+                        amount: Number(workplace.waitinglist.$.amount),
+                        timeNeed: Number(workplace.waitinglist.$.timeneed),
+                      },
+                    ]
+                : [], // Default to an empty array if waitinglist is missing
             })
-          ),
+          )
+        : [], // Default to an empty array if waitinglistworkstations is missing or empty      
           waitingListStock: jsonData.results.waitingliststock?.missingpart?.map((part: any): MissingPart => ({
             id: Number(part.$.id),
             workplace: part.workplace
