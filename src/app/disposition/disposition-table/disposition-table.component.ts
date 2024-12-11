@@ -72,6 +72,7 @@ export class DispositionTableComponent implements OnInit {
       this.rows[idx][DispositionTableRowName.STOCK_SAFETY] = +value;
       updateTableRows(this.rows);
       this.rows.forEach((ref, i) => this.formArray.at(i).setValue(ref));
+      console.log(this.rows[idx]);
       this.updateGlobalState();
     }
   }
@@ -94,9 +95,10 @@ export class DispositionTableComponent implements OnInit {
     this.rows.forEach((row) => {
       const articleId: number = row[DispositionTableRowName.ARTICLE_ID];
       const production: number = row[DispositionTableRowName.ORDERS_PROD];
-      const safetyStock: number | undefined =
-        row[DispositionTableRowName.STOCK_SAFETY];
-      if (safetyStock && safetyStock > 0) {
+      const safetyStock: number =
+        row[DispositionTableRowName.STOCK_SAFETY] ?? 0;
+
+      if (safetyStock >= 0) {
         this.updateGlobalDispoItemArr(articleId.toString(), safetyStock);
       }
       if (production > 0) {
@@ -109,6 +111,7 @@ export class DispositionTableComponent implements OnInit {
     articleId: string,
     safetyStock: number
   ): void {
+    console.log(safetyStock + ' + ' + articleId);
     const dispoKey: keyof Disposition = getDispositionKey(
       getPrimaryArticleId(this.rows)
     )!;
@@ -116,6 +119,7 @@ export class DispositionTableComponent implements OnInit {
     const oldItem: DispoItem | undefined = dispoArr.find(
       (oldItem) => oldItem.articleId === articleId
     );
+
     if (oldItem) {
       oldItem.safetyStock = safetyStock;
     } else {
