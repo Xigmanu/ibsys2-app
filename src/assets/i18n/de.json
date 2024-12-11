@@ -93,7 +93,8 @@
     "orders_active": "Aufträge in Bearbeitung",
     "orders_prod": "Produktionsaufträge",
     "button_save": "Speichern",
-    "tableRowInput_error": "Der Wert muss größer oder gleich Null sein"
+    "rowInputErr_negVal": "Der Wert muss größer oder gleich Null sein",
+    "rowInputErr_nonNumeric": "Der Wert muss eine Zahl sein"
   },
   "capacityPlan": {
     "title": "Kapazitätsplan",

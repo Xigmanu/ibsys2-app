@@ -10,7 +10,6 @@ import {
 } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import {
-  createFormGroupFromRow,
   DispositionTableRow,
   DispositionTableRowName,
   getDispositionKey,
@@ -18,6 +17,7 @@ import {
   updateTableRows,
 } from './disposition-table-row';
 import { DataService, DispoItem, Disposition } from '../../data.service';
+import { createFormGroupFromRow } from './disposition-table-form';
 
 @Component({
   selector: 'dispo-table',
@@ -69,7 +69,7 @@ export class DispositionTableComponent implements OnInit {
     const rowControl: AbstractControl<any, any> = this.formArray.at(idx);
     const value = rowControl.get(DispositionTableRowName.STOCK_SAFETY)?.value;
     if (value && value >= 0) {
-      this.rows[idx][DispositionTableRowName.STOCK_SAFETY] = value;
+      this.rows[idx][DispositionTableRowName.STOCK_SAFETY] = +value;
       updateTableRows(this.rows);
       this.rows.forEach((ref, i) => this.formArray.at(i).setValue(ref));
       this.updateGlobalState();

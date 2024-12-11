@@ -93,7 +93,8 @@
     "orders_active": "Ενεργές Παραγγελίες",
     "orders_prod": "Παραγγελίες Παραγωγής",
     "button_save": "Αποθήκευση",
-    "tableRowInput_error": "Η τιμή πρέπει να είναι μεγαλύτερη ή ίση με το μηδέν"
+    "rowInputErr_negVal": "Η τιμή πρέπει να είναι μεγαλύτερη ή ίση με το μηδέν",
+    "rowInputErr_nonNumeric": "Η τιμή πρέπει να είναι αριθμός"
   },
   "capacityPlan": {
     "title": "Πλάνο Χωρητικότητας",

@@ -93,7 +93,8 @@
     "orders_active": "アクティブな注文",
     "orders_prod": "生産注文",
     "button_save": "保存",
-    "tableRowInput_error": "値は0以上でなければなりません"
+    "rowInputErr_negVal": "値は0以上でなければなりません",
+    "rowInputErr_nonNumeric": "値は数値でなければならない"
   },
   "capacityPlan": {
     "title": "容量計画",
