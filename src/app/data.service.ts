@@ -116,13 +116,18 @@ export interface WaitingListWorkstation {
 
 export interface MissingPart {
   id: number;
-  waitingList: {
-    period: number;
-    order: number;
-    firstBatch: number;
-    lastBatch: number;
-    item: number;
-    amount: number;
+  workplace: {
+    id: number;
+    timeneed: number;
+    waitingList: {
+      period: number;
+      order: number;
+      firstBatch: number;
+      lastBatch: number;
+      item: number;
+      amount: number;
+      timeNeed: number;
+    }[];
   }[];
 }
 

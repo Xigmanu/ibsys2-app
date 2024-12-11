@@ -203,6 +203,8 @@ export class SetupComponent implements OnInit{
     this.mappingError = false;
     this.globalState.dataInitialized = false;
 
+    console.log(jsonData);
+
     try {
       var input: Input = {
         metaData: {
@@ -280,21 +282,30 @@ export class SetupComponent implements OnInit{
                 : undefined,
             })
           ),
-        waitingListStock: jsonData.results.waitingliststock.missingpart ? jsonData.results.waitingliststock.missingpart.map(
-          (part: any): MissingPart => ({
+          waitingListStock: jsonData.results.waitingliststock?.missingpart?.map((part: any): MissingPart => ({
             id: Number(part.$.id),
-            waitingList: Array.isArray(part.waitinglist)
-              ? part.waitinglist.map((wait: any) => ({
-                  period: Number(wait.$.period),
-                  order: Number(wait.$.order),
-                  firstBatch: Number(wait.$.firstbatch),
-                  lastBatch: Number(wait.$.lastbatch),
-                  item: Number(wait.$.item),
-                  amount: Number(wait.$.amount),
-                }))
+            workplace: part.workplace
+              ? [
+                  {
+                    id: Number(part.workplace.$.id),
+                    timeneed: Number(part.workplace.$.timeneed),
+                    waitingList: part.workplace.waitinglist
+                      ? [
+                          {
+                            period: Number(part.workplace.waitinglist.$.period),
+                            order: Number(part.workplace.waitinglist.$.order),
+                            firstBatch: Number(part.workplace.waitinglist.$.firstbatch),
+                            lastBatch: Number(part.workplace.waitinglist.$.lastbatch),
+                            item: Number(part.workplace.waitinglist.$.item),
+                            amount: Number(part.workplace.waitinglist.$.amount),
+                            timeNeed: Number(part.workplace.waitinglist.$.timeNeed),
+                          },
+                        ]
+                      : [],
+                  },
+                ]
               : [],
-          })
-        ) : null,
+          })) ?? [],             
         ordersInWork: (jsonData.results.ordersinwork?.workplace || []).map(
           (workplace: any): OrderInWork => ({
             id: Number(workplace.$.id || 0),
