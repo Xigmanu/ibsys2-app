@@ -53,7 +53,7 @@ export class CapacityPlanComponent implements OnInit {
   chart?: Chart;
   constructor(private dataService: DataService, private translateService: TranslateService) {}
   private hasCapacityWarning = false;
-  
+  private workstationIds = [1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13, 14];
 
   items = [
     'E4',
@@ -248,11 +248,34 @@ export class CapacityPlanComponent implements OnInit {
 
   calculateKapazitaetsbedarfAlt(data: DataStructure) {
     for (let i = 4; i < this.kapazitaetsbedarfAlt.length; i++) {
-      if (data.input.waitingListWorkstations[i - 4] != undefined) {
-        this.kapazitaetsbedarfAlt[i] =
-          data.input.waitingListWorkstations[i - 4].timeNeed;
-      } else {
-        this.kapazitaetsbedarfAlt[i] = 0;
+      this.kapazitaetsbedarfAlt[i] = 0;
+      const workstationId = this.workstationIds[i - 4];
+      // Add waiting list workstations time
+      if (data.input.waitingListWorkstations?.[workstationId]?.timeNeed) {
+        this.kapazitaetsbedarfAlt[i] += data.input.waitingListWorkstations[workstationId].timeNeed;
+      }
+  
+      // Add waiting list stock times
+      if (data.input.waitingListStock) {
+        data.input.waitingListStock.forEach(stock => {
+          stock.workplace?.forEach(workplace => {
+            if (workplace.id === workstationId) {
+              // Add the workplace timeneed
+              if (workplace.timeneed) {
+                this.kapazitaetsbedarfAlt[i] += workplace.timeneed;
+              }
+            }
+          });
+        });
+      }
+  
+      // Add orders in work times
+      if (data.input.ordersInWork) {
+        data.input.ordersInWork.forEach(order => {
+          if (order.id === workstationId && order.timeNeed) {
+            this.kapazitaetsbedarfAlt[i] += order.timeNeed;
+          }
+        });
       }
     }
     this.productionArray.push(this.kapazitaetsbedarfAlt);
