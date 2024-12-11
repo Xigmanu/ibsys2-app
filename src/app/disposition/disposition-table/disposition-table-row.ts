@@ -66,6 +66,10 @@ export function getPrimaryArticleId(rows: DispositionTableRow[]): number {
     .find((articleId) => primaryArticleIds.includes(articleId))!;
 }
 
+export function isCommonId(id: number): boolean {
+  return commonComponentIds.find((next) => next === id) ? true : false;
+}
+
 function updateRowsData(rows: DispositionTableRow[], map: number[][]): void {
   let offset: number = 0;
 
