@@ -10,7 +10,7 @@
       <th>{{ "KaufteildispoArt.Diskontmenge" | translate }}</th>
       <th colspan="5" scope="colgroup">{{ "KaufteildispoArt.Bruttobedarf" | translate }}</th>
       <th>{{ "KaufteildispoArt.bestand Aktuell" | translate }}</th>
-      <th colspan="4" scope="colgroup">{{ "KaufteildispoArt.bestand nach" | translate }}</th>
+      <th colspan="4" scope="colgroup">{{ "KaufteildispoArt.bestandnach" | translate }}</th>
       <th>{{ "KaufteildispoArt.eingehende Lieferung" | translate }}</th>
       <th>{{ "KaufteildispoArt.ankunftszeit eingehend" | translate }}</th>
       <th>{{ "KaufteildispoArt.benoetigte Menge" | translate }}</th>
@@ -25,10 +25,10 @@
     <th>{{ KauftelidispoArt.VERBRAUCH_PROGNOSE_3 }}</th>
     <th>{{ "KaufteildispoArt.Summe Bedarf" | translate }}</th>
     <th colspan="1" scope="colgroup"></th>
-    <th>{{"KaufteildispoArt.bestand1"}}</th>
-    <th>{{"KaufteildispoArt.bestand2"}}</th>
-    <th>{{"KaufteildispoArt.bestand3"}}</th>
-    <th>{{"KaufteildispoArt.bestand4"}}</th>
+    <th>{{"N"}}</th>
+    <th>{{"N + 1"}}</th>
+    <th>{{"N + 2"}}</th>
+    <th>{{"N + 3"}}</th>
     <th colspan="6" scope="colgroup"></th>
     </thead>
     <tbody formArrayName="tableRows">
@@ -59,8 +59,16 @@
         <cds-icon *ngIf="isNegative(group.get(KaufteildispoArt.BESTANDNACH4)?.value)" shape="warning-standard" solid="true" status="danger"></cds-icon>
         {{group.get(KaufteildispoArt.BESTANDNACH4)?.value}}
       </td>
-      <td>{{ group.get(KauftelidispoArt.EINGEHENDELIEFERUNG)?.value }}</td>
-      <td>{{ group.get(KauftelidispoArt.ANKUNFTSZEIT_EINGEHEND)?.value }}</td>
+      <td>
+        <div *ngFor="let value of group.get(KauftelidispoArt.EINGEHENDELIEFERUNG)?.value">
+          {{ value }}
+        </div>
+      </td>
+      <td>
+        <div *ngFor="let value of group.get(KauftelidispoArt.ANKUNFTSZEIT_EINGEHEND)?.value">
+          {{ value }}
+        </div>
+      </td>
       <td>{{ group.get(KauftelidispoArt.BENOETIGTE_MENGE)?.value }}</td>
       <td>{{ group.get(KauftelidispoArt.BESTELLUNG_LIEFERTERMIN)?.value }}</td>
       <td class ='parent-container'>

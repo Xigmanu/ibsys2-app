@@ -18,8 +18,8 @@ import {ClarityModule} from '@clr/angular';
 import * as data from '../../assets/SortedData.json';
 import {DataService, Output, SellWishItem} from '../data.service';
 import {ProduktionsplanComponent} from '../produktionsplan/produktionsplan.component';
-import { RouterModule } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
+import {RouterModule} from '@angular/router';
+import {TranslateModule} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-kaufteildispo',
@@ -29,12 +29,13 @@ import { TranslateModule } from '@ngx-translate/core';
   styleUrl: './kaufteildispo.component.scss',
 })
 export class KaufteildispoComponent implements OnInit {
-  private jsonData = data;
   public dispoForm: FormGroup;
   public dataServiceData: any;
+  private jsonData = data;
   private mappedData: any;
   protected readonly data = data;
   protected readonly KauftelidispoArt = KaufteildispoArt;
+
   constructor(private fb: FormBuilder,
               private dataService: DataService) {
     this.dispoForm = this.fb.group({
@@ -48,11 +49,13 @@ export class KaufteildispoComponent implements OnInit {
     this.populateFormArrays(this.mappedData, this.dispoForm, this.dataService);
     this.subscribeToFormChanges();
   }
+
   ngOnDestroy(): void {
     this.saveData();
 
   }
-  createDispoFormGrp(mappedItem:any, modus: number, bestellmenge: number): FormGroup {
+
+  createDispoFormGrp(mappedItem: any, modus: number, bestellmenge: number): FormGroup {
     const benoetigteMenge = calculateBenoetigteMenge(
       mappedItem[KaufteildispoArt.VERBRAUCH_PROGNOSE_GES],
       mappedItem[KaufteildispoArt.BESTAND_AKTUELL],
@@ -91,7 +94,7 @@ export class KaufteildispoComponent implements OnInit {
       [KaufteildispoArt.ANKUNFTSZEIT_EINGEHEND]: [''],
       [KaufteildispoArt.BENOETIGTE_MENGE]: [benoetigteMenge],
       [KaufteildispoArt.BESTELLUNG_LIEFERTERMIN]: [''],
-      [KaufteildispoArt.BESTELLMENGE]: [bestellmenge,[Validators.pattern('^[0-9]+$')]],
+      [KaufteildispoArt.BESTELLMENGE]: [bestellmenge, [Validators.pattern('^[0-9]+$')]],
       [KaufteildispoArt.BESTELLTYP]: [modus, [Validators.pattern('^[1-5]$')]],
     }, {validators: bestellmengeValidator()});
   }
@@ -116,6 +119,7 @@ export class KaufteildispoComponent implements OnInit {
       });
     });
   }
+
   private populateFormArrays(mappedData: any, dispoForm: FormGroup, dataService: DataService): void {
     const formArray = dispoForm.get('tableRows') as FormArray;
     formArray.clear();
@@ -131,6 +135,7 @@ export class KaufteildispoComponent implements OnInit {
       }
     }
   }
+
   saveData() {
     const formArray = this.dispoForm.get('tableRows') as FormArray;
     let outputDataToSave = formArray.controls.map((control: AbstractControl) => {
@@ -141,7 +146,7 @@ export class KaufteildispoComponent implements OnInit {
         modus: group.get(KaufteildispoArt.BESTELLTYP)?.value,
       };
     });
-    outputDataToSave= outputDataToSave.filter((order: any) => order.quantity > 0);
+    outputDataToSave = outputDataToSave.filter((order: any) => order.quantity > 0);
 
     this.dataService.setData({
       ...this.dataService.getData(),
@@ -151,9 +156,15 @@ export class KaufteildispoComponent implements OnInit {
       }
     });
   }
+
   isNegative(value: number): boolean {
     return value < 0;
   }
+
+  isDeliveryPeriod(period: number, deliveryPeriod: number): boolean {
+    return period === deliveryPeriod;
+  }
+
   protected readonly KaufteildispoArt = KaufteildispoArt;
 }
 
