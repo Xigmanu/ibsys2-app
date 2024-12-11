@@ -295,15 +295,15 @@ export class SetupComponent implements OnInit{
               : [],
           })
         ) : null,
-        ordersInWork: jsonData.results.ordersinwork.workplace.map(
+        ordersInWork: (jsonData.results.ordersinwork?.workplace || []).map(
           (workplace: any): OrderInWork => ({
-            id: Number(workplace.$.id),
-            period: Number(workplace.$.period),
-            order: Number(workplace.$.order),
-            batch: Number(workplace.$.batch),
-            item: Number(workplace.$.item),
-            amount: Number(workplace.$.amount),
-            timeNeed: Number(workplace.$.timeneed),
+            id: Number(workplace.$.id || 0),
+            period: Number(workplace.$.period || 0),
+            order: Number(workplace.$.order || 0),
+            batch: Number(workplace.$.batch || 0),
+            item: Number(workplace.$.item || 0),
+            amount: Number(workplace.$.amount || 0),
+            timeNeed: Number(workplace.$.timeneed || 0),
           })
         ),
         completedOrders: jsonData.results.completedorders.order.map(
@@ -634,6 +634,7 @@ export class SetupComponent implements OnInit{
 
       this.loadedData = dataSet;
     } catch (error) {
+      console.error('Error while mapping data:', error);
       this.mappingError = true;
       this.uploadBtnState = ClrLoadingState.ERROR;
       return;
