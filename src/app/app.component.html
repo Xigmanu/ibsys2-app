@@ -4,12 +4,11 @@
       <a routerLink="/" class="nav-link">
         <cds-icon shape="factory"></cds-icon>
         <span class="title">{{ "global.title" | translate }}</span>
-        <span class="title" *ngIf="this.globalState.dataInitialized">- {{ "global.group" | translate }} {{ this.getMetadata()[0] }} 
+        <span class="title" *ngIf="this.globalState.dataInitialized">- {{ "global.group" | translate }} {{ this.getMetadata()[0] }}
           - {{ "global.period" | translate }} {{ this.getMetadata()[1] }}</span>
       </a>
     </div>
     <div class="header-actions">
-      <!--
             <button class="btn btn-warning-outline" (click)="onGetDebugData()">
         Output Data in Console
       </button>
@@ -19,7 +18,6 @@
       <button class="btn btn-warning-outline" (click)="onSetOutputSampleData()">
         Generate Output Sample
       </button>
-      -->
       <clr-dropdown>
         <button
           class="nav-icon"
@@ -57,7 +55,7 @@
       >
         <cds-icon clrVerticalNavIcon shape="details"></cds-icon>
         {{ "nav.input" | translate }}
-      </a>  
+      </a>
       -->
       <a
         *ngIf="this.globalState.dataInitialized"

@@ -183,8 +183,8 @@
     "bestellung Liefertermin": "Bestell-Liefertermin",
     "bestellmenge": "Bestellmenge",
     "bestelltyp": "Bestelltyp",
-    "Bruttobedarf": "Bedarf in Periode N"
-  },
+    "Bruttobedarf": "Bedarf in Periode N",
+    "bestandnach": "Bestand nach Periode:"  },
   "productionPlan": {
     "product": "Produkt",
     "p0": "Diese Periode",

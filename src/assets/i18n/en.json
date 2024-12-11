@@ -184,7 +184,8 @@
     "benoetigte Menge": "Required Quantity",
     "bestellung Liefertermin": "Order Delivery Date",
     "bestellmenge": "Order Quantity",
-    "bestelltyp": "Order Type"
+    "bestelltyp": "Order Type",
+    "bestandnach": "Stock after period"
   },
   "productionPlan": {
     "product": "Product",

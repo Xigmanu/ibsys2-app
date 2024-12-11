@@ -12,14 +12,14 @@ import {
   getBestellLiefertermin,
   KaufteildispoArt,
   mapDataToFormControls,
-  calculateBenoetigteMenge, findExceedingPeriod,
+  calculateBenoetigteMenge, calculateStockAfterPeriods,
 } from './kaufteildispo.util';
 import {ClarityModule} from '@clr/angular';
 import * as data from '../../assets/SortedData.json';
 import {DataService, Output, SellWishItem} from '../data.service';
 import {ProduktionsplanComponent} from '../produktionsplan/produktionsplan.component';
-import { RouterModule } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
+import {RouterModule} from '@angular/router';
+import {TranslateModule} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-kaufteildispo',
@@ -29,12 +29,13 @@ import { TranslateModule } from '@ngx-translate/core';
   styleUrl: './kaufteildispo.component.scss',
 })
 export class KaufteildispoComponent implements OnInit {
-  private jsonData = data;
   public dispoForm: FormGroup;
   public dataServiceData: any;
+  private jsonData = data;
   private mappedData: any;
   protected readonly data = data;
   protected readonly KauftelidispoArt = KaufteildispoArt;
+
   constructor(private fb: FormBuilder,
               private dataService: DataService) {
     this.dispoForm = this.fb.group({
@@ -47,30 +48,32 @@ export class KaufteildispoComponent implements OnInit {
     this.mappedData = mapDataToFormControls(this.jsonData, this.dataService, this.dispoForm, this.dataServiceData.input.metaData, this.dataServiceData.output);
     this.populateFormArrays(this.mappedData, this.dispoForm, this.dataService);
     this.subscribeToFormChanges();
-    console.log(this.mappedData)
   }
+
   ngOnDestroy(): void {
     this.saveData();
 
   }
-  createDispoFormGrp(mappedItem:any, modus: number, bestellmenge: number): FormGroup {
+
+  createDispoFormGrp(mappedItem: any, modus: number, bestellmenge: number): FormGroup {
     const benoetigteMenge = calculateBenoetigteMenge(
       mappedItem[KaufteildispoArt.VERBRAUCH_PROGNOSE_GES],
       mappedItem[KaufteildispoArt.BESTAND_AKTUELL],
       mappedItem[KaufteildispoArt.EINGEHENDELIEFERUNG]
     );
 
-    const exceedingPeriod = findExceedingPeriod(
+    const stockAfterPeriods = calculateStockAfterPeriods(
+      mappedItem[KaufteildispoArt.BESTAND_AKTUELL],
+      mappedItem[KaufteildispoArt.VERBRAUCH_AKTUELL],
       {
         period2: mappedItem[KaufteildispoArt.VERBRAUCH_PROGNOSE_1],
         period3: mappedItem[KaufteildispoArt.VERBRAUCH_PROGNOSE_2],
-        period4: mappedItem[KaufteildispoArt.VERBRAUCH_PROGNOSE_3]
+        period4: mappedItem[KaufteildispoArt.VERBRAUCH_PROGNOSE_3],
       },
-      mappedItem[KaufteildispoArt.BESTAND_AKTUELL],
       mappedItem[KaufteildispoArt.EINGEHENDELIEFERUNG],
-      mappedItem[KaufteildispoArt.ANKUNFTSZEIT_EINGEHEND]
+      mappedItem[KaufteildispoArt.ANKUNFTSZEIT_EINGEHEND],
+      this.dataServiceData.input.metaData
     );
-    console.log(`Exceeding period for item ${mappedItem[KaufteildispoArt.KAUFTEIL]}: ${exceedingPeriod}`);
 
     return this.fb.group({
       [KaufteildispoArt.KAUFTEIL]: [],
@@ -83,11 +86,15 @@ export class KaufteildispoComponent implements OnInit {
       [KaufteildispoArt.VERBRAUCH_PROGNOSE_3]: [''],
       [KaufteildispoArt.VERBRAUCH_PROGNOSE_GES]: [''],
       [KaufteildispoArt.BESTAND_AKTUELL]: [''],
+      [KaufteildispoArt.BESTANDNACH1]: [stockAfterPeriods.stockAfterPeriod1],
+      [KaufteildispoArt.BESTANDNACH2]: [stockAfterPeriods.stockAfterPeriod2],
+      [KaufteildispoArt.BESTANDNACH3]: [stockAfterPeriods.stockAfterPeriod3],
+      [KaufteildispoArt.BESTANDNACH4]: [stockAfterPeriods.stockAfterPeriod4],
       [KaufteildispoArt.EINGEHENDELIEFERUNG]: [''],
       [KaufteildispoArt.ANKUNFTSZEIT_EINGEHEND]: [''],
       [KaufteildispoArt.BENOETIGTE_MENGE]: [benoetigteMenge],
       [KaufteildispoArt.BESTELLUNG_LIEFERTERMIN]: [''],
-      [KaufteildispoArt.BESTELLMENGE]: [bestellmenge,[Validators.pattern('^[0-9]+$')]],
+      [KaufteildispoArt.BESTELLMENGE]: [bestellmenge, [Validators.pattern('^[0-9]+$')]],
       [KaufteildispoArt.BESTELLTYP]: [modus, [Validators.pattern('^[1-5]$')]],
     }, {validators: bestellmengeValidator()});
   }
@@ -112,6 +119,7 @@ export class KaufteildispoComponent implements OnInit {
       });
     });
   }
+
   private populateFormArrays(mappedData: any, dispoForm: FormGroup, dataService: DataService): void {
     const formArray = dispoForm.get('tableRows') as FormArray;
     formArray.clear();
@@ -127,6 +135,7 @@ export class KaufteildispoComponent implements OnInit {
       }
     }
   }
+
   saveData() {
     const formArray = this.dispoForm.get('tableRows') as FormArray;
     let outputDataToSave = formArray.controls.map((control: AbstractControl) => {
@@ -137,7 +146,7 @@ export class KaufteildispoComponent implements OnInit {
         modus: group.get(KaufteildispoArt.BESTELLTYP)?.value,
       };
     });
-    outputDataToSave= outputDataToSave.filter((order: any) => order.quantity > 0);
+    outputDataToSave = outputDataToSave.filter((order: any) => order.quantity > 0);
 
     this.dataService.setData({
       ...this.dataService.getData(),
@@ -146,10 +155,17 @@ export class KaufteildispoComponent implements OnInit {
         orderList: {orders: outputDataToSave}
       }
     });
-
-    console.log('Data saved to DataService:', this.dataService.getData());
   }
 
+  isNegative(value: number): boolean {
+    return value < 0;
+  }
+
+  isDeliveryPeriod(period: number, deliveryPeriod: number): boolean {
+    return period === deliveryPeriod;
+  }
+
+  protected readonly KaufteildispoArt = KaufteildispoArt;
 }
 
 export function bestellmengeValidator(): ValidatorFn {
@@ -160,3 +176,4 @@ export function bestellmengeValidator(): ValidatorFn {
     return modus && !bestellmenge ? {bestellmengeRequired: true} : null;
   };
 }
+
