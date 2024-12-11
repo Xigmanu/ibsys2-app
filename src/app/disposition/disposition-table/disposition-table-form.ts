@@ -8,7 +8,6 @@ import {
   DispositionTableRow,
   DispositionTableRowName,
 } from './disposition-table-row';
-import { isString } from '@ngx-translate/core';
 
 export function createFormGroupFromRow(
   fb: FormBuilder,
@@ -56,7 +55,5 @@ const nonNumericValidator = (
   control: AbstractControl
 ): ValidationErrors | null => {
   const value = +control.value;
-  console.log(value);
-  console.log(isString(value));
   return isNaN(+control.value) ? { nonNumeric: true } : null;
 };
