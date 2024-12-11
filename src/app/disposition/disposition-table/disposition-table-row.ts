@@ -1,5 +1,4 @@
 import { DataStructure, DispoItem, Disposition } from '../../data.service';
-import { FormBuilder, FormGroup } from '@angular/forms';
 
 const articleComponentMap: number[][][] = [
   [[1], [26, 51], [16, 17, 50], [4, 10, 49], [7, 13, 18]],
@@ -37,40 +36,6 @@ export function getDispositionKey(
   return primaryArticleIds.find((id) => id === primaryId)
     ? (('p' + primaryId) as keyof Disposition)
     : undefined;
-}
-
-export function createFormGroupFromRow(
-  fb: FormBuilder,
-  row: DispositionTableRow
-): FormGroup {
-  return fb.group({
-    [DispositionTableRowName.ARTICLE_ID]: [
-      row[DispositionTableRowName.ARTICLE_ID],
-    ],
-    [DispositionTableRowName.SALES_REQUEST]: [
-      row[DispositionTableRowName.SALES_REQUEST],
-    ],
-    [DispositionTableRowName.HELPER_COL]: [
-      row[DispositionTableRowName.HELPER_COL],
-    ],
-    [DispositionTableRowName.STOCK_SAFETY]: [
-      !row[DispositionTableRowName.STOCK_SAFETY]
-        ? 0
-        : row[DispositionTableRowName.STOCK_SAFETY],
-    ],
-    [DispositionTableRowName.STOCK_OLD]: [
-      row[DispositionTableRowName.STOCK_OLD],
-    ],
-    [DispositionTableRowName.ORDERS_QUEUED]: [
-      row[DispositionTableRowName.ORDERS_QUEUED],
-    ],
-    [DispositionTableRowName.ORDERS_ACTIVE]: [
-      row[DispositionTableRowName.ORDERS_ACTIVE],
-    ],
-    [DispositionTableRowName.ORDERS_PROD]: [
-      row[DispositionTableRowName.ORDERS_PROD],
-    ],
-  });
 }
 
 export function createTableRows(

@@ -23,7 +23,6 @@ import { DataService } from '../data.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { GlobalStateService } from '../shared/global-state.service';
 
-
 @Component({
   selector: 'app-setup',
   standalone: true,
@@ -40,18 +39,23 @@ import { GlobalStateService } from '../shared/global-state.service';
   templateUrl: './setup.component.html',
   styleUrl: './setup.component.css',
 })
-export class SetupComponent implements OnInit{
-  constructor(private dataService: DataService, public globalState: GlobalStateService) {}
+export class SetupComponent implements OnInit {
+  constructor(
+    private dataService: DataService,
+    public globalState: GlobalStateService
+  ) {}
 
   data: DataStructure = {
     input: {
-      metaData: { 
-        game: '', group: '', period: '',
+      metaData: {
+        game: '',
+        group: '',
+        period: '',
         forecast: {
           p1: 0,
           p2: 0,
           p3: 0,
-        }
+        },
       },
       warehouseStock: [],
       inwardStockMovement: [],
@@ -127,7 +131,7 @@ export class SetupComponent implements OnInit{
           p1: 0,
           p2: 0,
           p3: 0,
-        }
+        },
       },
       forecast: {
         period2: {
@@ -144,9 +148,9 @@ export class SetupComponent implements OnInit{
           p1: 0,
           p2: 0,
           p3: 0,
-        }
+        },
       },
-    }
+    },
   };
 
   ngOnInit(): void {
@@ -157,7 +161,7 @@ export class SetupComponent implements OnInit{
       console.error('Data is null or not available.');
     }
   }
-  
+
   uploadBtnState: ClrLoadingState = ClrLoadingState.DEFAULT;
 
   protected readonly form = new FormGroup({
@@ -203,6 +207,8 @@ export class SetupComponent implements OnInit{
     this.mappingError = false;
     this.globalState.dataInitialized = false;
 
+    console.log(jsonData);
+
     try {
       var input: Input = {
         metaData: {
@@ -213,7 +219,7 @@ export class SetupComponent implements OnInit{
             p1: Number(jsonData.results.forecast.$.p1),
             p2: Number(jsonData.results.forecast.$.p2),
             p3: Number(jsonData.results.forecast.$.p3),
-          }
+          },
         },
         warehouseStock: jsonData.results.warehousestock.article.map(
           (article: any): WarehouseStock => ({
@@ -259,51 +265,125 @@ export class SetupComponent implements OnInit{
             machineIdleTimeCosts: parseFloat(workplace.$.machineidletimecosts),
           })
         ),
-        waitingListWorkstations:
-          jsonData.results.waitinglistworkstations.workplace.map(
-            (workplace: any): WaitingListWorkstation => ({
-              id: Number(workplace.$.id),
-              timeNeed: Number(workplace.$.timeneed),
-              waitingList: workplace.waitinglist
-                ? (Array.isArray(workplace.waitinglist)
+        waitingListWorkstations: jsonData.results.waitinglistworkstations
+          ?.workplace
+          ? jsonData.results.waitinglistworkstations.workplace.map(
+              (workplace: any): WaitingListWorkstation => ({
+                id: Number(workplace.$.id),
+                timeNeed: Number(workplace.$.timeneed),
+                waitingList: workplace.waitinglist
+                  ? Array.isArray(workplace.waitinglist)
                     ? workplace.waitinglist
-                    : [workplace.waitinglist]
-                  ).map((wait: any) => ({
-                    period: Number(wait.$.period),
-                    order: Number(wait.$.order),
-                    firstBatch: Number(wait.$.firstbatch),
-                    lastBatch: Number(wait.$.lastbatch),
-                    item: Number(wait.$.item),
-                    amount: Number(wait.$.amount),
-                    timeNeed: Number(wait.$.timeneed),
-                  }))
-                : undefined,
-            })
-          ),
-        waitingListStock: jsonData.results.waitingliststock.missingpart ? jsonData.results.waitingliststock.missingpart.map(
-          (part: any): MissingPart => ({
-            id: Number(part.$.id),
-            waitingList: Array.isArray(part.waitinglist)
-              ? part.waitinglist.map((wait: any) => ({
-                  period: Number(wait.$.period),
-                  order: Number(wait.$.order),
-                  firstBatch: Number(wait.$.firstbatch),
-                  lastBatch: Number(wait.$.lastbatch),
-                  item: Number(wait.$.item),
-                  amount: Number(wait.$.amount),
-                }))
-              : [],
-          })
-        ) : null,
-        ordersInWork: jsonData.results.ordersinwork.workplace.map(
+                        .map((wait: any) =>
+                          wait.$
+                            ? {
+                                period: Number(wait.$.period || 0),
+                                order: Number(wait.$.order || 0),
+                                firstBatch: Number(wait.$.firstbatch || 0),
+                                lastBatch: Number(wait.$.lastbatch || 0),
+                                item: Number(wait.$.item || 0),
+                                amount: Number(wait.$.amount || 0),
+                                timeNeed: Number(wait.$.timeneed || 0),
+                              }
+                            : null
+                        )
+                        .filter(Boolean) // Filter out null entries
+                    : workplace.waitinglist.$
+                    ? [
+                        {
+                          period: Number(workplace.waitinglist.$.period || 0),
+                          order: Number(workplace.waitinglist.$.order || 0),
+                          firstBatch: Number(
+                            workplace.waitinglist.$.firstbatch || 0
+                          ),
+                          lastBatch: Number(
+                            workplace.waitinglist.$.lastbatch || 0
+                          ),
+                          item: Number(workplace.waitinglist.$.item || 0),
+                          amount: Number(workplace.waitinglist.$.amount || 0),
+                          timeNeed: Number(
+                            workplace.waitinglist.$.timeneed || 0
+                          ),
+                        },
+                      ]
+                    : []
+                  : [], // Default to an empty array if waitinglist is missing
+              })
+            )
+          : [], // Default to an empty array if waitinglistworkstations is missing
+        waitingListStock: jsonData.results.waitingliststock?.missingpart
+          ? jsonData.results.waitingliststock.missingpart.map(
+              (part: any): MissingPart => ({
+                id: Number(part.$.id),
+                workplace: part.workplace
+                  ? [
+                      {
+                        id: Number(part.workplace.$.id),
+                        timeneed: Number(part.workplace.$.timeneed),
+                        waitingList: part.workplace.waitinglist
+                          ? Array.isArray(part.workplace.waitinglist)
+                            ? part.workplace.waitinglist
+                                .map((wait: any) =>
+                                  wait.$
+                                    ? {
+                                        period: Number(wait.$.period || 0),
+                                        order: Number(wait.$.order || 0),
+                                        firstBatch: Number(
+                                          wait.$.firstbatch || 0
+                                        ),
+                                        lastBatch: Number(
+                                          wait.$.lastbatch || 0
+                                        ),
+                                        item: Number(wait.$.item || 0),
+                                        amount: Number(wait.$.amount || 0),
+                                        timeNeed: Number(wait.$.timeNeed || 0),
+                                      }
+                                    : null
+                                )
+                                .filter(Boolean) // Remove null entries
+                            : part.workplace.waitinglist.$
+                            ? [
+                                {
+                                  period: Number(
+                                    part.workplace.waitinglist.$.period || 0
+                                  ),
+                                  order: Number(
+                                    part.workplace.waitinglist.$.order || 0
+                                  ),
+                                  firstBatch: Number(
+                                    part.workplace.waitinglist.$.firstbatch || 0
+                                  ),
+                                  lastBatch: Number(
+                                    part.workplace.waitinglist.$.lastbatch || 0
+                                  ),
+                                  item: Number(
+                                    part.workplace.waitinglist.$.item || 0
+                                  ),
+                                  amount: Number(
+                                    part.workplace.waitinglist.$.amount || 0
+                                  ),
+                                  timeNeed: Number(
+                                    part.workplace.waitinglist.$.timeNeed || 0
+                                  ),
+                                },
+                              ]
+                            : []
+                          : [], // Default to an empty array if waitinglist is missing
+                      },
+                    ]
+                  : [], // Default to an empty array if workplace is missing
+              })
+            )
+          : [], // Default to an empty array if waitingliststock is missing
+        ordersInWork: (jsonData.results.ordersinwork?.workplace || []).map(
           (workplace: any): OrderInWork => ({
-            id: Number(workplace.$.id),
-            period: Number(workplace.$.period),
-            order: Number(workplace.$.order),
-            batch: Number(workplace.$.batch),
-            item: Number(workplace.$.item),
-            amount: Number(workplace.$.amount),
-            timeNeed: Number(workplace.$.timeneed),
+            id: Number(workplace.$.id || 0),
+            period: Number(workplace.$.period || 0),
+            order: Number(workplace.$.order || 0),
+            batch: Number(workplace.$.batch || 0),
+            item: Number(workplace.$.item || 0),
+            amount: Number(workplace.$.amount || 0),
+            timeNeed: Number(workplace.$.timeneed || 0),
           })
         ),
         completedOrders: jsonData.results.completedorders.order.map(
@@ -634,6 +714,7 @@ export class SetupComponent implements OnInit{
 
       this.loadedData = dataSet;
     } catch (error) {
+      console.error('Error while mapping data:', error);
       this.mappingError = true;
       this.uploadBtnState = ClrLoadingState.ERROR;
       return;
