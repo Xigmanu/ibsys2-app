@@ -93,7 +93,8 @@
     "orders_active": "Active Orders",
     "orders_prod": "Production Orders",
     "button_save": "Save",
-    "tableRowInput_error": "Value must be greater than or equal to zero"
+    "rowInputErr_negVal": "Value must be greater than or equal to zero",
+    "rowInputErr_nonNumeric": "Value must be a number"
   },
   "capacityPlan": {
     "title": "Capacity Plan",

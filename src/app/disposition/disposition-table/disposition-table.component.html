@@ -40,13 +40,14 @@
               <input
                 class="input-field small-input"
                 clrInput
-                type="number"
-                min="0"
                 [formControlName]="rowNameEnum.STOCK_SAFETY"
                 (change)="onChange(getArrElemIdx(slicedArr, i, j))"
               />
-              <clr-control-error>{{
-                "disposition.tableRowInput_error" | translate
+              <clr-control-error *clrIfError="'nonNumeric'">{{
+                "disposition.rowInputErr_nonNumeric" | translate
+              }}</clr-control-error>
+              <clr-control-error *clrIfError="'negativeNumber'">{{
+                "disposition.rowInputErr_negVal" | translate
               }}</clr-control-error>
             </clr-input-container>
           </div>

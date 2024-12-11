@@ -93,7 +93,8 @@
     "orders_active": "Đơn Hàng Đang Hoạt Động",
     "orders_prod": "Đơn Hàng Sản Xuất",
     "button_save": "Lưu",
-    "tableRowInput_error": "Giá trị phải lớn hơn hoặc bằng không"
+    "rowInputErr_negVal": "Giá trị phải lớn hơn hoặc bằng không",
+    "rowInputErr_nonNumeric": "Giá trị phải là một số"
   },
   "capacityPlan": {
     "title": "Kế Hoạch Công Suất",
