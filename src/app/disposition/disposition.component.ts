@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { ClarityModule, ClrLoadingState } from '@clr/angular';
+import { ClarityModule } from '@clr/angular';
 import { DispositionTableComponent } from './disposition-table/disposition-table.component';
 import { DataService, DataStructure } from '../data.service';
 import { TranslateModule } from '@ngx-translate/core';
