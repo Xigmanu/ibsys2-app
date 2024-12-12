@@ -13,9 +13,9 @@ import {
   DispositionTableRow,
   DispositionTableRowName,
   getDispositionKey,
-  getPrimaryArticleId,
-  isCommonId,
-  updateTableRows,
+  getEndProductId,
+  isCommonArticle,
+  updateDispositionTableRows,
 } from './util/disposition-table-row';
 import { DataService, DispoItem, Disposition } from '../../data.service';
 import { createFormGroupFromRow } from './util/disposition-table-form';
@@ -63,7 +63,7 @@ export class DispositionTableComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    updateTableRows(this.rows);
+    updateDispositionTableRows(this.rows);
     this.rows.forEach((ref, i) => this.formArray.at(i).setValue(ref));
     this.updateGlobalState();
   }
@@ -83,7 +83,7 @@ export class DispositionTableComponent implements OnInit, OnDestroy {
       const currentRow: DispositionTableRow = this.rows[idx];
 
       currentRow[DispositionTableRowName.STOCK_SAFETY] = +value;
-      updateTableRows(this.rows);
+      updateDispositionTableRows(this.rows);
       this.rows.forEach((ref, i) => this.formArray.at(i).setValue(ref));
       this.tryCacheCommonArticleProdOrder(currentRow);
       this.updateGlobalState();
@@ -106,8 +106,8 @@ export class DispositionTableComponent implements OnInit, OnDestroy {
 
   private tryCacheCommonArticleProdOrder(row: DispositionTableRow): void {
     const articleId: number = row[DispositionTableRowName.ARTICLE_ID];
-    if (isCommonId(articleId)) {
-      this.cache.storeOrUpdateProdOrder(getPrimaryArticleId(this.rows), {
+    if (isCommonArticle(articleId)) {
+      this.cache.storeOrUpdateProdOrder(getEndProductId(this.rows), {
         article: articleId,
         quantity: row[DispositionTableRowName.ORDERS_PROD],
       });
@@ -126,7 +126,7 @@ export class DispositionTableComponent implements OnInit, OnDestroy {
       }
 
       if (production > 0) {
-        if (isCommonId(row[DispositionTableRowName.ARTICLE_ID])) {
+        if (isCommonArticle(row[DispositionTableRowName.ARTICLE_ID])) {
           this.dataSvc.setProductionListArticle(
             articleId,
             this.cache.getAggregatedProdOrder(articleId)
@@ -150,7 +150,7 @@ export class DispositionTableComponent implements OnInit, OnDestroy {
     safetyStock: number
   ): void {
     const dispoKey: keyof Disposition = getDispositionKey(
-      getPrimaryArticleId(this.rows)
+      getEndProductId(this.rows)
     )!;
     const dispoArr: DispoItem[] = this.dataSvc.getDispoAllStock(dispoKey);
     const oldItem: DispoItem | undefined = dispoArr.find(
