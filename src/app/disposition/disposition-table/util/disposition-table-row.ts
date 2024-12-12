@@ -1,4 +1,4 @@
-import { DataStructure, DispoItem, Disposition } from '../../data.service';
+import { DataStructure, DispoItem, Disposition } from '../../../data.service';
 
 const articleComponentMap: number[][][] = [
   [[1], [26, 51], [16, 17, 50], [4, 10, 49], [7, 13, 18]],

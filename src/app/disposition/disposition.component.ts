@@ -7,7 +7,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import {
   createTableRows,
   DispositionTableRow,
-} from './disposition-table/disposition-table-row';
+} from './disposition-table/util/disposition-table-row';
 import { ProduktionsplanComponent } from '../produktionsplan/produktionsplan.component';
 
 @Component({
@@ -20,7 +20,7 @@ import { ProduktionsplanComponent } from '../produktionsplan/produktionsplan.com
     RouterModule,
     DispositionTableComponent,
     TranslateModule,
-    ProduktionsplanComponent
+    ProduktionsplanComponent,
   ],
 })
 export class DispositionComponent implements OnInit {
