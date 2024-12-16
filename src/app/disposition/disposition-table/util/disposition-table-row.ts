@@ -43,6 +43,7 @@ export function createDispositionTableRows(
   const initialRows: DispositionTableRow[] = map
     .reduce((merged, arr) => merged.concat(arr))
     .map((id) => createDispositionRow(dataStruct, id, endProductIdx));
+
   updateTableData(initialRows, map);
   return initialRows;
 }
@@ -125,13 +126,13 @@ function createDispositionRow(
     [DispositionTableRowName.STOCK_SAFETY]: safetyStock,
     [DispositionTableRowName.HELPER_COL]: 0,
     [DispositionTableRowName.STOCK_OLD]: isCommonId
-      ? Math.trunc(oldStock / 3)
+      ? Math.ceil(oldStock / 3)
       : oldStock,
     [DispositionTableRowName.ORDERS_QUEUED]: isCommonId
-      ? Math.trunc(queuedOrder / 3)
+      ? Math.ceil(queuedOrder / 3)
       : queuedOrder,
     [DispositionTableRowName.ORDERS_ACTIVE]: isCommonId
-      ? Math.trunc(activeOrder / 3)
+      ? Math.ceil(activeOrder / 3)
       : activeOrder,
     [DispositionTableRowName.ORDERS_PROD]: 0,
   };
@@ -148,20 +149,66 @@ function getSellWish(data: DataStructure, articleId: number): number {
 }
 
 function getQueuedOrderAmount(data: DataStructure, articleId: number): number {
-  return data.input.waitingListWorkstations
+  let batchMapArr: { id: number; batch: { first: number; last: number } }[] =
+    [];
+  const workstationSum: number = data.input.waitingListWorkstations
     .map((workstation) =>
       workstation.waitingList
-        ?.filter((value) => value.order === articleId)
+        ?.filter((value) =>
+          areArticleIdAndBatchesEqual(value, batchMapArr, articleId)
+        )
         .map((value) => value.amount ?? 0)
         .reduce((sum, amount) => sum + amount, 0)
     )
     .map((value) => value ?? 0)
     .reduce((sum, amount) => sum + amount, 0);
+
+  const waitingListStockSum: number = data.input.waitingListStock
+    .map((missingPart) =>
+      missingPart.workplace
+        .map((entry) =>
+          entry.waitingList
+            .filter((value) =>
+              areArticleIdAndBatchesEqual(value, batchMapArr, articleId)
+            )
+            .map((value) => value.amount)
+            .reduce((sum, amount) => sum + amount, 0)
+        )
+        .reduce((sum, amount) => sum + amount, 0)
+    )
+    .reduce((sum, amount) => sum + amount, 0);
+
+  return workstationSum + waitingListStockSum;
+}
+
+function areArticleIdAndBatchesEqual(
+  value: {
+    period: number;
+    order: number;
+    firstBatch: number;
+    lastBatch: number;
+    item: number;
+    amount: number;
+    timeNeed: number;
+  },
+  batchMapArr: { id: number; batch: { first: number; last: number } }[],
+  articleId: number
+): boolean {
+  return value.item === articleId &&
+    batchMapArr
+      .filter((batch) => batch.id === articleId)
+      .find(
+        (batch) =>
+          batch.batch.first === value.firstBatch &&
+          batch.batch.last === value.lastBatch
+      )
+    ? false
+    : true;
 }
 
 function getActiveOrderAmount(data: DataStructure, articleId: number): number {
   return data.input.ordersInWork
-    .filter((value) => value.id === articleId)
+    .filter((value) => value.item === articleId)
     .map((value) => value.amount ?? 0)
     .reduce((sum, amount) => sum + amount, 0);
 }
