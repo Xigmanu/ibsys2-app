@@ -250,30 +250,32 @@ export class CapacityPlanComponent implements OnInit {
     for (let i = 4; i < this.kapazitaetsbedarfAlt.length; i++) {
       this.kapazitaetsbedarfAlt[i] = 0;
       const workstationId = this.workstationIds[i - 4];
-      // Add waiting list workstations time
-      if (data.input.waitingListWorkstations?.[workstationId]?.timeNeed) {
-        this.kapazitaetsbedarfAlt[i] += data.input.waitingListWorkstations[workstationId].timeNeed;
+      
+      const workstationData = data.input.waitingListWorkstations?.find(w => w.id === workstationId);
+      
+      if (workstationData?.timeNeed) {
+        this.kapazitaetsbedarfAlt[i] += workstationData.timeNeed;
+        console.log(`Workstation ${workstationId}: Added ${workstationData.timeNeed} from waiting list workstations`);
       }
-  
-      // Add waiting list stock times
-      if (data.input.waitingListStock) {
+
+      if (data.input.waitingListStock?.length) {
         data.input.waitingListStock.forEach(stock => {
           stock.workplace?.forEach(workplace => {
             if (workplace.id === workstationId) {
-              // Add the workplace timeneed
               if (workplace.timeneed) {
                 this.kapazitaetsbedarfAlt[i] += workplace.timeneed;
+                // console.log(`Workstation ${workstationId}: Added ${workplace.timeneed} from waiting list stock`);
               }
             }
           });
         });
       }
-  
-      // Add orders in work times
-      if (data.input.ordersInWork) {
+
+      if (data.input.ordersInWork?.length) {
         data.input.ordersInWork.forEach(order => {
           if (order.id === workstationId && order.timeNeed) {
             this.kapazitaetsbedarfAlt[i] += order.timeNeed;
+            // console.log(`Workstation ${workstationId}: Added ${order.timeNeed} from orders in work`);
           }
         });
       }
@@ -283,20 +285,42 @@ export class CapacityPlanComponent implements OnInit {
 
   calculateRuestzeitAlt(data: DataStructure) {
     for (let i = 4; i < this.ruestzeitAlt.length; i++) {
-      const waitinglist = data.input.waitingListWorkstations[i - 4].waitingList;
-      const station = data.input.waitingListWorkstations[i - 4].id;
-
-      if (waitinglist != undefined) {
-        waitinglist.forEach((waitingListitem) => {
-          const articleData = this.capacityData[waitingListitem.item];
-          this.ruestzeitAlt[i] += articleData.Arbeitsplatz[station].Rüstzeit;
+      const workstationId = this.workstationIds[i - 4];
+      this.ruestzeitAlt[i] = 0;
+  
+      const workstationData = data.input.waitingListWorkstations?.find(w => w.id === workstationId);
+      
+      if (workstationData?.waitingList?.length) {
+        workstationData.waitingList.forEach((waitingListItem) => {
+          const articleData = this.capacityData[waitingListItem.item];
+          if (articleData?.Arbeitsplatz[workstationId]?.Rüstzeit) {
+            const ruestzeit = articleData.Arbeitsplatz[workstationId].Rüstzeit || 0;
+            this.ruestzeitAlt[i] += ruestzeit;
+            // console.log(`Workstation ${workstationId}: Added setup time ${ruestzeit} for item ${waitingListItem.item} from waiting list workstations`);
+          }
         });
-      } else {
-        this.ruestzeitAlt[i] = 0;
+      }
+  
+      if (data.input.waitingListStock?.length) {
+        data.input.waitingListStock.forEach(stock => {
+          stock.workplace?.forEach(workplace => {
+            if (workplace.id === workstationId && workplace.waitingList?.length) {
+              workplace.waitingList.forEach(item => {
+                const articleData = this.capacityData[item.item];
+                if (articleData?.Arbeitsplatz[workstationId]?.Rüstzeit) {
+                  const ruestzeit = articleData.Arbeitsplatz[workstationId].Rüstzeit || 0;
+                  this.ruestzeitAlt[i] += ruestzeit;
+                  // console.log(`Workstation ${workstationId}: Added setup time ${ruestzeit} for item ${item.item} from waiting list stock`);
+                }
+              });
+            }
+          });
+        });
       }
     }
     this.productionArray.push(this.ruestzeitAlt);
   }
+  
 
   calculateGesamtKapazitaet() {
     for (let i = 4; i < this.gesamtKapazitaet.length; i++) {
