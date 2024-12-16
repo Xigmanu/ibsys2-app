@@ -149,15 +149,28 @@ function getSellWish(data: DataStructure, articleId: number): number {
 }
 
 function getQueuedOrderAmount(data: DataStructure, articleId: number): number {
-  let batchMapArr: { id: number; batch: { first: number; last: number } }[] =
-    [];
+  let batchMapArr = new Map<number, { first: number; last: number }[]>();
   const workstationSum: number = data.input.waitingListWorkstations
     .map((workstation) =>
       workstation.waitingList
         ?.filter((value) =>
           areArticleIdAndBatchesEqual(value, batchMapArr, articleId)
         )
-        .map((value) => value.amount ?? 0)
+        .map((value) => {
+          const currentBatches = batchMapArr.get(articleId);
+          if (!currentBatches) {
+            batchMapArr.set(articleId, [
+              { first: value.firstBatch, last: value.lastBatch },
+            ]);
+          } else {
+            currentBatches.push({
+              first: value.firstBatch,
+              last: value.lastBatch,
+            });
+          }
+
+          return value.amount ?? 0;
+        })
         .reduce((sum, amount) => sum + amount, 0)
     )
     .map((value) => value ?? 0)
@@ -171,7 +184,21 @@ function getQueuedOrderAmount(data: DataStructure, articleId: number): number {
             .filter((value) =>
               areArticleIdAndBatchesEqual(value, batchMapArr, articleId)
             )
-            .map((value) => value.amount)
+            .map((value) => {
+              const currentBatches = batchMapArr.get(articleId);
+              if (!currentBatches) {
+                batchMapArr.set(articleId, [
+                  { first: value.firstBatch, last: value.lastBatch },
+                ]);
+              } else {
+                currentBatches.push({
+                  first: value.firstBatch,
+                  last: value.lastBatch,
+                });
+              }
+
+              return value.amount;
+            })
             .reduce((sum, amount) => sum + amount, 0)
         )
         .reduce((sum, amount) => sum + amount, 0)
@@ -191,17 +218,20 @@ function areArticleIdAndBatchesEqual(
     amount: number;
     timeNeed: number;
   },
-  batchMapArr: { id: number; batch: { first: number; last: number } }[],
+  batchMapArr: Map<number, { first: number; last: number }[]>,
   articleId: number
 ): boolean {
-  return value.item === articleId &&
-    batchMapArr
-      .filter((batch) => batch.id === articleId)
-      .find(
-        (batch) =>
-          batch.batch.first === value.firstBatch &&
-          batch.batch.last === value.lastBatch
-      )
+  const isArticleIdEqual: boolean = value.item === articleId;
+  const batches = batchMapArr.get(articleId);
+  if (!batches) {
+    return isArticleIdEqual;
+  }
+
+  return isArticleIdEqual &&
+    batches.find(
+      (batch) =>
+        batch.first === value.firstBatch && batch.last === value.lastBatch
+    )
     ? false
     : true;
 }
