@@ -221,50 +221,154 @@ export class SetupComponent implements OnInit {
             p3: Number(jsonData.results.forecast.$.p3),
           },
         },
-        warehouseStock: jsonData.results.warehousestock.article.map(
-          (article: any): WarehouseStock => ({
-            id: Number(article.$.id),
-            amount: Number(article.$.amount),
-            startAmount: Number(article.$.startamount),
-            pct: article.$.pct,
-            price: parseFloat(article.$.price),
-            stockValue: parseFloat(article.$.stockvalue),
-          })
-        ),
-        inwardStockMovement: jsonData.results.inwardstockmovement.order.map(
-          (order: any): InwardStockMovementOrder => ({
-            orderPeriod: Number(order.$.orderperiod),
-            id: Number(order.$.id),
-            mode: Number(order.$.mode),
-            article: Number(order.$.article),
-            amount: Number(order.$.amount),
-            time: Number(order.$.time),
-            materialCosts: parseFloat(order.$.materialcosts),
-            orderCosts: parseFloat(order.$.ordercosts),
-            entireCosts: parseFloat(order.$.entirecosts),
-            pieceCosts: parseFloat(order.$.piececosts),
-          })
-        ),
-        futureInwardStockMovement:
-          jsonData.results.futureinwardstockmovement.order.map(
-            (order: any): FutureInwardStockMovementOrder => ({
-              orderPeriod: Number(order.$.orderperiod),
-              id: Number(order.$.id),
-              mode: Number(order.$.mode),
-              article: Number(order.$.article),
-              amount: Number(order.$.amount),
-            })
-          ),
-        idleTimeCosts: jsonData.results.idletimecosts.workplace.map(
-          (workplace: any): IdleTimeCost => ({
-            id: Number(workplace.$.id),
-            setupEvents: Number(workplace.$.setupevents),
-            idleTime: Number(workplace.$.idletime),
-            wageIdleTimeCosts: parseFloat(workplace.$.wageidletimecosts),
-            wageCosts: parseFloat(workplace.$.wagecosts),
-            machineIdleTimeCosts: parseFloat(workplace.$.machineidletimecosts),
-          })
-        ),
+        warehouseStock: Array.isArray(jsonData.results.warehousestock.article)
+          ? jsonData.results.warehousestock.article.map(
+              (article: any): WarehouseStock => ({
+                id: Number(article.$.id),
+                amount: Number(article.$.amount),
+                startAmount: Number(article.$.startamount),
+                pct: article.$.pct,
+                price: parseFloat(article.$.price),
+                stockValue: parseFloat(article.$.stockvalue),
+              })
+            )
+          : jsonData.results.warehousestock.article
+          ? [
+              {
+                id: Number(jsonData.results.warehousestock.article.$.id),
+                amount: Number(
+                  jsonData.results.warehousestock.article.$.amount
+                ),
+                startAmount: Number(
+                  jsonData.results.warehousestock.article.$.startamount
+                ),
+                pct: jsonData.results.warehousestock.article.$.pct,
+                price: parseFloat(
+                  jsonData.results.warehousestock.article.$.price
+                ),
+                stockValue: parseFloat(
+                  jsonData.results.warehousestock.article.$.stockvalue
+                ),
+              },
+            ]
+          : [],
+        inwardStockMovement: Array.isArray(
+          jsonData.results.inwardstockmovement.order
+        )
+          ? jsonData.results.inwardstockmovement.order.map(
+              (order: any): InwardStockMovementOrder => ({
+                orderPeriod: Number(order.$.orderperiod),
+                id: Number(order.$.id),
+                mode: Number(order.$.mode),
+                article: Number(order.$.article),
+                amount: Number(order.$.amount),
+                time: Number(order.$.time),
+                materialCosts: parseFloat(order.$.materialcosts),
+                orderCosts: parseFloat(order.$.ordercosts),
+                entireCosts: parseFloat(order.$.entirecosts),
+                pieceCosts: parseFloat(order.$.piececosts),
+              })
+            )
+          : jsonData.results.inwardstockmovement.order
+          ? [
+              {
+                orderPeriod: Number(
+                  jsonData.results.inwardstockmovement.order.$.orderperiod
+                ),
+                id: Number(jsonData.results.inwardstockmovement.order.$.id),
+                mode: Number(jsonData.results.inwardstockmovement.order.$.mode),
+                article: Number(
+                  jsonData.results.inwardstockmovement.order.$.article
+                ),
+                amount: Number(
+                  jsonData.results.inwardstockmovement.order.$.amount
+                ),
+                time: Number(jsonData.results.inwardstockmovement.order.$.time),
+                materialCosts: parseFloat(
+                  jsonData.results.inwardstockmovement.order.$.materialcosts
+                ),
+                orderCosts: parseFloat(
+                  jsonData.results.inwardstockmovement.order.$.ordercosts
+                ),
+                entireCosts: parseFloat(
+                  jsonData.results.inwardstockmovement.order.$.entirecosts
+                ),
+                pieceCosts: parseFloat(
+                  jsonData.results.inwardstockmovement.order.$.piececosts
+                ),
+              },
+            ]
+          : [],
+        futureInwardStockMovement: Array.isArray(
+          jsonData.results.futureinwardstockmovement.order
+        )
+          ? jsonData.results.futureinwardstockmovement.order.map(
+              (order: any): FutureInwardStockMovementOrder => ({
+                orderPeriod: Number(order.$.orderperiod),
+                id: Number(order.$.id),
+                mode: Number(order.$.mode),
+                article: Number(order.$.article),
+                amount: Number(order.$.amount),
+              })
+            )
+          : jsonData.results.futureinwardstockmovement.order
+          ? [
+              {
+                orderPeriod: Number(
+                  jsonData.results.futureinwardstockmovement.order.$.orderperiod
+                ),
+                id: Number(
+                  jsonData.results.futureinwardstockmovement.order.$.id
+                ),
+                mode: Number(
+                  jsonData.results.futureinwardstockmovement.order.$.mode
+                ),
+                article: Number(
+                  jsonData.results.futureinwardstockmovement.order.$.article
+                ),
+                amount: Number(
+                  jsonData.results.futureinwardstockmovement.order.$.amount
+                ),
+              },
+            ]
+          : [],
+
+        idleTimeCosts: Array.isArray(jsonData.results.idletimecosts.workplace)
+          ? jsonData.results.idletimecosts.workplace.map(
+              (workplace: any): IdleTimeCost => ({
+                id: Number(workplace.$.id),
+                setupEvents: Number(workplace.$.setupevents),
+                idleTime: Number(workplace.$.idletime),
+                wageIdleTimeCosts: parseFloat(workplace.$.wageidletimecosts),
+                wageCosts: parseFloat(workplace.$.wagecosts),
+                machineIdleTimeCosts: parseFloat(
+                  workplace.$.machineidletimecosts
+                ),
+              })
+            )
+          : jsonData.results.idletimecosts.workplace
+          ? [
+              {
+                id: Number(jsonData.results.idletimecosts.workplace.$.id),
+                setupEvents: Number(
+                  jsonData.results.idletimecosts.workplace.$.setupevents
+                ),
+                idleTime: Number(
+                  jsonData.results.idletimecosts.workplace.$.idletime
+                ),
+                wageIdleTimeCosts: parseFloat(
+                  jsonData.results.idletimecosts.workplace.$.wageidletimecosts
+                ),
+                wageCosts: parseFloat(
+                  jsonData.results.idletimecosts.workplace.$.wagecosts
+                ),
+                machineIdleTimeCosts: parseFloat(
+                  jsonData.results.idletimecosts.workplace.$
+                    .machineidletimecosts
+                ),
+              },
+            ]
+          : [],
         waitingListWorkstations: jsonData.results.waitinglistworkstations
           ?.workplace
           ? jsonData.results.waitinglistworkstations.workplace.map(
@@ -375,50 +479,154 @@ export class SetupComponent implements OnInit {
               })
             )
           : [], // Default to an empty array if waitingliststock is missing
-        ordersInWork: (jsonData.results.ordersinwork?.workplace || []).map(
-          (workplace: any): OrderInWork => ({
-            id: Number(workplace.$.id || 0),
-            period: Number(workplace.$.period || 0),
-            order: Number(workplace.$.order || 0),
-            batch: Number(workplace.$.batch || 0),
-            item: Number(workplace.$.item || 0),
-            amount: Number(workplace.$.amount || 0),
-            timeNeed: Number(workplace.$.timeneed || 0),
-          })
-        ),
-        completedOrders: jsonData.results.completedorders.order.map(
-          (order: any): CompletedOrder => ({
-            period: Number(order.$.period),
-            id: Number(order.$.id),
-            item: Number(order.$.item),
-            quantity: Number(order.$.quantity),
-            cost: parseFloat(order.$.cost),
-            averageUnitCosts: parseFloat(order.$.averageunitcosts),
-            batches: Array.isArray(order.batch)
-              ? order.batch.map(
-                  (batch: any): CompletedOrderBatch => ({
-                    id: Number(batch.$.id),
-                    amount: Number(batch.$.amount),
-                    cycleTime: Number(batch.$.cycletime),
-                    cost: parseFloat(batch.$.cost),
-                  })
+        ordersInWork: Array.isArray(jsonData.results.ordersinwork?.workplace)
+          ? jsonData.results.ordersinwork.workplace.map(
+              (workplace: any): OrderInWork => ({
+                id: Number(workplace.$.id || 0),
+                period: Number(workplace.$.period || 0),
+                order: Number(workplace.$.order || 0),
+                batch: Number(workplace.$.batch || 0),
+                item: Number(workplace.$.item || 0),
+                amount: Number(workplace.$.amount || 0),
+                timeNeed: Number(workplace.$.timeneed || 0),
+              })
+            )
+          : jsonData.results.ordersinwork?.workplace
+          ? [
+              {
+                id: Number(jsonData.results.ordersinwork.workplace.$.id || 0),
+                period: Number(
+                  jsonData.results.ordersinwork.workplace.$.period || 0
+                ),
+                order: Number(
+                  jsonData.results.ordersinwork.workplace.$.order || 0
+                ),
+                batch: Number(
+                  jsonData.results.ordersinwork.workplace.$.batch || 0
+                ),
+                item: Number(
+                  jsonData.results.ordersinwork.workplace.$.item || 0
+                ),
+                amount: Number(
+                  jsonData.results.ordersinwork.workplace.$.amount || 0
+                ),
+                timeNeed: Number(
+                  jsonData.results.ordersinwork.workplace.$.timeneed || 0
+                ),
+              },
+            ]
+          : [],
+
+        completedOrders: Array.isArray(jsonData.results.completedorders.order)
+          ? jsonData.results.completedorders.order.map(
+              (order: any): CompletedOrder => ({
+                period: Number(order.$.period),
+                id: Number(order.$.id),
+                item: Number(order.$.item),
+                quantity: Number(order.$.quantity),
+                cost: parseFloat(order.$.cost),
+                averageUnitCosts: parseFloat(order.$.averageunitcosts),
+                batches: Array.isArray(order.batch)
+                  ? order.batch.map(
+                      (batch: any): CompletedOrderBatch => ({
+                        id: Number(batch.$.id),
+                        amount: Number(batch.$.amount),
+                        cycleTime: Number(batch.$.cycletime),
+                        cost: parseFloat(batch.$.cost),
+                      })
+                    )
+                  : order.batch
+                  ? [
+                      {
+                        id: Number(order.batch.$.id),
+                        amount: Number(order.batch.$.amount),
+                        cycleTime: Number(order.batch.$.cycletime),
+                        cost: parseFloat(order.batch.$.cost),
+                      },
+                    ]
+                  : [],
+              })
+            )
+          : jsonData.results.completedorders.order
+          ? [
+              {
+                period: Number(jsonData.results.completedorders.order.$.period),
+                id: Number(jsonData.results.completedorders.order.$.id),
+                item: Number(jsonData.results.completedorders.order.$.item),
+                quantity: Number(
+                  jsonData.results.completedorders.order.$.quantity
+                ),
+                cost: parseFloat(jsonData.results.completedorders.order.$.cost),
+                averageUnitCosts: parseFloat(
+                  jsonData.results.completedorders.order.$.averageunitcosts
+                ),
+                batches: Array.isArray(
+                  jsonData.results.completedorders.order.batch
                 )
-              : [],
-          })
-        ),
+                  ? jsonData.results.completedorders.order.batch.map(
+                      (batch: any): CompletedOrderBatch => ({
+                        id: Number(batch.$.id),
+                        amount: Number(batch.$.amount),
+                        cycleTime: Number(batch.$.cycletime),
+                        cost: parseFloat(batch.$.cost),
+                      })
+                    )
+                  : jsonData.results.completedorders.order.batch
+                  ? [
+                      {
+                        id: Number(
+                          jsonData.results.completedorders.order.batch.$.id
+                        ),
+                        amount: Number(
+                          jsonData.results.completedorders.order.batch.$.amount
+                        ),
+                        cycleTime: Number(
+                          jsonData.results.completedorders.order.batch.$
+                            .cycletime
+                        ),
+                        cost: parseFloat(
+                          jsonData.results.completedorders.order.batch.$.cost
+                        ),
+                      },
+                    ]
+                  : [],
+              },
+            ]
+          : [],
         cycleTimes: {
-          startedOrders: Number(jsonData.results.cycletimes.$.startedorders),
-          waitingOrders: Number(jsonData.results.cycletimes.$.waitingorders),
-          orders: jsonData.results.cycletimes.order.map(
-            (order: any): CycleTimeOrder => ({
-              id: Number(order.$.id),
-              period: Number(order.$.period),
-              startTime: order.$.starttime,
-              finishTime: order.$.finishtime,
-              cycleTimeMin: Number(order.$.cycletimemin),
-              cycleTimeFactor: parseFloat(order.$.cycletimefactor),
-            })
+          startedOrders: Number(
+            jsonData.results.cycletimes.$.startedorders || 0
           ),
+          waitingOrders: Number(
+            jsonData.results.cycletimes.$.waitingorders || 0
+          ),
+          orders: Array.isArray(jsonData.results.cycletimes.order)
+            ? jsonData.results.cycletimes.order.map(
+                (order: any): CycleTimeOrder => ({
+                  id: Number(order.$.id),
+                  period: Number(order.$.period),
+                  startTime: order.$.starttime,
+                  finishTime: order.$.finishtime,
+                  cycleTimeMin: Number(order.$.cycletimemin),
+                  cycleTimeFactor: parseFloat(order.$.cycletimefactor),
+                })
+              )
+            : jsonData.results.cycletimes.order
+            ? [
+                {
+                  id: Number(jsonData.results.cycletimes.order.$.id),
+                  period: Number(jsonData.results.cycletimes.order.$.period),
+                  startTime: jsonData.results.cycletimes.order.$.starttime,
+                  finishTime: jsonData.results.cycletimes.order.$.finishtime,
+                  cycleTimeMin: Number(
+                    jsonData.results.cycletimes.order.$.cycletimemin
+                  ),
+                  cycleTimeFactor: parseFloat(
+                    jsonData.results.cycletimes.order.$.cycletimefactor
+                  ),
+                },
+              ]
+            : [],
         },
         result: {
           general: {
