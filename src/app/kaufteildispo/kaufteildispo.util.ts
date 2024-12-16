@@ -94,7 +94,7 @@ export function mapDataToFormControls(jsonData: any, dataService: DataService, d
       mappedData[order.article] = {
         ...mappedData[order.article],
         [KaufteildispoArt.EINGEHENDELIEFERUNG]: [...existingDelivery, order.amount],
-        [KaufteildispoArt.ANKUNFTSZEIT_EINGEHEND]: [...existingDeliveryDates, getEingehendeLieferung(order, frist, dispoForm.get('tableRows')?.get(KaufteildispoArt.BESTELLTYP)?.value)],
+        [KaufteildispoArt.ANKUNFTSZEIT_EINGEHEND]: [...existingDeliveryDates, getEingehendeLieferung(order, frist, metaData)],
         inwardStockMovement: order
       };
     });
@@ -113,13 +113,20 @@ export function mapDataToFormControls(jsonData: any, dataService: DataService, d
   return mappedData;
 }
 
-export function getEingehendeLieferung(inwardStock: FutureInwardStockMovementOrder, frist: string, bestelltyp: string): string {
+export function getEingehendeLieferung(inwardStock: FutureInwardStockMovementOrder, frist: string, metaData: MetaData): string {
   const periodDays = 5;
   const fristNumber = parseFloat(frist.replace(',', '.'));
   let totalDays = Math.round(fristNumber * periodDays);
+  if(inwardStock.mode === 4){
+    totalDays = Math.round(totalDays / 2);
+  }
   const arrivalPeriod = Math.floor(totalDays / periodDays);
   const extraDays = totalDays % periodDays;
   const date: string = `${inwardStock.orderPeriod + arrivalPeriod}_${extraDays}`;
+  const datePeriod = parseInt(date.split('_')[0]);
+  if (datePeriod < parseFloat(metaData.period)) {
+    return metaData.period + '_0';
+  }
   return date;
 }
 
