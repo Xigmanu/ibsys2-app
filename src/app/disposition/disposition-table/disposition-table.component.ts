@@ -127,10 +127,10 @@ export class DispositionTableComponent implements OnInit, OnDestroy {
 
       if (production > 0) {
         if (isCommonArticle(row[DispositionTableRowName.ARTICLE_ID])) {
-          this.dataSvc.setProductionListArticle(
-            articleId,
-            this.cache.getAggregatedProdOrder(articleId)
-          );
+          const cached = this.cache.getAggregatedProdOrder(articleId);
+          if (cached) {
+            this.dataSvc.setProductionListArticle(articleId, cached);
+          }
         } else {
           this.dataSvc.setProductionListArticle(articleId, production);
         }

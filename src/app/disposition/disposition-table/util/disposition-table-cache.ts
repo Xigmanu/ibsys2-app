@@ -27,13 +27,12 @@ export class DispositionTableCache {
     this.articleProdOrders[articleId] = endProductMap;
   }
 
-  getAggregatedProdOrder(articleId: number): number {
+  getAggregatedProdOrder(articleId: number): number | undefined {
     const cached: Map<number, number> | undefined =
       this.articleProdOrders[articleId];
     if (!cached) {
-      return 0;
+      return undefined;
     }
-
     return Array.from(cached.values()).reduce((sum, value) => sum + value, 0);
   }
 }
