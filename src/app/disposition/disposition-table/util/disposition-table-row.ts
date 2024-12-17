@@ -1,10 +1,11 @@
+import { DataStructure, Disposition } from '../../../data.service';
 import {
-  DataStructure,
-  DispoItem,
-  Disposition,
-  MissingPart,
-  WaitingListWorkstation,
-} from '../../../data.service';
+  getSellWish,
+  getQueuedOrderAmount,
+  getActiveOrderAmount,
+  getSafetyStock,
+  getOldStock,
+} from './disposition-table-data-helper';
 
 const articleComponentMap: number[][][] = [
   [[1], [26, 51], [16, 17, 50], [4, 10, 49], [7, 13, 18]],
@@ -122,10 +123,8 @@ function createDispositionRow(
   articleId: number,
   endProductId: number
 ): DispositionTableRow {
-  const sellWish = getSellWish(data, articleId);
-  const oldStock =
-    data.input.warehouseStock.find((stock) => stock.id == articleId)?.amount ??
-    0;
+  const sellWish = getSellWish(data, articleId, primaryArticleIds);
+  const oldStock = getOldStock(data, articleId);
   const queuedOrder = getQueuedOrderAmount(data, articleId);
   const activeOrder = getActiveOrderAmount(data, articleId);
   const safetyStock: number = getSafetyStock(data, articleId, endProductId);
@@ -147,183 +146,6 @@ function createDispositionRow(
       : activeOrder,
     [DispositionTableRowName.ORDERS_PROD]: 0,
   };
-}
-
-function getSellWish(data: DataStructure, articleId: number): number {
-  if (primaryArticleIds.find((next) => next === articleId)) {
-    return (
-      data.output.sellWish.items.find((item) => item.article === articleId)
-        ?.quantity ?? 0
-    );
-  }
-  return 0;
-}
-
-function getQueuedOrderAmount(data: DataStructure, articleId: number): number {
-  // Stores already processed batches mapped to an item id in order to avoid aggregating duplicates.
-  let articleBatchCache = new Map<number, { first: number; last: number }[]>();
-
-  const workstationSum: number = getWLWAggregateQueuedOrder(
-    data.input.waitingListWorkstations,
-    articleId,
-    articleBatchCache
-  );
-  const waitingListStockSum: number = getWLSAggregatedQueuedOrder(
-    data.input.waitingListStock,
-    articleId,
-    articleBatchCache
-  );
-
-  return workstationSum + waitingListStockSum;
-}
-
-/**
- * This function iterates over every waiting list in waitingListWorkstations and calculates
- * the sum of queued order amounts for an article.
- *
- * @param waitingListWs Waiting list workstations
- * @param articleId Current article id
- * @param articleBatchCache Batch cache
- * @returns Sum of queued orders for an article
- */
-function getWLWAggregateQueuedOrder(
-  waitingListWs: WaitingListWorkstation[],
-  articleId: number,
-  articleBatchCache: Map<number, { first: number; last: number }[]>
-): number {
-  return waitingListWs
-    .map((workstation) =>
-      workstation.waitingList
-        ?.filter(
-          (value) =>
-            value.item === articleId &&
-            !isArticleBatchCacheHit(value, articleBatchCache, articleId)
-        )
-        .map((value) => {
-          const currentBatches = articleBatchCache.get(articleId);
-          if (!currentBatches) {
-            articleBatchCache.set(articleId, [
-              { first: value.firstBatch, last: value.lastBatch },
-            ]);
-          } else {
-            currentBatches.push({
-              first: value.firstBatch,
-              last: value.lastBatch,
-            });
-          }
-
-          return value.amount ?? 0;
-        })
-        .reduce((sum, amount) => sum + amount, 0)
-    )
-    .map((value) => value ?? 0)
-    .reduce((sum, amount) => sum + amount, 0);
-}
-
-/**
- * This function iterates over every waiting list in waitingListStock and calculates
- * the sum of queued order amounts for an article.
- *
- * @param missingParts Waiting list stock
- * @param articleId Current article id
- * @param articleBatchCache Batch cache
- * @returns Sum of queued orders for an article
- */
-function getWLSAggregatedQueuedOrder(
-  missingParts: MissingPart[],
-  articleId: number,
-  articleBatchCache: Map<number, { first: number; last: number }[]>
-): number {
-  return missingParts
-    .map((missingPart) =>
-      missingPart.workplace
-        .map((entry) =>
-          entry.waitingList
-            .filter(
-              (value) =>
-                value.item === articleId &&
-                !isArticleBatchCacheHit(value, articleBatchCache, articleId)
-            )
-            .map((value) => {
-              const currentBatches = articleBatchCache.get(articleId);
-              if (!currentBatches) {
-                articleBatchCache.set(articleId, [
-                  { first: value.firstBatch, last: value.lastBatch },
-                ]);
-              } else {
-                currentBatches.push({
-                  first: value.firstBatch,
-                  last: value.lastBatch,
-                });
-              }
-
-              return value.amount;
-            })
-            .reduce((sum, amount) => sum + amount, 0)
-        )
-        .reduce((sum, amount) => sum + amount, 0)
-    )
-    .reduce((sum, amount) => sum + amount, 0);
-}
-
-/**
- * Checks if first and last batches are present for a given articleId.
- *
- * @param value Next waiting list entry
- * @param batchMapArr Batch cache
- * @param articleId Current article id
- * @returns TRUE if first and last batches are already cached for an article, else FALSE
- */
-function isArticleBatchCacheHit(
-  value: {
-    period: number;
-    order: number;
-    firstBatch: number;
-    lastBatch: number;
-    item: number;
-    amount: number;
-    timeNeed: number;
-  },
-  batchMapArr: Map<number, { first: number; last: number }[]>,
-  articleId: number
-): boolean {
-  const batches = batchMapArr.get(articleId);
-  const inBatch = { first: value.firstBatch, last: value.lastBatch };
-
-  if (batches) {
-    const batch = batches.find(
-      (bat) => bat.first === value.firstBatch && bat.last === value.lastBatch
-    );
-    if (batch) {
-      return true;
-    }
-    batches.push(inBatch);
-    return false;
-  }
-
-  batchMapArr.set(articleId, [inBatch]);
-  return false;
-}
-
-function getActiveOrderAmount(data: DataStructure, articleId: number): number {
-  return data.input.ordersInWork
-    .filter((value) => value.item === articleId)
-    .map((value) => value.amount ?? 0)
-    .reduce((sum, amount) => sum + amount, 0);
-}
-
-function getSafetyStock(
-  struct: DataStructure,
-  articleId: number,
-  endProductId: number
-): number {
-  const dispositionKey: keyof Disposition = getDispositionKey(
-    endProductId + 1
-  )!;
-  const oldDispositionItem: DispoItem | undefined = struct.disposition[
-    dispositionKey
-  ].find((item) => item.articleId === articleId.toString());
-  return oldDispositionItem ? oldDispositionItem.safetyStock : 0;
 }
 
 function getRowById(
