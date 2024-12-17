@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { ClarityModule, ClrLoadingState } from '@clr/angular';
+import { ClarityModule } from '@clr/angular';
 import { DispositionTableComponent } from './disposition-table/disposition-table.component';
 import { DataService, DataStructure } from '../data.service';
 import { TranslateModule } from '@ngx-translate/core';
 import {
-  createTableRows,
+  createDispositionTableRows,
   DispositionTableRow,
-} from './disposition-table/disposition-table-row';
+} from './disposition-table/util/disposition-table-row';
 import { ProduktionsplanComponent } from '../produktionsplan/produktionsplan.component';
 
 @Component({
@@ -20,7 +20,7 @@ import { ProduktionsplanComponent } from '../produktionsplan/produktionsplan.com
     RouterModule,
     DispositionTableComponent,
     TranslateModule,
-    ProduktionsplanComponent
+    ProduktionsplanComponent,
   ],
 })
 export class DispositionComponent implements OnInit {
@@ -30,15 +30,13 @@ export class DispositionComponent implements OnInit {
   rowsP2: DispositionTableRow[] = [];
   rowsP3: DispositionTableRow[] = [];
 
-  saveBtnState: ClrLoadingState = ClrLoadingState.DEFAULT;
-
   constructor(private globalDS: DataService) {
     this.dataStruct = this.globalDS.getData();
   }
 
   ngOnInit(): void {
-    this.rowsP1 = createTableRows(this.dataStruct, 0);
-    this.rowsP2 = createTableRows(this.dataStruct, 1);
-    this.rowsP3 = createTableRows(this.dataStruct, 2);
+    this.rowsP1 = createDispositionTableRows(this.dataStruct, 1);
+    this.rowsP2 = createDispositionTableRows(this.dataStruct, 2);
+    this.rowsP3 = createDispositionTableRows(this.dataStruct, 3);
   }
 }

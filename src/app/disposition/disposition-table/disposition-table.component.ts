@@ -13,13 +13,13 @@ import {
   DispositionTableRow,
   DispositionTableRowName,
   getDispositionKey,
-  getPrimaryArticleId,
-  isCommonId,
-  updateTableRows,
-} from './disposition-table-row';
+  getEndProductId,
+  isCommonArticle,
+  updateDispositionTableRows,
+} from './util/disposition-table-row';
 import { DataService, DispoItem, Disposition } from '../../data.service';
-import { createFormGroupFromRow } from './disposition-table-form';
-import { GlobalStateService } from '../../shared/global-state.service';
+import { createFormGroupFromRow } from './util/disposition-table-form';
+import { DispositionTableCache } from './util/disposition-table-cache';
 
 @Component({
   selector: 'dispo-table',
@@ -42,7 +42,7 @@ export class DispositionTableComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private dataSvc: DataService,
-    private stateSvc: GlobalStateService
+    private cache: DispositionTableCache
   ) {
     this.form = this.fb.group({
       rows: this.fb.array([]),
@@ -54,7 +54,6 @@ export class DispositionTableComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    console.log(this.dataSvc.getData());
     if (!this.rows || this.rows.length == 0) {
       return;
     }
@@ -64,7 +63,7 @@ export class DispositionTableComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    updateTableRows(this.rows);
+    updateDispositionTableRows(this.rows);
     this.rows.forEach((ref, i) => this.formArray.at(i).setValue(ref));
     this.updateGlobalState();
   }
@@ -81,9 +80,12 @@ export class DispositionTableComponent implements OnInit, OnDestroy {
     const rowControl: AbstractControl<any, any> = this.formArray.at(idx);
     const value = rowControl.get(DispositionTableRowName.STOCK_SAFETY)?.value;
     if (value && value >= 0) {
-      this.rows[idx][DispositionTableRowName.STOCK_SAFETY] = +value;
-      updateTableRows(this.rows);
+      const currentRow: DispositionTableRow = this.rows[idx];
+
+      currentRow[DispositionTableRowName.STOCK_SAFETY] = +value;
+      updateDispositionTableRows(this.rows);
       this.rows.forEach((ref, i) => this.formArray.at(i).setValue(ref));
+      this.tryCacheCommonArticleProdOrder(currentRow);
       this.updateGlobalState();
     }
   }
@@ -102,6 +104,16 @@ export class DispositionTableComponent implements OnInit, OnDestroy {
     return item.id || index;
   }
 
+  private tryCacheCommonArticleProdOrder(row: DispositionTableRow): void {
+    const articleId: number = row[DispositionTableRowName.ARTICLE_ID];
+    if (isCommonArticle(articleId)) {
+      this.cache.storeOrUpdateProdOrder(getEndProductId(this.rows), {
+        article: articleId,
+        quantity: row[DispositionTableRowName.ORDERS_PROD],
+      });
+    }
+  }
+
   private updateGlobalState(): void {
     this.rows.forEach((row) => {
       const articleId: number = row[DispositionTableRowName.ARTICLE_ID];
@@ -109,61 +121,16 @@ export class DispositionTableComponent implements OnInit, OnDestroy {
       const safetyStock: number =
         row[DispositionTableRowName.STOCK_SAFETY] ?? 0;
 
-      const primaryId = getPrimaryArticleId(this.rows);
-      const isCommon = isCommonId(row[DispositionTableRowName.ARTICLE_ID]);
-
       if (safetyStock >= 0) {
         this.updateGlobalDispoItemArr(articleId.toString(), safetyStock);
       }
 
       if (production > 0) {
-        if (isCommon) {
-          if (articleId === 16) {
-            if (primaryId == 1) {
-              this.stateSvc.commonArticles[16].p1 = production;
-            } else if (primaryId == 2) {
-              this.stateSvc.commonArticles[16].p2 = production;
-            } else if (primaryId == 3) {
-              this.stateSvc.commonArticles[16].p3 = production;
-            }
-
-            this.dataSvc.setProductionListArticle(
-              articleId,
-              this.stateSvc.commonArticles[16].p1 +
-                this.stateSvc.commonArticles[16].p2 +
-                this.stateSvc.commonArticles[16].p3
-            );
-          } else if (articleId === 17) {
-            if (primaryId == 1) {
-              this.stateSvc.commonArticles[17].p1 = production;
-            } else if (primaryId == 2) {
-              this.stateSvc.commonArticles[17].p2 = production;
-            } else if (primaryId == 3) {
-              this.stateSvc.commonArticles[17].p3 = production;
-            }
-
-            this.dataSvc.setProductionListArticle(
-              articleId,
-              this.stateSvc.commonArticles[17].p1 +
-                this.stateSvc.commonArticles[17].p2 +
-                this.stateSvc.commonArticles[17].p3
-            );
-          } else if (articleId === 26) {
-            if (primaryId == 1) {
-              this.stateSvc.commonArticles[26].p1 = production;
-            } else if (primaryId == 2) {
-              this.stateSvc.commonArticles[26].p2 = production;
-            } else if (primaryId == 3) {
-              this.stateSvc.commonArticles[26].p3 = production;
-            }
-
-            this.dataSvc.setProductionListArticle(
-              articleId,
-              this.stateSvc.commonArticles[26].p1 +
-                this.stateSvc.commonArticles[26].p2 +
-                this.stateSvc.commonArticles[26].p3
-            );
-          }
+        if (isCommonArticle(row[DispositionTableRowName.ARTICLE_ID])) {
+          this.dataSvc.setProductionListArticle(
+            articleId,
+            this.cache.getAggregatedProdOrder(articleId)
+          );
         } else {
           this.dataSvc.setProductionListArticle(articleId, production);
         }
@@ -183,7 +150,7 @@ export class DispositionTableComponent implements OnInit, OnDestroy {
     safetyStock: number
   ): void {
     const dispoKey: keyof Disposition = getDispositionKey(
-      getPrimaryArticleId(this.rows)
+      getEndProductId(this.rows)
     )!;
     const dispoArr: DispoItem[] = this.dataSvc.getDispoAllStock(dispoKey);
     const oldItem: DispoItem | undefined = dispoArr.find(

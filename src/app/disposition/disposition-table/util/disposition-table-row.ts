@@ -1,4 +1,11 @@
-import { DataStructure, DispoItem, Disposition } from '../../data.service';
+import { DataStructure, Disposition } from '../../../data.service';
+import {
+  getSellWish,
+  getQueuedOrderAmount,
+  getActiveOrderAmount,
+  getSafetyStock,
+  getOldStock,
+} from './disposition-table-data-helper';
 
 const articleComponentMap: number[][][] = [
   [[1], [26, 51], [16, 17, 50], [4, 10, 49], [7, 13, 18]],
@@ -30,52 +37,57 @@ export interface DispositionTableRow {
   [DispositionTableRowName.ORDERS_PROD]: number;
 }
 
-export function getDispositionKey(
-  primaryId: number
-): keyof Disposition | undefined {
-  return primaryArticleIds.find((id) => id === primaryId)
-    ? (('p' + primaryId) as keyof Disposition)
-    : undefined;
-}
-
-export function createTableRows(
+export function createDispositionTableRows(
   dataStruct: DataStructure,
-  articleIdx: number
+  endProductId: number
 ): DispositionTableRow[] {
-  const map: number[][] = articleComponentMap[articleIdx];
+  const endProductIdx: number = endProductId - 1;
+
+  const map: number[][] = articleComponentMap[endProductIdx];
   if (!map) {
     return [];
   }
   const initialRows: DispositionTableRow[] = map
     .reduce((merged, arr) => merged.concat(arr))
-    .map((id) => createRowForArticle(dataStruct, id, articleIdx));
-  updateRowsData(initialRows, map);
+    .map((id) => createDispositionRow(dataStruct, id, endProductIdx));
+
+  updateTableData(initialRows, map);
   return initialRows;
 }
 
-export function updateTableRows(rows: DispositionTableRow[]): void {
-  const map: number[][] = articleComponentMap[getPrimaryArticleId(rows) - 1];
+export function updateDispositionTableRows(rows: DispositionTableRow[]): void {
+  const map: number[][] = articleComponentMap[getEndProductId(rows) - 1];
   if (map) {
-    updateRowsData(rows, map);
+    updateTableData(rows, map);
   }
 }
 
-export function getPrimaryArticleId(rows: DispositionTableRow[]): number {
+export function getDispositionKey(
+  endProductId: number
+): keyof Disposition | undefined {
+  return primaryArticleIds.find((id) => id === endProductId)
+    ? (('p' + endProductId) as keyof Disposition)
+    : undefined;
+}
+
+export function getEndProductId(rows: DispositionTableRow[]): number {
   return rows
     .map((row) => row[DispositionTableRowName.ARTICLE_ID])
     .find((articleId) => primaryArticleIds.includes(articleId))!;
 }
 
-export function isCommonId(id: number): boolean {
-  return commonComponentIds.find((next) => next === id) ? true : false;
+export function isCommonArticle(articleId: number): boolean {
+  return commonComponentIds.find((next) => next === articleId) ? true : false;
 }
 
-function updateRowsData(rows: DispositionTableRow[], map: number[][]): void {
+function updateTableData(rows: DispositionTableRow[], map: number[][]): void {
   let offset: number = 0;
 
   for (let i = 0; i < map.length; i++) {
     if (i == 0) {
-      calculateProdOrderForRow(rows[i]);
+      rows[i][DispositionTableRowName.ORDERS_PROD] = calculateProdOrderForRow(
+        rows[i]
+      );
       offset += map[i].length;
       continue;
     }
@@ -91,7 +103,8 @@ function updateRowsData(rows: DispositionTableRow[], map: number[][]): void {
       currentRow[DispositionTableRowName.HELPER_COL] =
         prevLastRow[DispositionTableRowName.ORDERS_QUEUED];
 
-      calculateProdOrderForRow(currentRow);
+      currentRow[DispositionTableRowName.ORDERS_PROD] =
+        calculateProdOrderForRow(currentRow);
     }
     offset += map[i].length;
   }
@@ -99,77 +112,40 @@ function updateRowsData(rows: DispositionTableRow[], map: number[][]): void {
 
 /**
  * Reads values from the passed struct for item/order id and constructs an initial table row.
+ *
+ * @param data Input data
+ * @param articleId Current article id
+ * @param endProductId Current end product id. I.e. P1-3.
+ * @returns Row for a disposition table
  */
-function createRowForArticle(
-  struct: DataStructure,
-  id: number,
-  primaryId: number
+function createDispositionRow(
+  data: DataStructure,
+  articleId: number,
+  endProductId: number
 ): DispositionTableRow {
-  const sellWish = getSellWish(struct, id);
-  const oldStock =
-    struct.input.warehouseStock.find((stock) => stock.id == id)?.amount ?? 0;
-  const queuedOrder = getQueuedOrderAmount(struct, id);
-  const activeOrder = getActiveOrderAmount(struct, id);
-  const safetyStock: number = getSafetyStock(struct, id, primaryId);
-  const isCommonId = commonComponentIds.find((next) => next === id);
+  const sellWish = getSellWish(data, articleId, primaryArticleIds);
+  const oldStock = getOldStock(data, articleId);
+  const queuedOrder = getQueuedOrderAmount(data, articleId);
+  const activeOrder = getActiveOrderAmount(data, articleId);
+  const safetyStock: number = getSafetyStock(data, articleId, endProductId);
+  const isCommonId = commonComponentIds.find((next) => next === articleId);
 
   return {
-    [DispositionTableRowName.ARTICLE_ID]: id,
+    [DispositionTableRowName.ARTICLE_ID]: articleId,
     [DispositionTableRowName.SALES_REQUEST]: sellWish,
     [DispositionTableRowName.STOCK_SAFETY]: safetyStock,
     [DispositionTableRowName.HELPER_COL]: 0,
     [DispositionTableRowName.STOCK_OLD]: isCommonId
-      ? Math.trunc(oldStock / 3)
+      ? Math.ceil(oldStock / 3)
       : oldStock,
     [DispositionTableRowName.ORDERS_QUEUED]: isCommonId
-      ? Math.trunc(queuedOrder / 3)
+      ? Math.ceil(queuedOrder / 3)
       : queuedOrder,
     [DispositionTableRowName.ORDERS_ACTIVE]: isCommonId
-      ? Math.trunc(activeOrder / 3)
+      ? Math.ceil(activeOrder / 3)
       : activeOrder,
     [DispositionTableRowName.ORDERS_PROD]: 0,
   };
-}
-
-function getSellWish(struct: DataStructure, id: number): number {
-  if (primaryArticleIds.find((next) => next === id)) {
-    return (
-      struct.output.sellWish.items.find((item) => item.article === id)
-        ?.quantity ?? 0
-    );
-  }
-  return 0;
-}
-
-function getQueuedOrderAmount(struct: DataStructure, id: number): number {
-  return struct.input.waitingListWorkstations
-    .map((workstation) =>
-      workstation.waitingList
-        ?.filter((value) => value.order === id)
-        .map((value) => value.amount ?? 0)
-        .reduce((sum, amount) => sum + amount, 0)
-    )
-    .map((value) => value ?? 0)
-    .reduce((sum, amount) => sum + amount, 0);
-}
-
-function getActiveOrderAmount(struct: DataStructure, id: number): number {
-  return struct.input.ordersInWork
-    .filter((value) => value.id === id)
-    .map((value) => value.amount ?? 0)
-    .reduce((sum, amount) => sum + amount, 0);
-}
-
-function getSafetyStock(
-  struct: DataStructure,
-  id: number,
-  primaryId: number
-): number {
-  const dispoKey: keyof Disposition = getDispositionKey(primaryId + 1)!;
-  const oldDispoItem: DispoItem | undefined = struct.disposition[dispoKey].find(
-    (item) => item.articleId === id.toString()
-  );
-  return oldDispoItem ? oldDispoItem.safetyStock : 0;
 }
 
 function getRowById(
@@ -179,7 +155,7 @@ function getRowById(
   return rows.find((row) => row[DispositionTableRowName.ARTICLE_ID] == id)!;
 }
 
-function calculateProdOrderForRow(row: DispositionTableRow): void {
+function calculateProdOrderForRow(row: DispositionTableRow): number {
   const salesRequest: number = row[DispositionTableRowName.SALES_REQUEST];
   const stockSafety: number = row[DispositionTableRowName.STOCK_SAFETY] ?? 0;
   const stockOld: number = row[DispositionTableRowName.STOCK_OLD];
@@ -194,5 +170,6 @@ function calculateProdOrderForRow(row: DispositionTableRow): void {
     stockOld -
     ordersQueued -
     ordersActive;
-  row[DispositionTableRowName.ORDERS_PROD] = prodOrder < 0 ? 0 : prodOrder;
+
+  return prodOrder < 0 ? 0 : prodOrder;
 }
