@@ -117,6 +117,11 @@ export class SetupComponent implements OnInit {
     },
     decisions: {
       production: {
+        period1: {
+          p1: 0,
+          p2: 0,
+          p3: 0,
+        },
         period2: {
           p1: 0,
           p2: 0,

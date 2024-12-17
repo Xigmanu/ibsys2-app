@@ -31,8 +31,6 @@ export class ProduktionsplanComponent implements OnInit, OnDestroy {
   constructor(private fb: FormBuilder, private dataService: DataService) {
     const forecastProductionValue =
       this.dataService.getData()?.decisions?.production || [];
-    const productionValues =
-      this.dataService.getData()?.output?.productionList.productions || [];
     this.tableForm = this.fb.group({
       rows: this.fb.array([]),
     });
@@ -58,8 +56,9 @@ export class ProduktionsplanComponent implements OnInit, OnDestroy {
     const row = this.fb.group({
       [ProduktionsArt.PRODUKT]: [product],
       [ProduktionsArt.PERIODE_0]: [
-        this.data?.output?.productionList?.productions[product - 1]?.quantity ??
-          '0',
+        this.data?.decisions?.production?.period1[
+          `p${product}` as keyof ProductionValues
+        ] ?? '0',
       ],
       [ProduktionsArt.PERIODE_1]: [
         this.data?.decisions?.production?.period2[
@@ -83,18 +82,6 @@ export class ProduktionsplanComponent implements OnInit, OnDestroy {
     return this.tableForm.get('rows') as FormArray;
   }
   saveData() {
-    this.dataService.setProductionListArticle(
-      1,
-      this.tableForm.get('rows')?.value[0][ProduktionsArt.PERIODE_0]
-    );
-    this.dataService.setProductionListArticle(
-      2,
-      this.tableForm.get('rows')?.value[1][ProduktionsArt.PERIODE_0]
-    );
-    this.dataService.setProductionListArticle(
-      3,
-      this.tableForm.get('rows')?.value[2][ProduktionsArt.PERIODE_0]
-    );
     const forecastProduction = this.extractProductionValues();
     this.dataService.setData({
       ...this.dataService.getData(),
@@ -113,6 +100,7 @@ export class ProduktionsplanComponent implements OnInit, OnDestroy {
     const rows = this.tableForm.get('rows') as FormArray;
 
     const planningValues: ProductionInput = {
+      period1: { p1: 0, p2: 0, p3: 0 },
       period2: { p1: 0, p2: 0, p3: 0 },
       period3: { p1: 0, p2: 0, p3: 0 },
       period4: { p1: 0, p2: 0, p3: 0 },
@@ -122,11 +110,14 @@ export class ProduktionsplanComponent implements OnInit, OnDestroy {
       const row = control as FormGroup;
 
       const product = row.get(ProduktionsArt.PRODUKT)?.value;
+      const period = +row.get(ProduktionsArt.PERIODE_0)?.value || 0;
       const period0 = +row.get(ProduktionsArt.PERIODE_1)?.value || 0;
       const period1 = +row.get(ProduktionsArt.PERIODE_2)?.value || 0;
       const period2 = +row.get(ProduktionsArt.PERIODE_3)?.value || 0;
 
       if (product === 1 || product === 2 || product === 3) {
+        planningValues.period1[`p${product}` as keyof ProductionValues] +=
+        period;
         planningValues.period2[`p${product}` as keyof ProductionValues] +=
           period0;
         planningValues.period3[`p${product}` as keyof ProductionValues] +=

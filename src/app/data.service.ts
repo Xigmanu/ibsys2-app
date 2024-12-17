@@ -351,6 +351,7 @@ export interface ForecastInput {
 }
 
 export interface ProductionInput {
+  period1: ProductionValues,
   period2: ProductionValues,
   period3: ProductionValues,
   period4: ProductionValues
@@ -453,6 +454,11 @@ export class DataService {
     },
     decisions: {
       production: {
+        period1: {
+          p1: 0,
+          p2: 0,
+          p3: 0,
+        },
         period2: {
           p1: 0,
           p2: 0,
