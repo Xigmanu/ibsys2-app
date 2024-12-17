@@ -12,7 +12,7 @@ if ($?) {
     docker rmi $image
 }
 
-Write-Host "`nBuilding new image";
+Write-Host "`nBuilding new image '${image}'";
 docker build -f (Join-Path $PSScriptRoot "Dockerfile") -t $image --progress=plain --no-cache .
 if (-not $?) {
     Exit 1
