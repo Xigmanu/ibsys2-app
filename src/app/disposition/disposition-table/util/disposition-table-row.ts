@@ -1,4 +1,10 @@
-import { DataStructure, DispoItem, Disposition } from '../../../data.service';
+import {
+  DataStructure,
+  DispoItem,
+  Disposition,
+  MissingPart,
+  WaitingListWorkstation,
+} from '../../../data.service';
 
 const articleComponentMap: number[][][] = [
   [[1], [26, 51], [16, 17, 50], [4, 10, 49], [7, 13, 18]],
@@ -105,6 +111,11 @@ function updateTableData(rows: DispositionTableRow[], map: number[][]): void {
 
 /**
  * Reads values from the passed struct for item/order id and constructs an initial table row.
+ *
+ * @param data Input data
+ * @param articleId Current article id
+ * @param endProductId Current end product id. I.e. P1-3.
+ * @returns Row for a disposition table
  */
 function createDispositionRow(
   data: DataStructure,
@@ -149,9 +160,38 @@ function getSellWish(data: DataStructure, articleId: number): number {
 }
 
 function getQueuedOrderAmount(data: DataStructure, articleId: number): number {
+  // Stores already processed batches mapped to an item id in order to avoid aggregating duplicates.
   let articleBatchCache = new Map<number, { first: number; last: number }[]>();
 
-  const workstationSum: number = data.input.waitingListWorkstations
+  const workstationSum: number = getWLWAggregateQueuedOrder(
+    data.input.waitingListWorkstations,
+    articleId,
+    articleBatchCache
+  );
+  const waitingListStockSum: number = getWLSAggregatedQueuedOrder(
+    data.input.waitingListStock,
+    articleId,
+    articleBatchCache
+  );
+
+  return workstationSum + waitingListStockSum;
+}
+
+/**
+ * This function iterates over every waiting list in waitingListWorkstations and calculates
+ * the sum of queued order amounts for an article.
+ *
+ * @param waitingListWs Waiting list workstations
+ * @param articleId Current article id
+ * @param articleBatchCache Batch cache
+ * @returns Sum of queued orders for an article
+ */
+function getWLWAggregateQueuedOrder(
+  waitingListWs: WaitingListWorkstation[],
+  articleId: number,
+  articleBatchCache: Map<number, { first: number; last: number }[]>
+): number {
+  return waitingListWs
     .map((workstation) =>
       workstation.waitingList
         ?.filter(
@@ -178,8 +218,23 @@ function getQueuedOrderAmount(data: DataStructure, articleId: number): number {
     )
     .map((value) => value ?? 0)
     .reduce((sum, amount) => sum + amount, 0);
+}
 
-  const waitingListStockSum: number = data.input.waitingListStock
+/**
+ * This function iterates over every waiting list in waitingListStock and calculates
+ * the sum of queued order amounts for an article.
+ *
+ * @param missingParts Waiting list stock
+ * @param articleId Current article id
+ * @param articleBatchCache Batch cache
+ * @returns Sum of queued orders for an article
+ */
+function getWLSAggregatedQueuedOrder(
+  missingParts: MissingPart[],
+  articleId: number,
+  articleBatchCache: Map<number, { first: number; last: number }[]>
+): number {
+  return missingParts
     .map((missingPart) =>
       missingPart.workplace
         .map((entry) =>
@@ -209,10 +264,16 @@ function getQueuedOrderAmount(data: DataStructure, articleId: number): number {
         .reduce((sum, amount) => sum + amount, 0)
     )
     .reduce((sum, amount) => sum + amount, 0);
-
-  return workstationSum + waitingListStockSum;
 }
 
+/**
+ * Checks if first and last batches are present for a given articleId.
+ *
+ * @param value Next waiting list entry
+ * @param batchMapArr Batch cache
+ * @param articleId Current article id
+ * @returns TRUE if first and last batches are already cached for an article, else FALSE
+ */
 function isArticleBatchCacheHit(
   value: {
     period: number;
