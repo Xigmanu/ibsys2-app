@@ -183,7 +183,8 @@
     "bestellung Liefertermin": "注文納期",
     "bestellmenge": "注文数量",
     "bestelltyp": "注文タイプ",
-    "Bruttobedarf": "期間Nの需要"
+    "Bruttobedarf": "期間Nの需要",
+    "bestandnach": "期間後の在庫"
   },
   "productionPlan": {
     "product": "製品",

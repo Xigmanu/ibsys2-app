@@ -183,7 +183,8 @@
     "bestellung Liefertermin": "Ngày Giao Hàng Đặt",
     "bestellmenge": "Số Lượng Đặt",
     "bestelltyp": "Loại Đặt Hàng",
-    "Bruttobedarf": "Nhu cầu trong giai đoạn N"
+    "Bruttobedarf": "Nhu cầu trong giai đoạn N",
+    "bestandnach": "Tồn Kho Sau Giai Đoạn:"
   },
   "productionPlan": {
     "product": "Sản Phẩm",
