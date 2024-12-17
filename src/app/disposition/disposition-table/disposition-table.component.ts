@@ -65,6 +65,7 @@ export class DispositionTableComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     updateDispositionTableRows(this.rows);
     this.rows.forEach((ref, i) => this.formArray.at(i).setValue(ref));
+    this.rows.forEach((row) => this.tryCacheCommonArticleProdOrder(row))
     this.updateGlobalState();
   }
 
