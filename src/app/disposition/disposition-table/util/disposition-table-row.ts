@@ -149,17 +149,20 @@ function getSellWish(data: DataStructure, articleId: number): number {
 }
 
 function getQueuedOrderAmount(data: DataStructure, articleId: number): number {
-  let batchMapArr = new Map<number, { first: number; last: number }[]>();
+  let articleBatchCache = new Map<number, { first: number; last: number }[]>();
+
   const workstationSum: number = data.input.waitingListWorkstations
     .map((workstation) =>
       workstation.waitingList
-        ?.filter((value) =>
-          areArticleIdAndBatchesEqual(value, batchMapArr, articleId)
+        ?.filter(
+          (value) =>
+            value.item === articleId &&
+            !isArticleBatchCacheHit(value, articleBatchCache, articleId)
         )
         .map((value) => {
-          const currentBatches = batchMapArr.get(articleId);
+          const currentBatches = articleBatchCache.get(articleId);
           if (!currentBatches) {
-            batchMapArr.set(articleId, [
+            articleBatchCache.set(articleId, [
               { first: value.firstBatch, last: value.lastBatch },
             ]);
           } else {
@@ -181,13 +184,15 @@ function getQueuedOrderAmount(data: DataStructure, articleId: number): number {
       missingPart.workplace
         .map((entry) =>
           entry.waitingList
-            .filter((value) =>
-              areArticleIdAndBatchesEqual(value, batchMapArr, articleId)
+            .filter(
+              (value) =>
+                value.item === articleId &&
+                !isArticleBatchCacheHit(value, articleBatchCache, articleId)
             )
             .map((value) => {
-              const currentBatches = batchMapArr.get(articleId);
+              const currentBatches = articleBatchCache.get(articleId);
               if (!currentBatches) {
-                batchMapArr.set(articleId, [
+                articleBatchCache.set(articleId, [
                   { first: value.firstBatch, last: value.lastBatch },
                 ]);
               } else {
@@ -208,7 +213,7 @@ function getQueuedOrderAmount(data: DataStructure, articleId: number): number {
   return workstationSum + waitingListStockSum;
 }
 
-function areArticleIdAndBatchesEqual(
+function isArticleBatchCacheHit(
   value: {
     period: number;
     order: number;
@@ -221,19 +226,22 @@ function areArticleIdAndBatchesEqual(
   batchMapArr: Map<number, { first: number; last: number }[]>,
   articleId: number
 ): boolean {
-  const isArticleIdEqual: boolean = value.item === articleId;
   const batches = batchMapArr.get(articleId);
-  if (!batches) {
-    return isArticleIdEqual;
+  const inBatch = { first: value.firstBatch, last: value.lastBatch };
+
+  if (batches) {
+    const batch = batches.find(
+      (bat) => bat.first === value.firstBatch && bat.last === value.lastBatch
+    );
+    if (batch) {
+      return true;
+    }
+    batches.push(inBatch);
+    return false;
   }
 
-  return isArticleIdEqual &&
-    batches.find(
-      (batch) =>
-        batch.first === value.firstBatch && batch.last === value.lastBatch
-    )
-    ? false
-    : true;
+  batchMapArr.set(articleId, [inBatch]);
+  return false;
 }
 
 function getActiveOrderAmount(data: DataStructure, articleId: number): number {
