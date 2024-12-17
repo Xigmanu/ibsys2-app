@@ -208,8 +208,6 @@ function getCachedBatches(
   articleBatchCache: Map<number, { first: number; last: number }[]>,
   articleId: number
 ): [{ status: 0 | 1 | 2 }, { first: number; last: number }[] | undefined] {
-  console.log(articleId);
-  console.log(articleBatchCache);
   const cachedBatches = articleBatchCache.get(articleId);
   if (!cachedBatches) {
     return [{ status: 1 }, undefined];
